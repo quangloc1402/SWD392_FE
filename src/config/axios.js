@@ -1,7 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8080";
-// const baseUrl = "http://68.183.180.21:8080";
-//
+const baseUrl = "http://103.200.20.87:8080/api/";
 const config = {
   baseUrl,
   timeout: 3000000,

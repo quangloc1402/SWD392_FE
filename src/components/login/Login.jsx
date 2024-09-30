@@ -3,8 +3,26 @@ import "./index.scss";
 import { Button, Checkbox, Flex, Form, Input } from "antd";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, ggProvider } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../../config/axios";
 
 function Login() {
+  const navigate = useNavigate();
+  const handleLogin = async (values) => {
+    try {
+      const response = await api.post("login", values);
+      console.log(response);
+      const { role } = response.data;
+
+      if (role === "ADMIN") {
+        navigate("/Dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response.data);
+    }
+  };
   const handleLoginGoole = () => {
     signInWithPopup(auth, ggProvider)
       .then((result) => {
@@ -54,7 +72,7 @@ function Login() {
               style={{
                 width: "100%",
               }}
-              onFinish={onFinish}
+              onFinish={handleLogin}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
@@ -62,8 +80,8 @@ function Login() {
                 labelCol={{
                   span: 24,
                 }}
-                label="Username"
-                name="username"
+                label="Email"
+                name="email"
                 rules={[
                   {
                     required: true,

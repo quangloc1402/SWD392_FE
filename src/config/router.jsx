@@ -3,7 +3,7 @@ import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 
 import LoginPage from "../page/LoginPage";
 import RegisterPage from "../page/RegisterPage";
-
+import Dashboard from "../components/dashboard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -12,5 +12,9 @@ export const router = createBrowserRouter([
   {
     path: "/Register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/Dashboard",
+    element: <Dashboard />,
   },
 ]);
