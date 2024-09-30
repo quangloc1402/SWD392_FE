@@ -18,6 +18,9 @@ function Login() {
       if (role === "ADMIN") {
         navigate("/Dashboard");
       }
+      if (role === "USER") {
+        navigate("/HomePage");
+      }
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
