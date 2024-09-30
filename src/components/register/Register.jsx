@@ -1,8 +1,25 @@
 import React from "react";
 import "./index.scss";
 import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../../config/axios";
 
 function Register() {
+  const navigate = useNavigate();
+  const handleRegister = async (values) => {
+    try {
+      const response = await api.post("register", values);
+      console.log(response);
+      if (role === "USER") {
+        navigate("/HomePage");
+      }
+     
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response.data);
+    }
+  };
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -22,7 +39,7 @@ function Register() {
               style={{
                 width: "100%",
               }}
-              onFinish={onFinish}
+              onFinish={handleRegister}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
