@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import axios from "axios";
 import { toast } from "react-toastify";
+import FormItem from "antd/es/form/FormItem";
 
 function ManageStaff() {
   const [staffs, setStaffs] = useState([]);
@@ -10,11 +11,25 @@ function ManageStaff() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   //Create
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
     try {
       setLoading(true);
-      api.post("https://66fe45ce2b9aac9c997b1b3c.mockapi.io/Staff", values);
+      if (values.id) {
+        const response = await api.put(
+          `https://66fe45ce2b9aac9c997b1b3c.mockapi.io/Staff/${values.id}`,
+          values
+        );
+      } else {
+      }
+      const response = await api.post(
+        "https://66fe45ce2b9aac9c997b1b3c.mockapi.io/Staff",
+        values
+      );
+      toast.success("Successfully saved! ");
+      fetchStaff();
+      form.resetFields;
+      setOpenModal(false);
     } catch (err) {
       toast.error(err.response.data);
     } finally {
@@ -63,9 +78,18 @@ function ManageStaff() {
       title: "Action",
       dataIndex: "id",
       key: "id",
-      render: (id) => (
+      render: (id, Staff) => (
         <>
-          <Button type="primary">Update</Button>,
+          <Button
+            type="primary"
+            onClick={() => {
+              setOpenModal(true);
+              form.setFieldsValue(Staff);
+            }}
+          >
+            Update
+          </Button>
+          ,
           <Popconfirm
             title="Delete"
             description="Do you want to Delete this Staff"
@@ -85,6 +109,7 @@ function ManageStaff() {
   };
   const handleCloseModal = () => {
     setOpenModal(false);
+    form.resetFields();
   };
   return (
     <div>
@@ -106,6 +131,9 @@ function ManageStaff() {
           }}
           onFinish={handleSubmit}
         >
+          <Form.Item name="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item
             label="Staff name"
             name="name"
