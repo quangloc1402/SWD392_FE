@@ -119,7 +119,7 @@ function ManageCategory() {
   return (
     <div>
       <h1>User Management</h1>
-      <Button onClick={() => setOpenModal(true)}> Create New User</Button>
+      <Button onClick={() => setOpenModal(true)}> Create New Category</Button>
       <Table columns={columns} dataSource={staffs} />
       <Modal
         title="Staff"
