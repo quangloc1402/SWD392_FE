@@ -11,10 +11,11 @@ function Register() {
     try {
       const response = await api.post("register", values);
       console.log(response);
-      if (role === "USER") {
-        navigate("/HomePage");
-      }
-     
+      const {token} = response.data;
+      localStorage.setItem("token", token);
+      navigate("/");
+
+
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
@@ -80,6 +81,21 @@ function Register() {
               >
                 <Input />
               </Form.Item>
+              <Form.Item
+                labelCol={{
+                  span: 24,
+                }}
+                label="Address"
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your address!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
               {/* Phone Number with validation */}
               <Form.Item
@@ -87,7 +103,7 @@ function Register() {
                   span: 24,
                 }}
                 label="Phone Number"
-                name="phonenumber"
+                name="phone"
                 rules={[
                   {
                     required: true,
@@ -116,7 +132,7 @@ function Register() {
                       message: "Please input your password!",
                     },
                   ]}
-                  
+
                 >
                   <Input.Password />
                 </Form.Item>
