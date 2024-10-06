@@ -7,6 +7,7 @@ import Dashboard from "../components/dashboard";
 import HomePage from "../components/homepage";
 import ManageStaff from "../page/admin/manage-staff";
 import ManageUser from "../page/admin/manage-user";
+import ManageCategory from "../page/admin/manage-category";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
         path: "manageuser",
         element: <ManageUser />,
       },
+      {
+        path: "managecategory",
+        element: <ManageCategory />,
+      }
     ],
   },
 
