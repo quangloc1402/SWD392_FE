@@ -4,22 +4,67 @@ import api from "../../../config/axios";
 import axios from "axios";
 import { toast } from "react-toastify";
 import FormItem from "antd/es/form/FormItem";
-
+import { PlusOutlined } from "@ant-design/icons";
+import { Image, Upload } from "antd";
+import uploadFile from "../../../assets/hook/useUpload";
+import { render } from "react-dom";
 function ManageStaff() {
   const [staffs, setStaffs] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
   //Create
   const handleSubmit = async (values) => {
     console.log(values);
     try {
       setLoading(true);
+      const file = fileList[0];
+      console.log(file);
+      const url = await uploadFile(file.originFileObj);
+      console.log(url);
+      values.img = url;
       if (values.id) {
         const response = await api.put(
           `https://66fe45ce2b9aac9c997b1b3c.mockapi.io/Staff/${values.id}`,
           values
         );
+        console.log(response.data);
       } else {
       }
       const response = await api.post(
@@ -75,6 +120,12 @@ function ManageStaff() {
       key: "id",
     },
     {
+      title: "Image",
+      dataIndex: "img",
+      key: "img",
+      render: (img) => <Image width={200} src={img} />,
+    },
+    {
       title: "Action",
       dataIndex: "id",
       key: "id",
@@ -113,7 +164,7 @@ function ManageStaff() {
   };
   return (
     <div>
-      <h1>User Management</h1>
+      <h1>Staff Management</h1>
       <Button onClick={() => setOpenModal(true)}> Create New Staff</Button>
       <Table columns={columns} dataSource={staffs} />
       <Modal
@@ -146,8 +197,33 @@ function ManageStaff() {
           >
             <Input.TextArea />
           </Form.Item>
+          <Form.Item label="img" name="img">
+            {" "}
+            <Upload
+              action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+              listType="picture-circle"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
         </Form>
       </Modal>
+      {previewImage && (
+        <Image
+          wrapperStyle={{
+            display: "none",
+          }}
+          preview={{
+            visible: previewOpen,
+            onVisibleChange: (visible) => setPreviewOpen(visible),
+            afterOpenChange: (visible) => !visible && setPreviewImage(""),
+          }}
+          src={previewImage}
+        />
+      )}
     </div>
   );
 }
