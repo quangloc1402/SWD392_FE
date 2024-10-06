@@ -8,7 +8,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import uploadFile from "../../../assets/hook/useUpload";
 import { render } from "react-dom";
-function ManageStaff() {
+function ManageUser() {
   const [staffs, setStaffs] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [form] = Form.useForm();
@@ -164,8 +164,8 @@ function ManageStaff() {
   };
   return (
     <div>
-      <h1>Staff Management</h1>
-      <Button onClick={() => setOpenModal(true)}> Create New Staff</Button>
+      <h1>User Management</h1>
+      <Button onClick={() => setOpenModal(true)}> Create New User</Button>
       <Table columns={columns} dataSource={staffs} />
       <Modal
         title="Staff"
@@ -228,4 +228,4 @@ function ManageStaff() {
   );
 }
 
-export default ManageStaff;
+export default ManageUser;

@@ -17,7 +17,10 @@ function getItem(label, key, icon, children) {
     label: <Link to={`/Dashboard/${key}`}>{label}</Link>,
   };
 }
-const items = [getItem("Manage Staff", "managestaff", <PieChartOutlined />)];
+const items = [
+  getItem("Manage Staff", "managestaff", <PieChartOutlined />),
+  getItem("Manage User", "manageuser", <PieChartOutlined />),
+];
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {

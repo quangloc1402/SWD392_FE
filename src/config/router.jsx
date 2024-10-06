@@ -6,6 +6,7 @@ import RegisterPage from "../page/RegisterPage";
 import Dashboard from "../components/dashboard";
 import HomePage from "../components/homepage";
 import ManageStaff from "../page/admin/manage-staff";
+import ManageUser from "../page/admin/manage-user";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "managestaff",
         element: <ManageStaff />,
+      },
+      {
+        path: "manageuser",
+        element: <ManageUser />,
       },
     ],
   },
