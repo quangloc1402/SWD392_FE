@@ -1,0 +1,16 @@
+.header {
+    background-color: #f8eeee;
+    color: red;
+
+    .logo {
+        margin: 10px;
+    }
+
+    .menu {
+        display: flex;
+
+        .menu-item {
+            margin-right: 20px;
+        }
+    }
+}
