@@ -6,6 +6,7 @@ import { auth, ggProvider } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
+import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function Login() {
       console.log(response);
 
       const { role, token } = response.data;
-      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 7 });
 
       if (role === "ADMIN") {
         navigate("/Dashboard");
