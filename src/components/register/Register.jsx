@@ -14,7 +14,6 @@ function Register() {
       if (role === "USER") {
         navigate("/HomePage");
       }
-     
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
@@ -116,7 +115,6 @@ function Register() {
                       message: "Please input your password!",
                     },
                   ]}
-                  
                 >
                   <Input.Password />
                 </Form.Item>
@@ -130,7 +128,7 @@ function Register() {
                   }}
                   label="Confirm Password"
                   name="confirm"
-                  dependencies={['password']}
+                  dependencies={["password"]}
                   hasFeedback
                   rules={[
                     {
@@ -139,11 +137,13 @@ function Register() {
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue('password') === value) {
+                        if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
                         }
                         return Promise.reject(
-                          new Error("The two passwords that you entered do not match!")
+                          new Error(
+                            "The two passwords that you entered do not match!"
+                          )
                         );
                       },
                     }),
@@ -168,7 +168,7 @@ function Register() {
               </Form.Item>
 
               {/* Back to Login Link */}
-              <a href="/">Back to Login!</a>
+              <a href="/login">Back to Login!</a>
             </Form>
           </div>
         </div>

@@ -10,7 +10,7 @@ import ManageUser from "../page/admin/manage-user";
 import ManageCategory from "../page/admin/manage-category";
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <LoginPage />,
   },
   {
@@ -32,12 +32,12 @@ export const router = createBrowserRouter([
       {
         path: "managecategory",
         element: <ManageCategory />,
-      }
+      },
     ],
   },
 
   {
-    path: "/HomePage",
+    path: "/",
     element: <HomePage />,
   },
 ]);
