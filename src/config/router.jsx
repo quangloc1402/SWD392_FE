@@ -8,6 +8,8 @@ import HomePage from "../components/homepage";
 import ManageStaff from "../page/admin/manage-staff";
 import ManageUser from "../page/admin/manage-user";
 import ManageCategory from "../page/admin/manage-category";
+import ForgotPassword from "../components/forgotpassword";
+import ResetPassword from "../components/resetpassword";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +18,14 @@ export const router = createBrowserRouter([
   {
     path: "/Register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/ForgotPassword",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "/ResetPassword",
+    element: <ResetPassword/>,
   },
   {
     path: "/Dashboard",

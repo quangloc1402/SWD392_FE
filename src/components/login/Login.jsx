@@ -98,7 +98,7 @@ function Login() {
                 <Input />
               </Form.Item>
               <div className="login__form__wrap--Form--Pass">
-                <a href="">Forgot password</a>
+                <a href="/ForgotPassword">Forgot password</a>
                 <Form.Item
                   labelCol={{
                     span: 24,
