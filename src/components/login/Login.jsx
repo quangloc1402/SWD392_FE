@@ -7,14 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
 import Cookies from "js-cookie";
-
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/counterSlice";
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleLogin = async (values) => {
     try {
       const response = await api.post("login", values);
-      console.log(response);
-
+      toast.success("Succes");
+      console.log(response.data);
+      dispatch(login(response.data));
       const { role, token } = response.data;
       Cookies.set("token", token, { expires: 7 });
 
@@ -22,7 +25,7 @@ function Login() {
         navigate("/Dashboard");
       }
       if (role === "USER") {
-        navigate("/HomePage");
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
