@@ -4,10 +4,12 @@ import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import LoginPage from "../page/LoginPage";
 import RegisterPage from "../page/RegisterPage";
 import Dashboard from "../components/dashboard";
-import HomePage from "../components/homepage";
+import Home from "../page/home";
 import ManageStaff from "../page/admin/manage-staff";
 import ManageUser from "../page/admin/manage-user";
 import ManageCategory from "../page/admin/manage-category";
+import Layout from "../components/layout";
+
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -21,6 +23,20 @@ const ProtectRouteAuth = ({ children }) => {
   return <Navigate to={"/"} />;
 };
 export const router = createBrowserRouter([
+  {
+    path: "",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "check-out",
+        element: <Home />,
+      },
+    ],
+  },
   {
     path: "/Login",
     element: <LoginPage />,
@@ -50,10 +66,5 @@ export const router = createBrowserRouter([
         element: <ManageCategory />,
       },
     ],
-  },
-
-  {
-    path: "/",
-    element: <HomePage />,
   },
 ]);
