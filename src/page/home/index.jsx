@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 
 import api from "../../config/axios";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/features/cartSlice";
 function Home() {
   const [products, setProducts] = useState([]);
   const fetchProduct = async () => {
@@ -30,6 +32,10 @@ function Home() {
   );
 }
 const Product = ({ product }) => {
+  const dispatch = useDispatch();
+  const handleAddToCart = () => {
+    dispatch(addProduct(product));
+  };
   return (
     <div className="product">
       <img
@@ -40,6 +46,9 @@ const Product = ({ product }) => {
       <p>{product.category}</p>
       <p>{product.quantity}</p>
       <p>{product.Price}</p>
+      <center>
+        <button onClick={handleAddToCart}> Add to Cart</button>
+      </center>
     </div>
   );
 };
