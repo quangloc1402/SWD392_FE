@@ -3,8 +3,10 @@ import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/features/cartSlice";
-import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
+import { data } from "autoprefixer";
+import { render } from "react-dom";
 function Home() {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);

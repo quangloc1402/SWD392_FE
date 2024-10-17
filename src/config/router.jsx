@@ -8,6 +8,7 @@ import Home from "../page/home";
 import ManageStaff from "../page/admin/manage-staff";
 import ManageUser from "../page/admin/manage-user";
 import ManageCategory from "../page/admin/manage-category";
+import CartPage from "../page/cart";
 import Layout from "../components/layout";
 
 import { useSelector } from "react-redux";
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
   {
     path: "/Register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/cart",
+    element: <CartPage />,
   },
   {
     path: "/Dashboard",
