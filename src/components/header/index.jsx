@@ -1,12 +1,6 @@
-import zIndex from "@mui/material/styles/zIndex";
-import React from "react";
 import { Badge, Layout, Menu } from "antd";
-import {
-  StarOutlined,
-  StarFilled,
-  StarTwoTone,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 function Header() {
   const { Header } = Layout;
@@ -29,7 +23,7 @@ function Header() {
         <Menu.Item key="2">Giới Thiệu</Menu.Item>
         <Menu.Item key="3">Sản Phẩm</Menu.Item>
         <Menu.Item key="4">
-          <Badge count={1}>
+          <Badge count={cart.length}>
             <ShoppingCartOutlined
               style={{
                 fontSize: 25,
