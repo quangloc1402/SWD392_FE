@@ -90,7 +90,7 @@ function Home() {
   return (
     <div>
       <div>
-        <h1>User Management</h1>
+        
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Modal
