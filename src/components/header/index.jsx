@@ -1,31 +1,41 @@
-import { Badge, Layout, Menu } from "antd";
+// src/components/Header.js
 
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Layout, Input, Menu, Button, Badge } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import "./index.scss";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function Header() {
-  const { Header } = Layout;
+
+const { Header } = Layout;
+const { Search } = Input;
+
+const Headers = () => {
   const cart = useSelector((store) => store.cart);
   const navigate = useNavigate();
+
   return (
-    <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
-      <div
-        className="logo"
-        style={{
-          color: "#fff",
-          float: "left",
-          fontWeight: "bold",
-          fontSize: "20px",
-        }}
-      >
-        FEdutoy
-      </div>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1">Trang Chủ</Menu.Item>
-        <Menu.Item key="2">Giới Thiệu</Menu.Item>
-        <Menu.Item key="3">Sản Phẩm</Menu.Item>
-        <Menu.Item key="4" onClick={() => navigate("/cart")}>
+    <Layout className="layout">
+      <Header className="shopee-header">
+        <div className="logo">
+          <a href="/">
+            <img src="logo.png" alt="Shopee Logo" />
+          </a>
+        </div>
+
+        {/* Search Bar */}
+
+        <Search className='search'></Search>
+        {/* Menu Links */}
+        <Menu mode="horizontal" className="shopee-menu" style={{ flexGrow: 1, justifyContent: 'flex-end' }}>
+
+          <Menu.Item key="1">
+            <a href="/login">Login</a>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <a href="/register">Sign Up</a>
+          </Menu.Item>
+          <Menu.Item key="5" onClick={() => navigate("/cart")}>
           <Badge count={cart.length}>
             <ShoppingCartOutlined
               style={{
@@ -35,9 +45,10 @@ function Header() {
             />
           </Badge>
         </Menu.Item>
-      </Menu>
-    </Header>
+        </Menu>
+      </Header>
+    </Layout>
   );
-}
+};
 
-export default Header;
+export default Headers;

@@ -183,7 +183,7 @@ function Register() {
               </Form.Item>
 
               {/* Back to Login Link */}
-              <a href="/">Back to Login!</a>
+              <a href="/login">Back to Login!</a>
             </Form>
           </div>
         </div>
