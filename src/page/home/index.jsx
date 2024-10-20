@@ -184,7 +184,7 @@ const Product = ({ product }) => {
       <h3>{product.toyName}</h3>
       <p>{product.category}</p>
       <p>{product.quantity}</p>
-      <p>{product.Price}</p>
+      <p>đ{product.Price}</p>
       <center>
         <button onClick={handleAddToCart}> Add to Cart</button>
       </center>
