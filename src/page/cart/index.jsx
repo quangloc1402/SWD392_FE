@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Table } from "antd";
-import { useSelector } from "react-redux";
+import { Button, Table } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAll } from "../../redux/features/cartSlice";
 function CartPage() {
   const columns = [
     {
@@ -31,6 +32,7 @@ function CartPage() {
   ];
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const dispatch = useDispatch();
   const data = useSelector((store) => store.cart);
   console.log(data);
   const onSelectChange = (newSelectedRowKeys) => {
@@ -41,8 +43,13 @@ function CartPage() {
     selectedRowKeys,
     onChange: onSelectChange,
   };
+ 
   return (
-    <div>
+    <div style={{
+      padding:"50px",
+
+    }}>
+      <Button onClick={() => dispatch(clearAll())}>Clear All</Button>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
     </div>
   );
