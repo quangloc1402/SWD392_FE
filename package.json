@@ -54,6 +54,7 @@
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "sweetalert2": "^11.10.5",
+    "swiper": "^11.1.14",
     "web-vitals": "^3.5.2",
     "zustand": "^4.5.2"
   },
