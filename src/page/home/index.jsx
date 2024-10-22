@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,8 @@ import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
-import { Navigation, Pagination, Scrollbar, A11y, EffectCube } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -19,6 +20,12 @@ import 'swiper/css/scrollbar';
 
 
 function Home() {
+  const progressCircle = useRef(null);
+  const progressContent = useRef(null);
+  const onAutoplayTimeLeft = (s, time, progress) => {
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
+    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  };
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form] = Form.useForm();
@@ -105,14 +112,22 @@ function Home() {
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCube]}
-          spaceBetween={10}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log('slide change')}
+
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          onAutoplayTimeLeft={onAutoplayTimeLeft}
+          className="mySwiper"
+         
+
 
 
         >
@@ -148,6 +163,14 @@ function Home() {
 
             />
           </SwiperSlide>
+
+          <div style={{ display: 'none' }} className="autoplay-progress" slot="container-end">
+            <svg viewBox="0 0 0 0" ref={progressCircle}>
+              <circle cx="3" cy="3" r="3"></circle>
+            </svg>
+            <span ref={progressContent}></span>
+          </div>
+
         </Swiper>
         <Modal
           title="Staff"
