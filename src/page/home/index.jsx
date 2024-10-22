@@ -7,13 +7,8 @@ import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  EffectCube,
-} from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -103,19 +98,23 @@ function Home() {
   };
   return (
     <div>
-      <div>
+      <div className="main-content">
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCube]}
-          spaceBetween={10}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log("slide change")}
-        >
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+      >
           <SwiperSlide>
             <img
               height="400px"
