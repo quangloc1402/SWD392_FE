@@ -7,6 +7,22 @@ import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  EffectCube,
+} from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 function Home() {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -90,9 +106,47 @@ function Home() {
   return (
     <div>
       <div>
-        
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCube]}
+          spaceBetween={10}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={() => console.log("slide change")}
+        >
+          <SwiperSlide>
+            <img
+              height="400px"
+              width="100%"
+              src="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/8/26/1233821/Giai-Nhi-1--Nang-Tre.jpg"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              height="400px"
+              width="100%"
+              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              height="400px"
+              width="100%"
+              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              height="400px"
+              width="100%"
+              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+            />
+          </SwiperSlide>
+        </Swiper>
         <Modal
           title="Staff"
           open={showModal}
