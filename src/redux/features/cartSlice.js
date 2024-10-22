@@ -7,10 +7,18 @@ const cartSlice  =createSlice ({
     reducers:{
         addProduct: (state, action) =>{
             const product = action.payload;
-            state.push(product);
+            const existProduct = state.find((toy) => toy.id === product.id);
+
+            if(existProduct){
+                existProduct.quantity +=1;
+            }else{
+                state.push({...product, quantity: 1});
+            }
+            
         },
+        clearAll: () => [],
        
     }
 });
-export const {addProduct} =cartSlice.actions;
+export const {addProduct, clearAll} =cartSlice.actions;
 export default cartSlice.reducer;

@@ -112,6 +112,7 @@ function Home() {
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
+
           spaceBetween={30}
           centeredSlides={true}
           autoplay={{
@@ -125,6 +126,8 @@ function Home() {
           modules={[Autoplay, Pagination, Navigation]}
           onAutoplayTimeLeft={onAutoplayTimeLeft}
           className="mySwiper"
+         
+
 
 
         >
@@ -160,12 +163,14 @@ function Home() {
 
             />
           </SwiperSlide>
+
           <div style={{ display: 'none' }} className="autoplay-progress" slot="container-end">
             <svg viewBox="0 0 0 0" ref={progressCircle}>
               <circle cx="3" cy="3" r="3"></circle>
             </svg>
             <span ref={progressContent}></span>
           </div>
+
         </Swiper>
         <Modal
           title="Staff"
