@@ -51,7 +51,7 @@ function CartPage() {
       }}
     >
       <Button onClick={() => dispatch(clearAll())}>Clear All</Button>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <Table rowKey="id" rowSelection={rowSelection} columns={columns} dataSource={data} />
     </div>
   );
 }
