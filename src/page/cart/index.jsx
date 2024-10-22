@@ -44,12 +44,6 @@ function CartPage() {
     onChange: onSelectChange,
   };
 
-  return (
-    <div
-      style={{
-        padding: "50px",
-      }}
-    >
       <Button onClick={() => dispatch(clearAll())}>Clear All</Button>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
     </div>
