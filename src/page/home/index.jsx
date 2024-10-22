@@ -55,9 +55,7 @@ function Home() {
   };
   const fetchProduct = async () => {
     try {
-      const response = await api.get(
-        "https://670a190caf1a3998baa30985.mockapi.io/product"
-      );
+      const response = await api.get("post");
       setProducts(response.data);
       console.log(response.data);
     } catch (e) {
@@ -80,9 +78,9 @@ function Home() {
       key: "toyName",
     },
     {
-      title: "category",
-      dataIndex: "category",
-      key: "category",
+      title: "description",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "quantity",
@@ -178,12 +176,12 @@ function Home() {
               <Input.TextArea />
             </Form.Item>
             <Form.Item
-              label="Category"
-              name="category"
+              label="Description"
+              name="description"
               rules={[
                 {
                   required: true,
-                  message: "Please input Category",
+                  message: "Please input Description",
                 },
               ]}
             >
@@ -203,7 +201,7 @@ function Home() {
             </Form.Item>
             <Form.Item
               label="Price"
-              name="Price"
+              name="price"
               rules={[
                 {
                   required: true,
@@ -236,9 +234,9 @@ const Product = ({ product }) => {
         alt=""
       />
       <h3>{product.toyName}</h3>
-      <p>{product.category}</p>
+      <p>{product.description}</p>
       <p>{product.quantity}</p>
-      <p>đ{product.Price}</p>
+      <p>đ{product.price}</p>
       <center>
         <button onClick={handleAddToCart}> Add to Cart</button>
       </center>
