@@ -1,3 +1,4 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 
 
@@ -21,4 +22,6 @@ const cartSlice  =createSlice ({
     }
 });
 export const {addProduct, clearAll} =cartSlice.actions;
+
 export default cartSlice.reducer;
+

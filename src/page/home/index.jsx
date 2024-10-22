@@ -7,6 +7,22 @@ import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
+
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  EffectCube,
+} from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar"
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 
@@ -17,6 +33,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+
 
 
 function Home() {
@@ -112,6 +129,18 @@ function Home() {
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCube]}
+          spaceBetween={10}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={() => console.log("slide change")}
+
+        <Button onClick={() => setShowModal(true)}> Create New Post</Button>
+
+        <Swiper
 
           spaceBetween={30}
           centeredSlides={true}
@@ -130,6 +159,7 @@ function Home() {
 
 
 
+
         >
           <SwiperSlide>
             <img
@@ -143,7 +173,18 @@ function Home() {
             <img
               height="400px"
               width="100%"
+              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY9
+
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img
+              height="400px"
+              width="100%"
               src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+
+
+
 
             />
           </SwiperSlide>
@@ -155,11 +196,7 @@ function Home() {
 
             />
           </SwiperSlide>
-          <SwiperSlide>
-            <img
-              height="400px"
-              width="100%"
-              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+
 
             />
           </SwiperSlide>
@@ -170,6 +207,7 @@ function Home() {
             </svg>
             <span ref={progressContent}></span>
           </div>
+
 
         </Swiper>
         <Modal
