@@ -105,7 +105,7 @@ function Home() {
   };
   return (
     <div>
-      <div>
+      <div className="main-content">
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
