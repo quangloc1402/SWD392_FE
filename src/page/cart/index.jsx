@@ -16,8 +16,8 @@ function CartPage() {
       key: "toyName",
     },
     {
-      title: "category",
-      dataIndex: "category",
+      title: "desciption",
+      dataIndex: "description",
       key: "category",
     },
     {
@@ -27,8 +27,8 @@ function CartPage() {
     },
     {
       title: "Price",
-      dataIndex: "Price",
-      key: "Price",
+      dataIndex: "price",
+      key: "price",
     },
   ];
 
@@ -47,12 +47,12 @@ function CartPage() {
 
   const handleBuy = async () => {
     try {
-      const seletedItems = data.filter((toy) =>
+      const selectedItems = data.filter((toy) =>
         selectedRowKeys.includes(toy.id)
       );
-      console.log(seletedItems);
+      console.log(selectedItems);
 
-      const item = selectedRowKeys.map((toy) => ({
+      const item = selectedItems.map((toy) => ({
         postId: toy.id,
         quantity: toy.quantity,
       }));
