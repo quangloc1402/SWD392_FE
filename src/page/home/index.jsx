@@ -46,7 +46,7 @@ function Home() {
   };
   const fetchProduct = async () => {
     try {
-      const response = await api.get("post/all");
+      const response = await api.get("post");
       setProducts(response.data);
       console.log(response.data);
     } catch (e) {
