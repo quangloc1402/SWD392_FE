@@ -37,6 +37,10 @@ export const router = createBrowserRouter([
         path: "check-out",
         element: <Home />,
       },
+      {
+        path: "/history",
+        element: <History />,
+      },
     ],
   },
   {
@@ -55,10 +59,7 @@ export const router = createBrowserRouter([
     path: "/success",
     element: <SuccessPage />,
   },
-  {
-    path: "/history",
-    element: <History />,
-  },
+  
   {
     path: "/Dashboard",
     element: (
