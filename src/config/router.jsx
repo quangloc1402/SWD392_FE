@@ -10,7 +10,7 @@ import ManageUser from "../page/admin/manage-user";
 import ManageCategory from "../page/admin/manage-category";
 import CartPage from "../page/cart";
 import Layout from "../components/layout";
-
+import SuccessPage from "../page/success";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -49,6 +49,10 @@ export const router = createBrowserRouter([
   {
     path: "/cart",
     element: <CartPage />,
+  },
+  {
+    path: "/success",
+    element: <SuccessPage />,
   },
   {
     path: "/Dashboard",
