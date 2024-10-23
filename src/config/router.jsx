@@ -11,6 +11,7 @@ import ManageCategory from "../page/admin/manage-category";
 import CartPage from "../page/cart";
 import Layout from "../components/layout";
 import SuccessPage from "../page/success";
+import History from "../page/history";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
   {
     path: "/success",
     element: <SuccessPage />,
+  },
+  {
+    path: "/history",
+    element: <History />,
   },
   {
     path: "/Dashboard",
