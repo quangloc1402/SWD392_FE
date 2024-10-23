@@ -2,28 +2,29 @@ import React, { useEffect } from "react";
 import { Button, Result } from 'antd';
 import useGetParams from "../../assets/hook/useGetParams";
 import api from "../../config/axios";
+import {  useNavigate } from "react-router-dom";
 
 function SuccessPage(){
-    const params = useGetParams();
-    const orderID = params("orderID");
-    console.log(orderID);
-    const vnp_TmnCode =params("vnp_TmnCode");
-    console.log("OrderID", orderID);
-    console.log("vnp_TnmCode", vnp_TmransactionStatus);
+    // const params = useGetParams();
+    // const orderID = params("orderID");
+    // console.log(orderID);
+    // const vnp_TmnCode = params("vnp_TmnCode");
+    // console.log("OrderID", orderID);
+    // console.log("vnp_TnmCode", vnp_TmransactionStatus);
+     const navigate = useNavigate();
 
+    // const postOrderID = async() =>{
+    //     const response = await api.post("/../..")
+    // }
 
-    const postOrderID = async() =>{
-        const response = await api.post("/../..")
-    }
+    // useEffect(() => {
+    //     if(vnp_TmnCode ==="00"){
+    //         postOrderID();
 
-    useEffect(() => {
-        if(vnp_TmnCode ==="00"){
-            postOrderID();
-
-        }else{
-            //navigate to failed page
-        }
-    }, []);
+    //     }else{
+    //         //navigate to failed page
+    //     }
+    // }, []);
     return (
         <div>   
         <Result
@@ -31,8 +32,8 @@ function SuccessPage(){
         title="Successfully Purchased for FEdutoy"
         subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
         extra={[
-          <Button type="primary" key="console" >
-            Go To HomePage 
+          <Button type="primary" key="console" onClick={() => {navigate("/history");}}>
+            Go To History 
           </Button>,
           <Button key="buy">Buy Again</Button>,
         ]}
