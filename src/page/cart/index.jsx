@@ -57,6 +57,9 @@ function CartPage() {
         quantity: toy.quantity,
       }));
       const response = await api.post("order/buy", { item });
+      console.log(response.data);
+      window.open(response.data)
+      toast.success("Buy Successfull")
     } catch (error) {
       console.log(error);
       toast.error("Failed to create order");
