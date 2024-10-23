@@ -7,8 +7,7 @@ import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -34,10 +33,7 @@ function Home() {
         );
       } else {
       }
-      const response = await api.post(
-        "https://670a190caf1a3998baa30985.mockapi.io/product",
-        values
-      );
+      const response = await api.post("post", values);
       toast.success("Successfully saved! ");
       fetchStaff();
       form.resetFields;
@@ -50,7 +46,7 @@ function Home() {
   };
   const fetchProduct = async () => {
     try {
-      const response = await api.get("post");
+      const response = await api.get("post/all");
       setProducts(response.data);
       console.log(response.data);
     } catch (e) {
@@ -84,8 +80,13 @@ function Home() {
     },
     {
       title: "Price",
-      dataIndex: "Price",
-      key: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "CategoryId",
+      dataIndex: "categoryId",
+      key: "categoryId",
     },
   ];
 
@@ -102,19 +103,19 @@ function Home() {
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 3500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-      >
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper"
+        >
           <SwiperSlide>
             <img
               height="400px"
@@ -205,6 +206,18 @@ function Home() {
                 {
                   required: true,
                   message: "Please Price",
+                },
+              ]}
+            >
+              <Input.TextArea />
+            </Form.Item>
+            <Form.Item
+              label="category"
+              name="categoryId"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter categoryId",
                 },
               ]}
             >

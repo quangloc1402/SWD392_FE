@@ -4,13 +4,15 @@ import { Layout, Input, Menu, Button, Badge } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/features/counterSlice";
 const { Header } = Layout;
 const { Search } = Input;
 
 const Headers = () => {
   const cart = useSelector((store) => store.cart);
+  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
@@ -31,12 +33,27 @@ const Headers = () => {
           className="shopee-menu"
           style={{ flexGrow: 1, justifyContent: "flex-end" }}
         >
-          <Menu.Item key="1">
-            <a href="/login">Login</a>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <a href="/register">Sign Up</a>
-          </Menu.Item>
+          <div>
+            {user == null ? (
+              <>
+                <Menu.Item key="1">
+                  <a href="/login">Log In</a>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <a href="/register">Sign Up</a>
+                </Menu.Item>
+              </>
+            ) : (
+              <Menu.Item key="3">
+                <h1>Welcome {user?.username} </h1>
+                <br />
+                <a href="/" onClick={() => dispatch(logout())}>
+                  Log Out
+                </a>
+              </Menu.Item>
+            )}
+          </div>
+
           <Menu.Item key="5" onClick={() => navigate("/cart")}>
             <Badge count={cart.length}>
               <ShoppingCartOutlined
