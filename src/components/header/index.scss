@@ -2,14 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fb5533;
-  padding: 0 50px;
+  padding: 0 150px;
 
   // Logo Styling
   .logo {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 50px;
+    margin-top: 19px;
 
     img {
       height: 40px; // Default logo height
@@ -18,16 +18,17 @@
 
   // Search Input Styling
   .input {
-    width: 5%; // Adjust this later based on screen size
+    width: 100%; // Make sure it adapts based on the available space
   }
 
   .shopee-search-bar {
-    width: 50px;
+    width: auto; // Adjust this later based on screen size
   }
 
   .search {
     width: 75%; // Default search bar width
     padding-left: 40px;
+    max-width: 1000px; // Limit the width for larger screens
   }
 
   // Menu Styling
@@ -54,12 +55,15 @@
   }
 
   // Responsive Adjustments
+
+  // For tablets and smaller desktops
   @media (max-width: 1024px) {
     padding: 0 30px;
 
     .search {
       width: 60%; // Reduce search bar width for smaller screens
       padding-left: 20px;
+      max-width: 500px; // Limit search bar width
     }
 
     .shopee-menu {
@@ -68,6 +72,7 @@
     }
   }
 
+  // For tablets (768px and below)
   @media (max-width: 768px) {
     padding: 0 20px;
 
@@ -78,6 +83,7 @@
     .search {
       width: 50%; // Further reduce search bar width on tablet-sized screens
       padding-left: 10px;
+      max-width: 400px;
     }
 
     .shopee-menu {
@@ -90,6 +96,7 @@
     }
   }
 
+  // For small mobile screens (480px and below)
   @media (max-width: 480px) {
     padding: 0 10px;
 
@@ -98,7 +105,7 @@
     }
 
     .search {
-      display: none; // Hide search bar on very small screens
+      display: none; // Hide search bar on very small screens to save space
     }
 
     .shopee-menu {
@@ -114,4 +121,91 @@
       padding: 0 8px; // Reduce padding to fit buttons on small screens
     }
   }
+
+  // For very small screens (375px and below)
+  @media (max-width: 375px) {
+    .logo img {
+      height: 28px; // Further reduce logo size for very small screens
+    }
+
+    .shopee-menu {
+      line-height: 40px; // Adjust the line height to match small screens
+    }
+
+    .ant-btn {
+      font-size: 11px; // Adjust font size further for extra small screens
+    }
+
+    .ant-btn-primary {
+      padding: 0 5px; // Reduce padding more to make it fit
+    }
+  }
+}
+.main-content{
+  margin-top: -60px;
+}
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  background-color: #fff;
+  border: 0.01px solid rgba(18, 3, 3, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+  padding: 10px;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  h3 {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    font-size: 14px;
+    color: #999;
+    margin: 5px 0;
+  }
+
+  .price {
+    font-size: 16px;
+    color: #ff5722;
+    font-weight: bold;
+  }
+
+  button {
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #e64a19;
+    }   
+  }
+  
 }

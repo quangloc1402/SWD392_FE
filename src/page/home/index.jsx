@@ -3,7 +3,7 @@ import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/features/cartSlice";
-import { Button, Form, Image, Input, Modal, Popconfirm, Table, Card} from "antd";
+import { Button, Form, Image, Input, Modal, Popconfirm, Table, Card } from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
@@ -103,49 +103,53 @@ function Home() {
       <div className="main-content">
         <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 3500,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper"
-        >
-          <SwiperSlide>
+        <div className="swiper-container">
+          <div className="swiper-wrapper">
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={1} // Show 3 products per view
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 3500 }}
+              modules={[Navigation, Pagination, Autoplay]}
+              className="shopee-swiper"
+            >
+              <SwiperSlide>
+                <img className="swiper-img"
+                  
+                  src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img className="swiper-img"
+                  
+                  src="https://i.pinimg.com/originals/fa/ca/68/faca686e03b99dc55ba4938a077e411f.jpg"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img className="swiper-img"
+                  
+                  src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img className="swiper-img"
+                  
+                  src="https://img.pikbest.com/templates/20240815/banner-promoting-the-sale-of-toys-for-children-in-the-supermarket_10729034.jpg!w700wp"
+                />
+              </SwiperSlide>
+            </Swiper>
+
+          </div>
+          <div className="extra-images">
             <img
-              height="400px"
-              width="100%"
-              src="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/8/26/1233821/Giai-Nhi-1--Nang-Tre.jpg"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
+              
+              src="https://happytimevn.com/wp-content/uploads/2020/06/Banner-1024x507-1-4-1024x507.jpg" />
             <img
-              height="400px"
-              width="100%"
-              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              height="400px"
-              width="100%"
-              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
-            />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              height="400px"
-              width="100%"
-              src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
-            />
-          </SwiperSlide>
-        </Swiper>
+              
+              src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381" />
+          </div>
+        </div>
         <Modal
           title="Staff"
           open={showModal}
@@ -230,7 +234,7 @@ function Home() {
       <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
-      </Card>   
+      </Card>
       <div style={{ margin: "100px auto" }} className="product-list">
         {products.map((product) => (
           <Product product={product} />
