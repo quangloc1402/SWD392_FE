@@ -1,19 +1,34 @@
-// src/components/Header.js
-
-import { Layout, Input, Menu, Button, Badge } from "antd";
+import React, { useEffect, useState } from "react";
+import { Layout, Input, Menu, Badge } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
+import api from "../../config/axios";
+
 const { Header } = Layout;
 const { Search } = Input;
 
 const Headers = () => {
-  const cart = useSelector((store) => store.cart);
+  const [cartCount, setCartCount] = useState(0); // State for cart count
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const response = await api.get("cart"); // Adjust the endpoint to your API
+        setCartCount(response.data.cartItems.length); // Assuming cartItems is an array
+      } catch (error) {
+        console.error("Failed to fetch cart count", error);
+        setCartCount(0); // Set to 0 on error
+      }
+    };
+
+    fetchCartCount(); // Call the function to fetch the cart count
+  }, []); // Empty dependency array to run once on mount
 
   return (
     <Layout className="layout">
@@ -25,8 +40,8 @@ const Headers = () => {
         </div>
 
         {/* Search Bar */}
+        <Search className="search" />
 
-        <Search className="search"></Search>
         {/* Menu Links */}
         <Menu
           mode="horizontal"
@@ -45,7 +60,7 @@ const Headers = () => {
               </>
             ) : (
               <Menu.Item key="3">
-                <h1>Welcome {user?.username} </h1>
+                <h1>Welcome {user?.username}</h1>
                 <br />
                 <a href="/" onClick={() => dispatch(logout())}>
                   Log Out
@@ -55,7 +70,7 @@ const Headers = () => {
           </div>
 
           <Menu.Item key="5" onClick={() => navigate("/cart")}>
-            <Badge count={cart.length}>
+            <Badge count={cartCount}>
               <ShoppingCartOutlined
                 style={{
                   fontSize: 25,
