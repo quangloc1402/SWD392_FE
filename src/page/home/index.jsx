@@ -227,7 +227,7 @@ function Home() {
           </Form>
         </Modal>
       </div>
-      <Card bordered={true} style={{ width: 1390, textAlign: "left" }}>
+      <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
       </Card>   
