@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Button} from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Layout, Input, Menu, Badge, Popover, Button } from "antd";
+import { ShoppingCartOutlined, SearchOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
 import api from "../../config/axios";
 import LOGO from "../../assets/images/logo.jpg";
+
 const { Header } = Layout;
 const { Search } = Input;
 
@@ -15,19 +16,22 @@ const Headers = () => {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const content = (
     <div>
       <p>My Profile</p>
-      <p><a href="/" onClick={() => dispatch(logout())}>
-        Log Out
-      </a></p>
+      <p>
+        <a href="/" onClick={() => dispatch(logout())}>
+          Log Out
+        </a>
+      </p>
     </div>
   );
 
   useEffect(() => {
     const fetchCartCount = async () => {
       try {
-        const response = await api.get("cart"); // Adjust the endpoint to your API
+        const response = await api.get("cart");
         setCartCount(response.data.cartItems.length); // Assuming cartItems is an array
       } catch (error) {
         console.error("Failed to fetch cart count", error);
@@ -36,19 +40,24 @@ const Headers = () => {
     };
 
     fetchCartCount(); // Call the function to fetch the cart count
-  }, []); // Empty dependency array to run once on mount
+  }, []);
 
   return (
     <Layout className="layout">
       <Header className="shopee-header">
         <div className="logo">
           <a href="/">
-            <img src={LOGO}/>
+            <img src={LOGO} alt="Logo" />
           </a>
         </div>
 
         {/* Search Bar */}
-        <Input className="search" placeholder="Nhập tên đồ chơi" />
+        <Search
+          className="search"
+          placeholder="Search product"
+          onSearch={(value) => console.log(value)}
+          enterButton
+        />
 
         {/* Menu Links */}
         <Menu
@@ -68,30 +77,22 @@ const Headers = () => {
               </>
             ) : (
               <Menu.Item key="3">
-                <Popover content={content} >
+                <Popover content={content}>
                   <Button type="primary">{user?.username}</Button>
                 </Popover>
-
-
               </Menu.Item>
             )}
           </div>
 
           <Menu.Item key="5" onClick={() => navigate("/cart")}>
             <Badge count={cartCount}>
-              <ShoppingCartOutlined
-                style={{
-                  fontSize: 25,
-                  color: "#fff",
-                }}
-              />
+              <ShoppingCartOutlined style={{ fontSize: 25, color: "#fff" }} />
             </Badge>
           </Menu.Item>
         </Menu>
       </Header>
     </Layout>
   );
-  
 };
 
 export default Headers;
