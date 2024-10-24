@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge } from "antd";
+import { Layout, Input, Menu, Badge, Popover, Button} from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
 import api from "../../config/axios";
-
+import LOGO from "../../assets/images/logo.jpg";
 const { Header } = Layout;
 const { Search } = Input;
 
@@ -15,6 +15,14 @@ const Headers = () => {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const content = (
+    <div>
+      <p>My Profile</p>
+      <p><a href="/" onClick={() => dispatch(logout())}>
+        Log Out
+      </a></p>
+    </div>
+  );
 
   useEffect(() => {
     const fetchCartCount = async () => {
@@ -35,12 +43,12 @@ const Headers = () => {
       <Header className="shopee-header">
         <div className="logo">
           <a href="/">
-            <img src="logo.png" alt="Shopee Logo" />
+            <img src={LOGO}/>
           </a>
         </div>
 
         {/* Search Bar */}
-        <Search className="search" />
+        <Input className="search" placeholder="Nhập tên đồ chơi" />
 
         {/* Menu Links */}
         <Menu
@@ -60,11 +68,11 @@ const Headers = () => {
               </>
             ) : (
               <Menu.Item key="3">
-                <h1>Welcome {user?.username}</h1>
-                <br />
-                <a href="/" onClick={() => dispatch(logout())}>
-                  Log Out
-                </a>
+                <Popover content={content} >
+                  <Button type="primary">{user?.username}</Button>
+                </Popover>
+
+
               </Menu.Item>
             )}
           </div>
@@ -83,6 +91,7 @@ const Headers = () => {
       </Header>
     </Layout>
   );
+  
 };
 
 export default Headers;

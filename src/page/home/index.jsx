@@ -3,12 +3,12 @@ import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/features/cartSlice";
-import { Button, Form, Image, Input, Modal, Popconfirm, Table } from "antd";
+import { Button, Form, Image, Input, Modal, Popconfirm, Table, Card} from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
+import Category from "../../components/category";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -227,6 +227,10 @@ function Home() {
           </Form>
         </Modal>
       </div>
+      <Card bordered={true} style={{ width: 1390, textAlign: "left" }}>
+        <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
+        <Category />
+      </Card>   
       <div style={{ margin: "100px auto" }} className="product-list">
         {products.map((product) => (
           <Product product={product} />

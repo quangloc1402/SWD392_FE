@@ -89,8 +89,8 @@ function Login() {
                 labelCol={{
                   span: 24,
                 }}
-                label="Email"
-                name="email"
+                label="UserName"
+                name="username"
                 rules={[
                   {
                     required: true,
