@@ -87,7 +87,7 @@ function CartPage() {
         quantity: toy.quantity,
       }));
 
-      const response = await api.post("order/buy", { item });
+      const response = await api.post("orders/create-from-cart");
       console.log(response.data);
       window.open(response.data);
       toast.success("Buy Successful");

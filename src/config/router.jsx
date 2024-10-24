@@ -41,6 +41,10 @@ export const router = createBrowserRouter([
         path: "/history",
         element: <History />,
       },
+      {
+        path: "/cart",
+        element: <CartPage />,
+      },
     ],
   },
   {
@@ -51,15 +55,12 @@ export const router = createBrowserRouter([
     path: "/Register",
     element: <RegisterPage />,
   },
-  {
-    path: "/cart",
-    element: <CartPage />,
-  },
+
   {
     path: "/success",
     element: <SuccessPage />,
   },
-  
+
   {
     path: "/Dashboard",
     element: (
