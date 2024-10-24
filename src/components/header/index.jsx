@@ -7,16 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
 import api from "../../config/axios";
 import LOGO from "../../assets/images/logo.jpg";
-
 const { Header } = Layout;
 const { Search } = Input;
 
 const Headers = () => {
+  const onSearch = (value, _e, info) => {
+    console.log(info?.source, value);
+  };
   const [cartCount, setCartCount] = useState(0); // State for cart count
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const content = (
     <div>
       <p>My Profile</p>
@@ -25,13 +26,16 @@ const Headers = () => {
           Log Out
         </a>
       </p>
+      <p onClick={() => navigate("/history")}>
+      History
+      </p>
     </div>
   );
 
   useEffect(() => {
     const fetchCartCount = async () => {
       try {
-        const response = await api.get("cart");
+        const response = await api.get("cart"); // Adjust the endpoint to your API
         setCartCount(response.data.cartItems.length); // Assuming cartItems is an array
       } catch (error) {
         console.error("Failed to fetch cart count", error);
@@ -40,22 +44,22 @@ const Headers = () => {
     };
 
     fetchCartCount(); // Call the function to fetch the cart count
-  }, []);
+  }, []); // Empty dependency array to run once on mount
 
   return (
     <Layout className="layout">
       <Header className="shopee-header">
         <div className="logo">
           <a href="/">
-            <img src={LOGO} alt="Logo" />
+            <img src={LOGO} alt="logo" />
           </a>
         </div>
 
         {/* Search Bar */}
         <Search
           className="search"
-          placeholder="Search product"
-          onSearch={(value) => console.log(value)}
+          placeholder="Nhập tên đồ chơi"
+          onSearch={onSearch}
           enterButton
         />
 
@@ -65,7 +69,7 @@ const Headers = () => {
           className="shopee-menu"
           style={{ flexGrow: 1, justifyContent: "flex-end" }}
         >
-          <div>
+          <div className="menu-items">
             {user == null ? (
               <>
                 <Menu.Item key="1">
@@ -82,17 +86,23 @@ const Headers = () => {
                 </Popover>
               </Menu.Item>
             )}
-          </div>
 
-          <Menu.Item key="5" onClick={() => navigate("/cart")}>
-            <Badge count={cartCount}>
-              <ShoppingCartOutlined style={{ fontSize: 25, color: "#fff" }} />
-            </Badge>
-          </Menu.Item>
+            <Menu.Item key="5" onClick={() => navigate("/cart")}>
+              <Badge count={cartCount}>
+                <ShoppingCartOutlined
+                  style={{
+                    fontSize: 25,
+                    color: "#fff",
+                  }}
+                />
+              </Badge>
+            </Menu.Item>
+          </div>
         </Menu>
       </Header>
     </Layout>
   );
+
 };
 
 export default Headers;
