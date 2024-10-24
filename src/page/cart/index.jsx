@@ -96,6 +96,18 @@ function CartPage() {
       toast.error("Failed to create order");
     }
   };
+  const handleClearAll = async () => {
+    try {
+      const response = await api.post("cart/clear"); // Adjust endpoint accordingly
+      console.log(response.data);
+      toast.success("Cart cleared successfully!");
+      setCartData([]); // Clear the local cart data state
+      dispatch(clearAll()); // Dispatch Redux action to clear the cart here if necessary
+    } catch (error) {
+      console.error("Failed to clear cart", error);
+      toast.error("Failed to clear cart");
+    }
+  };
 
   return (
     <div
@@ -103,7 +115,7 @@ function CartPage() {
         padding: "50px",
       }}
     >
-      <Button onClick={() => dispatch(clearAll())}>Clear All</Button>
+      <Button onClick={handleClearAll}>Clear All</Button>
       <Table
         rowKey="id"
         rowSelection={rowSelection}
