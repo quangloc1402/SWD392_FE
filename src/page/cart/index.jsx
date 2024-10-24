@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAll } from "../../redux/features/cartSlice";
 import { toast } from "react-toastify";
+import api from "../../config/axios";
+
 function CartPage() {
   const columns = [
     {
@@ -16,12 +18,12 @@ function CartPage() {
       key: "toyName",
     },
     {
-      title: "desciption",
+      title: "Description",
       dataIndex: "description",
-      key: "category",
+      key: "description",
     },
     {
-      title: "quantity",
+      title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
     },
@@ -33,13 +35,41 @@ function CartPage() {
   ];
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [cartData, setCartData] = useState([]);
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.cart);
-  console.log(data);
+
+  // Fetch cart data
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await api.get("cart"); // Adjust endpoint accordingly
+        const cartItems = response.data.cartItems.map((item) => ({
+          id: item.id,
+          toyName: item.post.toyName,
+          quantity: item.post.quantity,
+          description: item.post.description,
+          price: item.post.price,
+          imageUrl: item.post.imageUrl, // Assuming you want to keep track of it
+          priceByDay: item.post.priceByDay,
+          depositFee: item.post.depositFee,
+          status: item.post.status,
+        }));
+
+        setCartData(cartItems);
+      } catch (error) {
+        console.error("Failed to fetch cart data", error);
+        toast.error("Failed to load cart data");
+      }
+    };
+
+    fetchCartData();
+  }, []);
+
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
@@ -47,7 +77,7 @@ function CartPage() {
 
   const handleBuy = async () => {
     try {
-      const selectedItems = data.filter((toy) =>
+      const selectedItems = cartData.filter((toy) =>
         selectedRowKeys.includes(toy.id)
       );
       console.log(selectedItems);
@@ -56,10 +86,11 @@ function CartPage() {
         postId: toy.id,
         quantity: toy.quantity,
       }));
+
       const response = await api.post("order/buy", { item });
       console.log(response.data);
-      window.open(response.data)
-      toast.success("Buy Successfull")
+      window.open(response.data);
+      toast.success("Buy Successful");
     } catch (error) {
       console.log(error);
       toast.error("Failed to create order");
@@ -77,7 +108,7 @@ function CartPage() {
         rowKey="id"
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={data}
+        dataSource={cartData}
       />
 
       <Button onClick={handleBuy}>Buy </Button>

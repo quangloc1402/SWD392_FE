@@ -19,7 +19,7 @@ function Login() {
       console.log(response.data);
       dispatch(login(response.data));
       const { role, token } = response.data;
-      Cookies.set("token", token, { expires: 7 });
+      localStorage.setItem("token", token);
 
       if (role === "ADMIN") {
         navigate("/Dashboard");

@@ -21,6 +21,7 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form] = Form.useForm();
+  const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState([]);
   const handleSubmit = async (values) => {
     console.log(values);
@@ -236,8 +237,20 @@ function Home() {
 }
 const Product = ({ product }) => {
   const dispatch = useDispatch();
-  const handleAddToCart = () => {
-    dispatch(addProduct(product));
+  const handleAddToCart = async (postId, quantity) => {
+    try {
+      const response = await api.post(
+        `cart/add?postId=${postId}&quantity=${quantity}&type=BUYTOY`
+      );
+      console.log(response.data);
+      toast.success("Item added to cart successfully");
+
+      // Refresh the page to show the updated cart
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to add item to cart", error);
+      toast.error("Failed to add item to cart");
+    }
   };
   return (
     <div className="product">
@@ -250,7 +263,10 @@ const Product = ({ product }) => {
       <p>{product.quantity}</p>
       <p>đ{product.price}</p>
       <center>
-        <button onClick={handleAddToCart}> Add to Cart</button>
+        <button onClick={() => handleAddToCart(product?.id, 1)}>
+          {" "}
+          Add to Cart
+        </button>
       </center>
     </div>
   );
