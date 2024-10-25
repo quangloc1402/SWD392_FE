@@ -1,0 +1,27 @@
+// index.scss
+.container {
+    display: flex; // Sử dụng Flexbox để chia đôi màn hình
+    align-items: center; // Căn giữa theo chiều dọc
+    justify-content: space-between; // Căn giữa ở giữa
+    background-color: #c66ef5; // Nền màu xám
+    border-radius: 8px; // Tạo góc bo tròn
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Thêm bóng nhẹ
+  
+    .logo {
+      flex: 1; // Logo chiếm 1 phần
+      display: flex;
+      justify-content: center; // Căn giữa logo
+      
+      img {
+        max-width: 100%; // Đảm bảo hình ảnh không quá lớn và giữ tỷ lệ
+        height: auto;
+      }
+    }
+  
+    .result-container {
+      flex: 2; // Phần kết quả chiếm 2 phần
+      padding: 20px; // Thêm khoảng cách nếu cần
+     
+    }
+  }
+  

@@ -1,50 +1,40 @@
 import React, { useEffect } from "react";
 import { Button, Result } from "antd";
-import useGetParams from "../../assets/hook/useGetParams";
-import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
+import LOGO from "../../assets/images/logo.jpg";
+import "./index.scss";
 
 function SuccessPage() {
-  // const params = useGetParams();
-  // const orderID = params("orderID");
-  // console.log(orderID);
-  // const vnp_TmnCode = params("vnp_TmnCode");
-  // console.log("OrderID", orderID);
-  // console.log("vnp_TnmCode", vnp_TmransactionStatus);
   const navigate = useNavigate();
 
-  // const postOrderID = async() =>{
-  //     const response = await api.post("/../..")
-  // }
-
-  // useEffect(() => {
-  //     if(vnp_TmnCode ==="00"){
-  //         postOrderID();
-
-  //     }else{
-  //         //navigate to failed page
-  //     }
-  // }, []);
   return (
-    <div>
-      <Result
-        status="success"
-        title="Successfully Purchased for FEdutoy"
-        subTitle="Ma don hang: 180203 cam on thang lozz da mua hang."
-        extra={[
-          <Button
-            type="primary"
-            key="console"
-            onClick={() => {
-              navigate("/history");
-            }}
-          >
-            Go To History
-          </Button>,
-          <Button key="buy">Buy Again</Button>,
-        ]}
-      />
+    <div className="container">
+      <div className="logo">
+        <a href="/">
+          <img src={LOGO} alt="logo" />
+        </a>
+      </div>
+      <div className="result-container">
+        <Result
+          status="success"
+          title="Successfully Purchased for FEdutoy"
+          subTitle="Mã đơn hàng: 180203. Cảm ơn bạn đã mua hàng."
+          extra={[
+            <Button
+              type="primary"
+              key="history"
+              onClick={() => {
+                navigate("/history");
+              }}
+            >
+              Go To History
+            </Button>,
+            <Button key="buy">Buy Again</Button>,
+          ]}
+        />
+      </div>
     </div>
   );
 }
+
 export default SuccessPage;
