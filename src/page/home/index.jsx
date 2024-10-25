@@ -1,9 +1,18 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/features/cartSlice";
-import { Button, Form, Image, Input, Modal, Popconfirm, Table, Card } from "antd";
+import {
+  Button,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Popconfirm,
+  Table,
+  Card,
+} from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
@@ -103,7 +112,6 @@ function Home() {
   return (
     <div>
       <div className="main-content">
-
         <div className="swiper-container">
           <div className="swiper-wrapper">
             <Swiper
@@ -116,39 +124,28 @@ function Home() {
               className="shopee-swiper"
             >
               <SwiperSlide>
-                <img className="swiper-img"
-
-                  src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381"
+                <img
+                  className="swiper-img"
+                  src="https://img.pikbest.com/templates/20240725/sale-banner-template-to-decorate-a-shop-selling-children-27s-toys_10680872.jpg!w700wp"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img className="swiper-img"
-
-                  src="https://i.pinimg.com/originals/fa/ca/68/faca686e03b99dc55ba4938a077e411f.jpg"
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img className="swiper-img"
-
+                <img
+                  className="swiper-img"
                   src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img className="swiper-img"
-
-                  src="https://img.pikbest.com/templates/20240815/banner-promoting-the-sale-of-toys-for-children-in-the-supermarket_10729034.jpg!w700wp"
+                <img
+                  className="swiper-img"
+                  src="https://cafefcdn.com/thumb_w/640//203337114487263232/2024/8/8/avatar1723122947437-1723122947859806833189.jpg"
                 />
               </SwiperSlide>
             </Swiper>
-
           </div>
           <div className="extra-images">
-            <img
-
-              src="https://happytimevn.com/wp-content/uploads/2020/06/Banner-1024x507-1-4-1024x507.jpg" />
-            <img
-
-              src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381" />
+            <img src="https://sieuthidochoimamnon.com/wp-content/uploads/2024/04/do-choi-giao-tri.jpg" />
+            <img src="https://daistore.vn/wp-content/uploads/2021/09/do-choi-khoa-hoc-lap-ghep-dieu-khien-daistore-vn-1.jpg" />
           </div>
         </div>
         <Modal
@@ -241,7 +238,7 @@ function Home() {
         <></> // You can render something else for non-logged-in users or leave it empty
       )}
 
-      <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
+      <Card bordered={true} style={{ width: "100%", textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
       </Card>
