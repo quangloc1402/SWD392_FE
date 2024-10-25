@@ -101,7 +101,6 @@ function Home() {
   return (
     <div>
       <div className="main-content">
-        <Button onClick={() => setShowModal(true)}> Create New Post</Button>
 
         <div className="swiper-container">
           <div className="swiper-wrapper">
@@ -231,6 +230,8 @@ function Home() {
           </Form>
         </Modal>
       </div>
+      <Button onClick={() => setShowModal(true)}> Create New Post</Button>
+
       <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
