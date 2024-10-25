@@ -20,15 +20,14 @@ const Headers = () => {
   const navigate = useNavigate();
   const content = (
     <div>
-      <p>My Profile</p>
-      <p>
-        <a href="/" onClick={() => dispatch(logout())}>
-          Log Out
-        </a>
+      <p style={{ marginBottom: "10px" }}>Tài Khoản Của Tôi</p>
+      <p style={{ marginBottom: "10px" }} onClick={() => dispatch(logout())}>
+        Log Out
       </p>
-      <p onClick={() => navigate("/history")}>
-      History
+      <p style={{ marginBottom: "10px" }} onClick={() => navigate("/history")}>
+        Lịch Sử Mua Hàng
       </p>
+      <p onClick={() => navigate("/")}>Tạo Đơn Bán</p>
     </div>
   );
 
@@ -102,7 +101,6 @@ const Headers = () => {
       </Header>
     </Layout>
   );
-
 };
 
 export default Headers;

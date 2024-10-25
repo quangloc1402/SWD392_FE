@@ -3,7 +3,16 @@ import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/features/cartSlice";
-import { Button, Form, Image, Input, Modal, Popconfirm, Table, Card } from "antd";
+import {
+  Button,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Popconfirm,
+  Table,
+  Card,
+} from "antd";
 import { toast } from "react-toastify";
 import { data } from "autoprefixer";
 import { render } from "react-dom";
@@ -23,28 +32,7 @@ function Home() {
   const [form] = Form.useForm();
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState([]);
-  const handleSubmit = async (values) => {
-    console.log(values);
-    try {
-      setLoading(true);
-      if (values.id) {
-        const response = await api.put(
-          `https://670a190caf1a3998baa30985.mockapi.io/product/${values.id}`,
-          values
-        );
-      } else {
-      }
-      const response = await api.post("post", values);
-      toast.success("Successfully saved! ");
-      fetchStaff();
-      form.resetFields;
-      setOpenModal(false);
-    } catch (err) {
-      toast.error(err.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
+
   const fetchProduct = async () => {
     try {
       const response = await api.get("post");
@@ -101,8 +89,6 @@ function Home() {
   return (
     <div>
       <div className="main-content">
-        <Button onClick={() => setShowModal(true)}> Create New Post</Button>
-
         <div className="swiper-container">
           <div className="swiper-wrapper">
             <Swiper
@@ -115,123 +101,38 @@ function Home() {
               className="shopee-swiper"
             >
               <SwiperSlide>
-                <img className="swiper-img"
-                  
+                <img
+                  className="swiper-img"
                   src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img className="swiper-img"
-                  
-                  src="https://i.pinimg.com/originals/fa/ca/68/faca686e03b99dc55ba4938a077e411f.jpg"
+                <img
+                  className="swiper-img"
+                  src="https://img.pikbest.com/templates/20240725/sale-banner-template-to-decorate-a-shop-selling-children-27s-toys_10680872.jpg!w700wp"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img className="swiper-img"
-                  
+                <img
+                  className="swiper-img"
                   src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img className="swiper-img"
-                  
+                <img
+                  className="swiper-img"
                   src="https://img.pikbest.com/templates/20240815/banner-promoting-the-sale-of-toys-for-children-in-the-supermarket_10729034.jpg!w700wp"
                 />
               </SwiperSlide>
             </Swiper>
-
           </div>
           <div className="extra-images">
-            <img
-              
-              src="https://happytimevn.com/wp-content/uploads/2020/06/Banner-1024x507-1-4-1024x507.jpg" />
-            <img
-              
-              src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381" />
+            <img src="https://happytimevn.com/wp-content/uploads/2020/06/Banner-1024x507-1-4-1024x507.jpg" />
+            <img src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381" />
           </div>
         </div>
-        <Modal
-          title="Staff"
-          open={showModal}
-          onCancel={handleCloseModal}
-          onOk={() => {
-            form.submit();
-          }}
-        >
-          <Form
-            form={form}
-            labelCol={{
-              span: 24,
-            }}
-            onFinish={handleSubmit}
-          >
-            <Form.Item name="id" hidden>
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Product Name"
-              name="toyName"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Toy's name!",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Description"
-              name="description"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Description",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Quantity"
-              name="quantity"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input quantity",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Price"
-              name="price"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Price",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="category"
-              name="categoryId"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter categoryId",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-          </Form>
-        </Modal>
       </div>
-      <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
+      <Card bordered={true} style={{ width: "100%", textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
       </Card>
