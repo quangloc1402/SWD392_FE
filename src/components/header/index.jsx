@@ -27,7 +27,7 @@ const Headers = () => {
       <p style={{ marginBottom: "10px" }} onClick={() => navigate("/history")}>
         Lịch Sử Mua Hàng
       </p>
-      <p>Tạo Đơn Mua</p>
+      <p onClick={() => navigate("/createpostBuy")}>Tạo Đơn Mua</p>
     </div>
   );
 

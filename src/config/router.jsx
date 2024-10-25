@@ -12,6 +12,7 @@ import CartPage from "../page/cart";
 import Layout from "../components/layout";
 import SuccessPage from "../page/success";
 import History from "../page/history";
+import PostBuy from "../components/postbuy";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CartPage />,
+      },
+      {
+        path: "/createpostbuy",
+        element: <PostBuy />,
       },
     ],
   },
