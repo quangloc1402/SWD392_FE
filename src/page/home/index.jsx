@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import "./index.scss";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import { render } from "react-dom";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Category from "../../components/category";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useSelector } from "react-redux";
 
 // Import Swiper styles
 import "swiper/css";
@@ -18,6 +19,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 function Home() {
+  const user = useSelector((store) => store.user);
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form] = Form.useForm();
@@ -115,25 +117,25 @@ function Home() {
             >
               <SwiperSlide>
                 <img className="swiper-img"
-                  
+
                   src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img className="swiper-img"
-                  
+
                   src="https://i.pinimg.com/originals/fa/ca/68/faca686e03b99dc55ba4938a077e411f.jpg"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img className="swiper-img"
-                  
+
                   src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img className="swiper-img"
-                  
+
                   src="https://img.pikbest.com/templates/20240815/banner-promoting-the-sale-of-toys-for-children-in-the-supermarket_10729034.jpg!w700wp"
                 />
               </SwiperSlide>
@@ -142,10 +144,10 @@ function Home() {
           </div>
           <div className="extra-images">
             <img
-              
+
               src="https://happytimevn.com/wp-content/uploads/2020/06/Banner-1024x507-1-4-1024x507.jpg" />
             <img
-              
+
               src="https://theme.hstatic.net/200000569615/1001041811/14/slider_2.jpg?v=381" />
           </div>
         </div>
@@ -230,7 +232,14 @@ function Home() {
           </Form>
         </Modal>
       </div>
-      <Button onClick={() => setShowModal(true)}> Create New Post</Button>
+
+      {user != null ? (
+        <>
+          <Button onClick={() => setShowModal(true)}>Create New Post</Button>
+        </>
+      ) : (
+        <></> // You can render something else for non-logged-in users or leave it empty
+      )}
 
       <Card bordered={true} style={{ width: '100%', textAlign: "left" }}>
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
