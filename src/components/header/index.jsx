@@ -20,7 +20,12 @@ const Headers = () => {
   const navigate = useNavigate();
   const content = (
     <div>
-      <p style={{ marginBottom: "10px" }}>Tài Khoản Của Tôi</p>
+      <p
+        style={{ marginBottom: "10px" }}
+        onClick={() => navigate(`/profile/${user.id}`)}
+      >
+        Tài Khoản Của Tôi
+      </p>
       <p style={{ marginBottom: "10px" }} onClick={() => dispatch(logout())}>
         Log Out
       </p>

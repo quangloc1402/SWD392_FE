@@ -34,28 +34,7 @@ function Home() {
   const [form] = Form.useForm();
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState([]);
-  const handleSubmit = async (values) => {
-    console.log(values);
-    try {
-      setLoading(true);
-      if (values.id) {
-        const response = await api.put(
-          `https://670a190caf1a3998baa30985.mockapi.io/product/${values.id}`,
-          values
-        );
-      } else {
-      }
-      const response = await api.post("post", values);
-      toast.success("Successfully saved! ");
-      fetchStaff();
-      form.resetFields;
-      setOpenModal(false);
-    } catch (err) {
-      toast.error(err.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
+
   const fetchProduct = async () => {
     try {
       const response = await api.get("post");
@@ -102,13 +81,6 @@ function Home() {
     },
   ];
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    form.resetFields();
-  };
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
   return (
     <div>
       <div className="main-content">
@@ -148,92 +120,10 @@ function Home() {
             <img src="https://daistore.vn/wp-content/uploads/2021/09/do-choi-khoa-hoc-lap-ghep-dieu-khien-daistore-vn-1.jpg" />
           </div>
         </div>
-        <Modal
-          title="Staff"
-          open={showModal}
-          onCancel={handleCloseModal}
-          onOk={() => {
-            form.submit();
-          }}
-        >
-          <Form
-            form={form}
-            labelCol={{
-              span: 24,
-            }}
-            onFinish={handleSubmit}
-          >
-            <Form.Item name="id" hidden>
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Product Name"
-              name="toyName"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Toy's name!",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Description"
-              name="description"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input Description",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Quantity"
-              name="quantity"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input quantity",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="Price"
-              name="price"
-              rules={[
-                {
-                  required: true,
-                  message: "Please Price",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              label="category"
-              name="categoryId"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter categoryId",
-                },
-              ]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-          </Form>
-        </Modal>
       </div>
 
       {user != null ? (
-        <>
-          <Button onClick={() => setShowModal(true)}>Create New Post</Button>
-        </>
+        <></>
       ) : (
         <></> // You can render something else for non-logged-in users or leave it empty
       )}
