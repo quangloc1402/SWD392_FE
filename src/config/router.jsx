@@ -13,6 +13,7 @@ import Layout from "../components/layout";
 import SuccessPage from "../page/success";
 import History from "../page/history";
 import PostBuy from "../components/postbuy";
+import Profile from "../components/profile";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/createpostbuy",
         element: <PostBuy />,
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile />,
       },
     ],
   },
