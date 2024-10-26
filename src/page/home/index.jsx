@@ -40,8 +40,11 @@ function Home() {
   const fetchProduct = async () => {
     try {
       const response = await api.get("post");
-      setProducts(response.data);
-      console.log(response.data);
+      const filteredProducts = response.data.filter(
+        (product) => product.status === "APPROVED"
+      );
+      setProducts(filteredProducts);
+      console.log(filteredProducts);
     } catch (e) {
       console.log("Error product: ", e);
     }
