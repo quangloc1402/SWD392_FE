@@ -14,6 +14,7 @@ import SuccessPage from "../page/success";
 import History from "../page/history";
 import PostBuy from "../components/postbuy";
 import Profile from "../components/profile";
+import ProductDetail from "../components/postdetail";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: "/profile/:id",
         element: <Profile />,
+      },
+      {
+        path: "/post/:id",
+        element: <ProductDetail />,
       },
     ],
   },
