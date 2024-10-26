@@ -14,7 +14,7 @@ const Profile = () => {
     const fetchUserProfile = async () => {
       setLoading(true); // Ensure loading is true when starting a fetch
       try {
-        const response = await api.get(`v1/account/${id}`);
+        const response = await api.get(`v1/account/user/${id}`);
         if (response.data) {
           setUserData(response.data);
         } else {
