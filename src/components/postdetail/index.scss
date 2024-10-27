@@ -1,0 +1,129 @@
+.product-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+  
+    &__content {
+      display: flex;
+      gap: 40px;
+      width: 100%;
+      flex-wrap: wrap; // Allow content to wrap on smaller screens
+  
+      @media (max-width: 768px) {
+        gap: 20px; // Reduce gap on smaller screens
+      }
+    }
+  
+    &__image {
+      width: 50%;
+      max-width: 500px;
+      border-radius: 8px;
+  
+      .shopee-swiper {
+        border-radius: 8px;
+  
+        .swiper-img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+      }
+  
+      // Thumbnail gallery styles
+      .thumbnail-gallery {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        justify-content: center; // Center the thumbnails
+  
+        .thumbnail-img {
+          width: 70px;
+          height: 70px;
+          object-fit: cover;
+          border-radius: 4px;
+          cursor: pointer;
+          border: 1px solid #ddd;
+  
+          &:hover {
+            border-color: #ff5722;
+          }
+        }
+      }
+    }
+  
+    &__info {
+      width: 50%;
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+      &__title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+  
+      &__description {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 15px;
+      }
+  
+      &__pricing {
+        font-size: 16px;
+        color: #555;
+  
+        p {
+          margin: 8px 0;
+          display: flex;
+          justify-content: space-between;
+          font-weight: 500;
+          color: #333;
+  
+          span {
+            font-weight: 600;
+            color: #ff5722;
+          }
+        }
+      }
+    }
+  
+    .ant-btn-primary {
+      margin-top: 20px;
+    }
+  
+    // Responsive Styles
+    @media (max-width: 768px) {
+      &__content {
+        flex-direction: column; // Stack images and info on small screens
+        align-items: center; // Center align
+      }
+  
+      &__image, &__info {
+        width: 100%; // Make both sections take full width on small screens
+        max-width: none; // Remove max-width to allow full width
+      }
+  
+      .ant-btn-primary {
+        width: 100%; // Full-width button on small screens
+      }
+    }
+  
+    @media (max-width: 480px) {
+      &__title {
+        font-size: 20px; // Adjust title size for smaller screens
+      }
+  
+      &__description,
+      &__pricing p {
+        font-size: 14px; // Adjust font size for better readability
+      }
+    }
+  }
+  
