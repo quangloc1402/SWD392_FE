@@ -11,7 +11,7 @@ import "./index.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -65,8 +65,8 @@ const ProductDetail = () => {
             slidesPerView={1}
             navigation
             pagination={{ clickable: true }}
-            autoplay={{ delay: 3500 }}
-            modules={[Navigation, Pagination, Autoplay]}
+            
+            modules={[Navigation, Pagination]}
             className="shopee-swiper"
           >
             {images.map((src, index) => (
