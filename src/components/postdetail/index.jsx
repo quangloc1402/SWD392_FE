@@ -1,15 +1,27 @@
 // src/pages/ProductDetail.js
 
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
-import { Card } from "antd";
 import { toast } from "react-toastify";
+import { Button } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import "./index.scss"; 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const swiperRef = useRef(null); // Reference to the Swiper instance
 
   const fetchProductDetail = async () => {
     try {
@@ -27,17 +39,74 @@ const ProductDetail = () => {
     fetchProductDetail();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
+
+  // Example array of images to use in thumbnails
+  const images = [
+    "https://img.pikbest.com/templates/20240725/sale-banner-template-to-decorate-a-shop-selling-children-27s-toys_10680872.jpg!w700wp",
+    "https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg",
+    "https://cafefcdn.com/thumb_w/640//203337114487263232/2024/8/8/avatar1723122947437-1723122947859806833189.jpg",
+  ];
+
+  const handleThumbnailClick = (index) => {
+    // Use the Swiper instance to slide to the clicked thumbnail's index
+    if (swiperRef.current) {
+      swiperRef.current.swiper.slideTo(index);
+    }
+  };
 
   return (
-    <Card title={product.toyName} style={{ width: "80%", margin: "20px auto" }}>
-      <img src={product.imageUrl} alt={product.toyName} />
-      <p>Quantity: {product.quantity}</p>
-      <p>Description: {product.description}</p>
-      <p>Price: đ{product.price}</p>
-      <p>Price by Day: đ{product.priceByDay}</p>
-      <p>Deposit Fee: đ{product.depositFee}</p>
-    </Card>
+    <div className="product-detail">
+      <div className="product-detail__content">
+        <div className="product-detail__image">
+          <Swiper
+            ref={swiperRef} // Set the reference for the Swiper
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3500 }}
+            modules={[Navigation, Pagination, Autoplay]}
+            className="shopee-swiper"
+          >
+            {images.map((src, index) => (
+              <SwiperSlide key={index}>
+                <img className="swiper-img" src={src} alt={`Slide ${index + 1}`} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Thumbnails */}
+          <div className="thumbnail-gallery">
+            {images.map((src, index) => (
+              <img
+                key={index}
+                className="thumbnail-img"
+                src={src}
+                alt={`Thumbnail ${index + 1}`}
+                onClick={() => handleThumbnailClick(index)} // Attach click handler
+              />
+            ))}
+          </div>
+        </div>
+        {/* <img src={product.imageUrl} alt={product.toyName} /> */}
+        <div className="product-detail__info">
+          <h1 className="product-detail__title">{product.toyName}</h1>
+          <p className="product-detail__description">{product.description}</p>
+          <div className="product-detail__pricing">
+            <img src={product.imageUrl} alt={product.toyName} />
+            <p><span>Quantity:</span> {product.quantity}</p>
+            <p><span>Price:</span> đ{product.price}</p>
+            <p><span>Price by Day:</span> đ{product.priceByDay}</p>
+            <p><span>Deposit Fee:</span> đ{product.depositFee}</p>
+          </div>
+        </div>
+      </div>
+
+      <Button type="primary" icon={<ArrowLeftOutlined />} onClick={goBack}>
+        Back
+      </Button>
+    </div>
   );
 };
 
