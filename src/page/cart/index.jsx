@@ -77,16 +77,6 @@ function CartPage() {
 
   const handleBuy = async () => {
     try {
-      const selectedItems = cartData.filter((toy) =>
-        selectedRowKeys.includes(toy.id)
-      );
-      console.log(selectedItems);
-
-      const item = selectedItems.map((toy) => ({
-        postId: toy.id,
-        quantity: toy.quantity,
-      }));
-
       const response = await api.post("orders/create-from-cart");
       console.log(response.data);
       window.open(response.data);

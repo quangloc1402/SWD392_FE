@@ -4,14 +4,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import { Button } from "antd";
+import { Button, InputNumber } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./index.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -22,7 +22,10 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const swiperRef = useRef(null); // Reference to the Swiper instance
-
+  const [quantity, setQuantity] = useState(1);
+  const onChange = (value) => {
+    setQuantity(value);
+  };
   const fetchProductDetail = async () => {
     try {
       const response = await api.get(`post/${id}`);
@@ -38,6 +41,21 @@ const ProductDetail = () => {
   useEffect(() => {
     fetchProductDetail();
   }, [id]);
+  const handleAddToCart = async (postId, quantity) => {
+    try {
+      const response = await api.post(
+        `cart/add?postId=${postId}&quantity=${quantity}&type=BUYTOY`
+      );
+      console.log(response.data);
+      toast.success("Item added to cart successfully");
+
+      // Refresh the page to show the updated cart
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to add item to cart", error);
+      toast.error("Failed to add item to cart");
+    }
+  };
 
   if (loading) return <div className="loading">Loading...</div>;
 
@@ -65,8 +83,8 @@ const ProductDetail = () => {
             slidesPerView={1}
             navigation
             pagination={{ clickable: true }}
-            
-            modules={[Navigation, Pagination]}
+            autoplay={{ delay: 3500 }}
+            modules={[Navigation, Pagination, Autoplay]}
             className="shopee-swiper"
           >
             {images.map((src, index) => (
@@ -111,7 +129,16 @@ const ProductDetail = () => {
             <p>
               <span>Deposit Fee:</span> đ{product.depositFee}
             </p>
+            <InputNumber
+              min={1}
+              max={10}
+              defaultValue={1}
+              onChange={onChange}
+            />
           </div>
+          <button onClick={() => handleAddToCart(product?.id, quantity)}>
+            Add to Cart
+          </button>
         </div>
       </div>
 

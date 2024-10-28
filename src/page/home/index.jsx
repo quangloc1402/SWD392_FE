@@ -53,38 +53,6 @@ function Home() {
   useEffect(() => {
     fetchProduct();
   }, []);
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Name",
-      dataIndex: "toyName",
-      key: "toyName",
-    },
-    {
-      title: "description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "CategoryId",
-      dataIndex: "categoryId",
-      key: "categoryId",
-    },
-  ];
 
   return (
     <div>
