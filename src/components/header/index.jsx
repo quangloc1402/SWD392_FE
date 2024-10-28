@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Button } from "antd";
+import { Layout, Input, Menu, Badge, Popover, Button, Avatar } from "antd";
 import { ShoppingCartOutlined, SearchOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,11 @@ const Headers = () => {
             ) : (
               <Menu.Item key="3">
                 <Popover content={content}>
-                  <Button type="primary">{user?.username}</Button>
+                  <Avatar
+                    style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
+                  >
+                    U
+                  </Avatar>
                 </Popover>
               </Menu.Item>
             )}

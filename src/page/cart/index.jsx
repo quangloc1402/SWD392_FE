@@ -28,7 +28,7 @@ function CartPage() {
       key: "quantity",
     },
     {
-      title: "Price",
+      title: "ToTal Price",
       dataIndex: "price",
       key: "price",
     },
@@ -46,9 +46,9 @@ function CartPage() {
         const cartItems = response.data.cartItems.map((item) => ({
           id: item.id,
           toyName: item.post.toyName,
-          quantity: item.post.quantity,
+          quantity: item.quantity,
           description: item.post.description,
-          price: item.post.price,
+          price: item.price,
           imageUrl: item.post.imageUrl, // Assuming you want to keep track of it
           priceByDay: item.post.priceByDay,
           depositFee: item.post.depositFee,

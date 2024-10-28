@@ -4,10 +4,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import { Button } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import "./index.scss"; 
+import { Button } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "./index.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -71,7 +71,11 @@ const ProductDetail = () => {
           >
             {images.map((src, index) => (
               <SwiperSlide key={index}>
-                <img className="swiper-img" src={src} alt={`Slide ${index + 1}`} />
+                <img
+                  className="swiper-img"
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -95,10 +99,18 @@ const ProductDetail = () => {
           <p className="product-detail__description">{product.description}</p>
           <div className="product-detail__pricing">
             <img src={product.imageUrl} alt={product.toyName} />
-            <p><span>Quantity:</span> {product.quantity}</p>
-            <p><span>Price:</span> đ{product.price}</p>
-            <p><span>Price by Day:</span> đ{product.priceByDay}</p>
-            <p><span>Deposit Fee:</span> đ{product.depositFee}</p>
+            <p>
+              <span>Quantity:</span> {product.quantity}
+            </p>
+            <p>
+              <span>Price:</span> đ{product.price}
+            </p>
+            <p>
+              <span>Price by Day:</span> đ{product.priceByDay}
+            </p>
+            <p>
+              <span>Deposit Fee:</span> đ{product.depositFee}
+            </p>
           </div>
         </div>
       </div>
