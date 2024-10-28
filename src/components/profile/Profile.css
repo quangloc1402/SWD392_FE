@@ -1,0 +1,11 @@
+.profile-item {
+    font-size: 16px; /* Adjust font size as needed */
+    font-weight: normal; /* Use normal weight for regular text */
+    color: #000; /* Ensure text color is black */
+    border: 1px solid #d9d9d9; /* Border color */
+    border-radius: 8px; /* Adjust border radius */
+    padding: 12px; /* Padding inside the item */
+    background-color: #f9f9f9; /* Light background color for contrast */
+    margin-bottom: 10px; /* Space between items */
+  }
+  

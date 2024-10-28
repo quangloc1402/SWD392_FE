@@ -1,160 +1,106 @@
-import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Layout, Table, Spin, message } from "antd";
 import api from "../../../config/axios";
-import axios from "axios";
-import { toast } from "react-toastify";
-import FormItem from "antd/es/form/FormItem";
+import "./ManageUser.css";
 
-function ManageStaff() {
-  const [staffs, setStaffs] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  //Create
-  const handleSubmit = async (values) => {
-    console.log(values);
-    try {
-      setLoading(true);
-      if (values.id) {
-        const response = await api.put(
-          `https://670219f0b52042b542d931dd.mockapi.io/USER/${values.id}`,
-          values
-        );
-      } else {
-      }
-      const response = await api.post(
-        "https://670219f0b52042b542d931dd.mockapi.io/USER",
-        values
-      );
-      toast.success("Successfully saved! ");
-      fetchStaff();
-      form.resetFields;
-      setOpenModal(false);
-    } catch (err) {
-      toast.error(err.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-  //Delete
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(
-        `https://670219f0b52042b542d931dd.mockapi.io/USER/${id}`
-      );
-      toast.success("Delete Sucessfully ! ");
-      fetchData();
-    } catch (err) {
-      toast.error(err.response.data);
-    }
-  };
-  const fetchStaff = async () => {
-    try {
-      const response = await axios.get(
-        "https://670219f0b52042b542d931dd.mockapi.io/USER"
-      );
+const { Content } = Layout;
 
-      console.log(response.data);
-      setStaffs(response.data);
-    } catch (err) {
-      toast.error(err.response.data);
-    }
-  };
+const ManageUser = () => {
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetchStaff();
+    const fetchUserList = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get(`v1/account/user`);
+        if (response.data) {
+          setUserData(response.data);
+        } else {
+          message.warning("No user data found.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch user list", error);
+        message.error("Could not load user data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserList();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="spinner-container">
+        <Spin tip="Loading..." size="large" />
+      </div>
+    );
+  }
+
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: 'Tên Đăng Nhập',
+      dataIndex: 'username',
+      key: 'username',
     },
     {
-      title: "Name",
-      dataIndex: "username",
-      key: "username",
+      title: 'Điện Thoại',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: "Action",
-      dataIndex: "id",
-      key: "id",
-      render: (id, Staff) => (
-        <>
-          <Button
-            type="primary"
-            onClick={() => {
-              setOpenModal(true);
-              form.setFieldsValue(Staff);
-            }}
-          >
-            Update
-          </Button>
-          ,
-          <Popconfirm
-            title="Delete"
-            description="Do you want to Delete this Staff"
-            onConfirm={() => handleDelete(id)}
-          >
-            <Button type="primary" danger>
-              Delete
-            </Button>
-            ,
-          </Popconfirm>
-        </>
-      ),
+      title: 'Địa Chỉ',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (status ? "Kích Hoạt" : "Không Kích Hoạt"),
+    },
+    {
+      title: 'Vai Trò',
+      dataIndex: 'role',
+      key: 'role',
+    },
+    {
+      title: 'Hình Ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      render: (image) => <img src={image} alt="User" style={{ width: 50, height: 50 }} />,
+    },
+    {
+      title: 'Số Bài Đăng',
+      dataIndex: 'postCount',
+      key: 'postCount',
+    },
+    {
+      title: 'Điểm',
+      dataIndex: 'point',
+      key: 'point',
     },
   ];
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    form.resetFields();
-  };
-  return (
-    <div>
-      <h1>User Management</h1>
-      <Button onClick={() => setOpenModal(true)}> Create New User</Button>
-      <Table columns={columns} dataSource={staffs} />
-      <Modal
-        title="Staff"
-        open={openModal}
-        onCancel={handleCloseModal}
-        onOk={() => {
-          form.submit();
-        }}
-      >
-        <Form
-          form={form}
-          labelCol={{
-            span: 24,
-          }}
-          onFinish={handleSubmit}
-        >
-          <Form.Item name="id" hidden>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Staff name"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input Staff's name!",
-              },
-            ]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
-  );
-}
 
-export default ManageStaff;
+  return (
+    <Content className="manage-user-content">
+      <div className="manage-user-container">
+        <h2>Danh Sách Người Dùng</h2>
+        <Table 
+          dataSource={userData} 
+          columns={columns} 
+          rowKey="id" 
+          pagination={false}
+        />
+      </div>
+    </Content>
+  );
+};
+
+export default ManageUser;

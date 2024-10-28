@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Descriptions, Spin, message } from "antd";
+import { Layout, Row, Col, Form, Spin, message } from "antd";
 import api from "../../config/axios";
 import { useParams } from "react-router-dom";
+import "./Profile.css"
 
 const { Content } = Layout;
 
@@ -12,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      setLoading(true); // Ensure loading is true when starting a fetch
+      setLoading(true);
       try {
         const response = await api.get(`v1/account/user/${id}`);
         if (response.data) {
@@ -31,7 +32,13 @@ const Profile = () => {
     fetchUserProfile();
   }, [id]);
 
-  if (loading) return <Spin tip="Loading..." size="large" />;
+  if (loading) {
+    return (
+      <div className="spinner-container">
+        <Spin tip="Loading..." size="large" />
+      </div>
+    );
+  }
 
   if (!userData) {
     return <div>No user data found.</div>;
@@ -40,20 +47,38 @@ const Profile = () => {
   return (
     <Content className="profile-content">
       <div className="profile-container">
-        <Descriptions title="Thông Tin Tài Khoản" bordered>
-          <Descriptions.Item label="Tên Đăng Nhập">
-            {userData.username || "N/A"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Email">
-            {userData.email || "N/A"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Điện Thoại">
-            {userData.phone || "N/A"}
-          </Descriptions.Item>
-          <Descriptions.Item label="Địa Chỉ">
-            {userData.address || "N/A"}
-          </Descriptions.Item>
-        </Descriptions>
+        <Form layout="vertical" style={{ maxWidth: 800, margin: "0 auto" }}>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Tên Đăng Nhập">
+                <div className="profile-item">
+                  {userData.username || "N/A"}
+                </div>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Email">
+                <div className="profile-item">
+                  {userData.email || "N/A"}
+                </div>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Điện Thoại">
+                <div className="profile-item">
+                  {userData.phone || "N/A"}
+                </div>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Địa Chỉ">
+                <div className="profile-item">
+                  {userData.address || "N/A"}
+                </div>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
       </div>
     </Content>
   );
