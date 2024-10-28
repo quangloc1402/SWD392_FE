@@ -15,6 +15,7 @@ import History from "../page/history";
 import PostBuy from "../components/postbuy";
 import Profile from "../components/profile";
 import ProductDetail from "../components/postdetail";
+import PostRent from "../components/postrent";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <ProductDetail />,
+      },
+      {
+        path: "postrent",
+        element: <PostRent />,
       },
     ],
   },
