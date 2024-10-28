@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Button, Avatar } from "antd";
+import { Layout, Input, Menu, Badge, Popover, Avatar } from "antd";
 import { ShoppingCartOutlined, SearchOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
@@ -14,41 +14,50 @@ const Headers = () => {
   const onSearch = (value, _e, info) => {
     console.log(info?.source, value);
   };
-  const [cartCount, setCartCount] = useState(0); // State for cart count
+
+  const [cartCount, setCartCount] = useState(0);
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.reload(); // Reloads after logging out
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.location.reload(); // Reloads after navigating
+  };
+
   const content = (
     <div>
-      <p
-        style={{ marginBottom: "10px" }}
-        onClick={() => navigate(`/profile/${user.id}`)}
-      >
+      <p style={{ marginBottom: "10px" }} onClick={() => handleNavigation(`/profile/${user.id}`)}>
         Tài Khoản Của Tôi
       </p>
-      <p style={{ marginBottom: "10px" }} onClick={() => dispatch(logout())}>
-        Log Out
+      <p style={{ marginBottom: "10px" }} onClick={handleLogout}>
+        Đăng Xuất
       </p>
-      <p style={{ marginBottom: "10px" }} onClick={() => navigate("/history")}>
+      <p style={{ marginBottom: "10px" }} onClick={() => handleNavigation("/history")}>
         Lịch Sử Mua Hàng
       </p>
-      <p onClick={() => navigate("/createpostBuy")}>Tạo Đơn Mua</p>
+      <p onClick={() => handleNavigation("/createpostBuy")}>Tạo Đơn Mua</p>
     </div>
   );
 
   useEffect(() => {
     const fetchCartCount = async () => {
       try {
-        const response = await api.get("cart"); // Adjust the endpoint to your API
-        setCartCount(response.data.cartItems.length); // Assuming cartItems is an array
+        const response = await api.get("cart");
+        setCartCount(response.data.cartItems.length);
       } catch (error) {
         console.error("Failed to fetch cart count", error);
-        setCartCount(0); // Set to 0 on error
+        setCartCount(0);
       }
     };
 
-    fetchCartCount(); // Call the function to fetch the cart count
-  }, []); // Empty dependency array to run once on mount
+    fetchCartCount();
+  }, []);
 
   return (
     <Layout className="layout">
@@ -95,7 +104,7 @@ const Headers = () => {
               </Menu.Item>
             )}
 
-            <Menu.Item key="5" onClick={() => navigate("/cart")}>
+            <Menu.Item key="5" onClick={() => handleNavigation("/cart")}>
               <Badge count={cartCount}>
                 <ShoppingCartOutlined
                   style={{

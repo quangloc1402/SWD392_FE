@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Row, Col, Form, Spin, message } from "antd";
+import { Layout, Col, Form, Spin, message, Avatar } from "antd";
+import { SignatureOutlined } from "@ant-design/icons";
 import api from "../../config/axios";
 import { useParams } from "react-router-dom";
-import "./Profile.css"
+import "./index.scss";
 
 const { Content } = Layout;
 
@@ -46,39 +47,49 @@ const Profile = () => {
 
   return (
     <Content className="profile-content">
-      <div className="profile-container">
-        <Form layout="vertical" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <Row gutter={16}>
-            <Col span={12}>
+      <div className="profile-wrapper">
+        <div className="manage-account">
+          <div className="account-info">
+            <Avatar style={{ backgroundColor: "#fde3cf", color: "#f56a00", marginRight: "10px" }}>
+              U
+            </Avatar>
+            <div className="username">{userData.username || "N/A"}</div>
+          </div>
+          <div className="edit-profile">
+            <SignatureOutlined /> Sửa Hồ Sơ
+          </div>
+          <h3>Tài Khoản Của Tôi</h3>
+          <ul>
+            <li onClick={() => message.info("Hồ Sơ clicked")}>Hồ Sơ</li>
+            <li onClick={() => message.info("Đổi Mật Khẩu clicked")}>Đổi Mật Khẩu</li>
+            <li onClick={() => message.info("Địa Chỉ clicked")}>Địa Chỉ</li>
+          </ul>
+        </div>
+
+        <div className="profile-container">
+          <Form layout="vertical">
+            <Col>
               <Form.Item label="Tên Đăng Nhập">
-                <div className="profile-item">
-                  {userData.username || "N/A"}
-                </div>
+                <div className="profile-item">{userData.username || "N/A"}</div>
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col>
               <Form.Item label="Email">
-                <div className="profile-item">
-                  {userData.email || "N/A"}
-                </div>
+                <div className="profile-item">{userData.email || "N/A"}</div>
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col>
               <Form.Item label="Điện Thoại">
-                <div className="profile-item">
-                  {userData.phone || "N/A"}
-                </div>
+                <div className="profile-item">{userData.phone || "N/A"}</div>
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col>
               <Form.Item label="Địa Chỉ">
-                <div className="profile-item">
-                  {userData.address || "N/A"}
-                </div>
+                <div className="profile-item">{userData.address || "N/A"}</div>
               </Form.Item>
             </Col>
-          </Row>
-        </Form>
+          </Form>
+        </div>
       </div>
     </Content>
   );
