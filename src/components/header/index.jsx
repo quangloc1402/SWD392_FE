@@ -22,7 +22,6 @@ const Headers = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.reload(); // Reloads after logging out
   };
 
   const handleNavigation = (path) => {
@@ -32,13 +31,19 @@ const Headers = () => {
 
   const content = (
     <div>
-      <p style={{ marginBottom: "10px" }} onClick={() => handleNavigation(`/profile/${user.id}`)}>
+      <p
+        style={{ marginBottom: "10px" }}
+        onClick={() => handleNavigation(`/profile/${user.id}`)}
+      >
         Tài Khoản Của Tôi
       </p>
       <p style={{ marginBottom: "10px" }} onClick={handleLogout}>
         Đăng Xuất
       </p>
-      <p style={{ marginBottom: "10px" }} onClick={() => handleNavigation("/history")}>
+      <p
+        style={{ marginBottom: "10px" }}
+        onClick={() => handleNavigation("/history")}
+      >
         Lịch Sử Mua Hàng
       </p>
       <p onClick={() => handleNavigation("/createpostBuy")}>Tạo Đơn Mua</p>

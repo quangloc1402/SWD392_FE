@@ -12,17 +12,17 @@ import {
   Popconfirm,
   Table,
   Card,
+  Pagination,
 } from "antd";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 import { data } from "autoprefixer";
 import { render } from "react-dom";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination as SwipperPag, Navigation } from "swiper/modules";
 import Category from "../../components/category";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -36,23 +36,46 @@ function Home() {
   const [form] = Form.useForm();
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState([]);
-
+  const [pageCurrent, setPagecurrent] = useState(0);
+  let pageSize = 5;
   const fetchProduct = async () => {
     try {
-      const response = await api.get("post");
-      const filteredProducts = response.data.filter(
-        (product) => product.status === "APPROVED"
+      const response = await api.get(
+        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
       );
+      const filteredProducts = response.data.filter(
+        (product) =>
+          product.postType === "SELL" && product.status === "APPROVED"
+      );
+      console.log(filteredProducts);
       setProducts(filteredProducts);
       console.log(filteredProducts);
     } catch (e) {
       console.log("Error product: ", e);
     }
   };
-
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [pageCurrent]);
+
+  const handlePage = async (page) => {
+    console.log(page);
+    setPagecurrent(page - 1);
+    try {
+      const response = await api.get(
+        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
+      );
+      const filteredProducts = response.data.filter(
+        (product) =>
+          product.postType === "SELL" && product.status === "APPROVED"
+      );
+      console.log(filteredProducts);
+      setProducts(filteredProducts);
+      console.log(filteredProducts);
+    } catch (e) {
+      console.log("Error product: ", e);
+    }
+  };
 
   return (
     <div>
@@ -65,7 +88,7 @@ function Home() {
               navigation
               pagination={{ clickable: true }}
               autoplay={{ delay: 3500 }}
-              modules={[Navigation, Pagination, Autoplay]}
+              modules={[Navigation, SwipperPag, Autoplay]}
               className="shopee-swiper"
             >
               <SwiperSlide>
@@ -110,6 +133,15 @@ function Home() {
           <Product product={product} />
         ))}
       </div>
+      <Pagination
+        align="center"
+        defaultCurrent={1}
+        onChange={(page) => {
+          handlePage(page);
+        }}
+        pageSize={pageSize}
+        total={20}
+      />
     </div>
   );
 }
@@ -132,16 +164,19 @@ const Product = ({ product }) => {
   };
   return (
     <div className="product">
-      <img
-        src="https://product.hstatic.net/1000120104/product/tbd05683819_37d2223e434249d6bf5f73cd54722871_master.jpg"
-        alt=""
-      />
+      <img src={product.imageUrl} alt={product.toyName} />
       <h3>{product.toyName}</h3>
       <p>{product.description}</p>
-      <p>{product.quantity}</p>
-      <p>đ{product.price}</p>
+      <p>Quantity: {product.quantity}</p>
+      <p>Price: đ{product.price}</p>
+      <p>Price by Day: đ{product.priceByDay}</p>
+      <p>Deposit Fee: đ{product.depositFee}</p>
+
       <center>
-        <button onClick={() => handleAddToCart(product?.id, 1)}>
+        <button
+          className="buttonAdd"
+          onClick={() => handleAddToCart(product?.id, 1)}
+        >
           {" "}
           Add to Cart
         </button>
