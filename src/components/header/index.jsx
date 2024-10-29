@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Avatar } from "antd";
+import { Layout, Input, Menu, Badge, Popover, Avatar, Button } from "antd";
 import { ShoppingCartOutlined, SearchOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,7 @@ const Headers = () => {
       >
         Lịch Sử Mua Hàng
       </p>
-      <p onClick={() => handleNavigation("/createpostBuy")}>Tạo Đơn Mua</p>
+      <p onClick={() => handleNavigation("/createpostBuy")}>Tạo Đơn Bán</p>
     </div>
   );
 
@@ -66,7 +66,7 @@ const Headers = () => {
 
   return (
     <Layout className="layout">
-      <Header className="shopee-header">
+      <Header className="fedutoy-header">
         <div className="logo">
           <a href="/">
             <img src={LOGO} alt="logo" />
@@ -87,6 +87,16 @@ const Headers = () => {
           className="shopee-menu"
           style={{ flexGrow: 1, justifyContent: "flex-end" }}
         >
+          <Menu.Item key="1">
+            <Button
+              onClick={() => {
+                navigate("/postrent");
+              }}
+            >
+              {" "}
+              Rent
+            </Button>
+          </Menu.Item>
           <div className="menu-items">
             {user == null ? (
               <>
@@ -98,7 +108,7 @@ const Headers = () => {
                 </Menu.Item>
               </>
             ) : (
-              <Menu.Item key="3">
+              <Menu.Item key="4">
                 <Popover content={content}>
                   <Avatar
                     style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}

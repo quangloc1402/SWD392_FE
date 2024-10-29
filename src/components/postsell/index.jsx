@@ -15,7 +15,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../assets/hook/useUpload";
 const { Option } = Select;
 
-function PostBuy() {
+function PostSell() {
   const [form] = Form.useForm();
   const [categories, setCategories] = useState([]); // State to store categories
   const [loading, setLoading] = useState(true); // Loading state
@@ -192,4 +192,4 @@ function PostBuy() {
   );
 }
 
-export default PostBuy;
+export default PostSell;
