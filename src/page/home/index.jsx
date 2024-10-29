@@ -41,11 +41,10 @@ function Home() {
   const fetchProduct = async () => {
     try {
       const response = await api.get(
-        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
+        `post?status=APPROVED&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) =>
-          product.postType === "SELL" && product.status === "APPROVED"
+        (product) => product.status === "APPROVED"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
@@ -128,6 +127,17 @@ function Home() {
         <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
         <Category />
       </Card>
+      <img
+        src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
+        alt=""
+        style={{
+          display: "inline-block",
+          width: "100%",
+          height: "70vh",
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
       <div style={{ margin: "100px auto" }} className="product-list">
         {products.map((product) => (
           <Product product={product} />
