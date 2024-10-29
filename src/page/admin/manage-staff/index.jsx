@@ -33,13 +33,13 @@ const ManageStaff = () => {
   const handleDelete = async (id) => {
     try {
       const response = await api.delete(`v1/account/staff/${id}`, {
-        data: { isDeleted: 1 }, // Sending isDeleted status in the request body
+        data: { isDeleted: 1 },
       });
       if (response.status === 200) {
         message.success("Staff member deleted successfully.");
         setStaffData((prevData) => 
           prevData.map((staff) => 
-            staff.id === id ? { ...staff, status: false } : staff // Update the status locally
+            staff.id === id ? { ...staff, status: false } : staff
           )
         );
       } else {
@@ -58,6 +58,17 @@ const ManageStaff = () => {
       </div>
     );
   }
+
+  // Calculating statistics
+  const totalStaff = staffData.length;
+  const activeStaff = staffData.filter(staff => staff.status).length;
+  const inactiveStaff = totalStaff - activeStaff;
+  const roleCounts = staffData.reduce((acc, staff) => {
+    acc[staff.role] = (acc[staff.role] || 0) + 1;
+    return acc;
+  }, {});
+  const averagePoint = (staffData.reduce((sum, staff) => sum + (staff.point || 0), 0) / totalStaff).toFixed(2);
+  const averagePostCount = (staffData.reduce((sum, staff) => sum + (staff.postCount || 0), 0) / totalStaff).toFixed(2);
 
   const columns = [
     {
@@ -129,14 +140,26 @@ const ManageStaff = () => {
   return (
     <Content className="manage-staff-content">
       <div className="manage-staff-container">
-        <h2>Danh Sách Nhân Viên</h2>
         <Table 
           dataSource={staffData} 
           columns={columns} 
           rowKey="id" 
           pagination={false}
         />
+         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', paddingTop:"20px" }}>
+      <p>Tổng số nhân viên: {totalStaff}</p>
+      <p>Số nhân viên kích hoạt: {activeStaff}</p>
+      <p>Số nhân viên không kích hoạt: {inactiveStaff}</p>
+      <p>Điểm trung bình: {averagePoint}</p>
+      <p>Số bài đăng trung bình: {averagePostCount}</p>
+      <p>Số lượng theo vai trò:</p>
+
+      {Object.entries(roleCounts).map(([role, count]) => (
+        <p key={role}>{role}: {count}</p>
+      ))}
+    </div>
       </div>
+      
     </Content>
   );
 };

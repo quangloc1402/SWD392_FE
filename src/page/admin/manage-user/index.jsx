@@ -38,6 +38,15 @@ const ManageUser = () => {
     );
   }
 
+  // Calculate user statistics
+  const totalUsers = userData.length;
+  const activeUsers = userData.filter(user => user.status).length;
+  const inactiveUsers = totalUsers - activeUsers;
+  const totalPosts = userData.reduce((sum, user) => sum + (user.postCount || 0), 0);
+  const averagePoints = totalUsers > 0 
+    ? (userData.reduce((sum, user) => sum + (user.point || 0), 0) / totalUsers).toFixed(2) 
+    : 0;
+
   const columns = [
     {
       title: 'Tên Đăng Nhập',
@@ -48,6 +57,9 @@ const ManageUser = () => {
       title: 'Điện Thoại',
       dataIndex: 'phone',
       key: 'phone',
+      render: (phone) => (
+        <span title={phone}>{phone.length > 10 ? `${phone.substring(0, 10)}...` : phone}</span>
+      ),
     },
     {
       title: 'Email',
@@ -91,13 +103,19 @@ const ManageUser = () => {
   return (
     <Content className="manage-user-content">
       <div className="manage-user-container">
-        <h2>Danh Sách Người Dùng</h2>
         <Table 
           dataSource={userData} 
           columns={columns} 
           rowKey="id" 
           pagination={false}
         />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', paddingTop:"20px" }}>
+        <p>Tổng số nhân viên: {totalUsers}</p>
+        <p>Số nhân viên hoạt động: {activeUsers}</p>
+        <p>Số nhân viên không hoạt động: {inactiveUsers}</p>
+        <p>Tổng số bài đăng: {totalPosts}</p>
+        <p>Điểm trung bình: {averagePoints}</p>
+    </div>
       </div>
     </Content>
   );

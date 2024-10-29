@@ -1,160 +1,131 @@
-import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Layout, Table, Spin, message, Collapse } from "antd";
 import api from "../../../config/axios";
-import axios from "axios";
-import { toast } from "react-toastify";
-import FormItem from "antd/es/form/FormItem";
+import "./ManageCategory.css";
 
-function ManageCategory() {
-  const [staffs, setStaffs] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  //Create
-  const handleSubmit = async (values) => {
-    console.log(values);
-    try {
-      setLoading(true);
-      if (values.id) {
-        const response = await api.put(
-          `https://670219f0b52042b542d931dd.mockapi.io/USER/${values.id}`,
-          values
-        );
-      } else {
-      }
-      const response = await api.post(
-        "https://670219f0b52042b542d931dd.mockapi.io/USER",
-        values
-      );
-      toast.success("Successfully saved! ");
-      fetchStaff();
-      form.resetFields;
-      setOpenModal(false);
-    } catch (err) {
-      toast.error(err.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-  //Delete
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(
-        `https://670219f0b52042b542d931dd.mockapi.io/USER/${id}`
-      );
-      toast.success("Delete Sucessfully ! ");
-      fetchData();
-    } catch (err) {
-      toast.error(err.response.data);
-    }
-  };
-  const fetchStaff = async () => {
-    try {
-      const response = await axios.get(
-        "https://670219f0b52042b542d931dd.mockapi.io/USER"
-      );
+const { Content } = Layout;
+const { Panel } = Collapse;
 
-      console.log(response.data);
-      setStaffs(response.data);
-    } catch (err) {
-      toast.error(err.response.data);
-    }
-  };
+const ManageCategory = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetchStaff();
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get(`category`); // Adjust the API endpoint as needed
+        if (response.data) {
+          setCategories(response.data);
+        } else {
+          message.warning("No categories found.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+        message.error("Could not load categories.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
-  const columns = [
+
+  if (loading) {
+    return (
+      <div className="spinner-container">
+        <Spin tip="Loading..." size="large" />
+      </div>
+    );
+  }
+
+  const categoryColumns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "Name",
-      dataIndex: "username",
-      key: "username",
+      title: 'Tên Danh Mục',
+      dataIndex: 'categoryName',
+      key: 'categoryName',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Action",
-      dataIndex: "id",
-      key: "id",
-      render: (id, Staff) => (
-        <>
-          <Button
-            type="primary"
-            onClick={() => {
-              setOpenModal(true);
-              form.setFieldsValue(Staff);
-            }}
-          >
-            Update
-          </Button>
-          ,
-          <Popconfirm
-            title="Delete"
-            description="Do you want to Delete this Staff"
-            onConfirm={() => handleDelete(id)}
-          >
-            <Button type="primary" danger>
-              Delete
-            </Button>
-            ,
-          </Popconfirm>
-        </>
-      ),
+      title: 'Mô Tả',
+      dataIndex: 'description',
+      key: 'description',
     },
   ];
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    form.resetFields();
-  };
+
+  const postColumns = [
+    {
+      title: 'Tên Đồ Chơi',
+      dataIndex: 'toyName',
+      key: 'toyName',
+    },
+    {
+      title: 'Số Lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+    },
+    {
+      title: 'Hình Ảnh',
+      dataIndex: 'imageUrl',
+      key: 'imageUrl',
+      render: (imageUrl) => <img src={imageUrl} alt="Post" style={{ width: 50, height: 50 }} />,
+    },
+    {
+      title: 'Giá',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Giá Theo Ngày',
+      dataIndex: 'priceByDay',
+      key: 'priceByDay',
+    },
+    {
+      title: 'Phí Đặt Cọc',
+      dataIndex: 'depositFee',
+      key: 'depositFee',
+    },
+    {
+      title: 'Loại Bài Đăng',
+      dataIndex: 'postType',
+      key: 'postType',
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
+    },
+  ];
+
   return (
-    <div>
-      <h1>User Management</h1>
-      <Button onClick={() => setOpenModal(true)}> Create New Category</Button>
-      <Table columns={columns} dataSource={staffs} />
-      <Modal
-        title="Staff"
-        open={openModal}
-        onCancel={handleCloseModal}
-        onOk={() => {
-          form.submit();
-        }}
-      >
-        <Form
-          form={form}
-          labelCol={{
-            span: 24,
-          }}
-          onFinish={handleSubmit}
-        >
-          <Form.Item name="id" hidden>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Staff name"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input Staff's name!",
-              },
-            ]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+    <Content className="manage-category-content">
+      <div className="manage-category-container">
+        <h2>Quản Lý Danh Mục</h2>
+        <Table 
+          dataSource={categories} 
+          columns={categoryColumns} 
+          rowKey="id" 
+          pagination={false}
+        />
+        <Collapse defaultActiveKey={[]}>
+          {categories.map(category => (
+            <Panel header={category.categoryName} key={category.id}>
+              <Table 
+                dataSource={category.posts} 
+                columns={postColumns} 
+                rowKey="id" 
+                pagination={false}
+              />
+            </Panel>
+          ))}
+        </Collapse>
+      </div>
+    </Content>
   );
-}
+};
 
 export default ManageCategory;
