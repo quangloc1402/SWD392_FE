@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Image, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAll } from "../../redux/features/cartSlice";
 import { toast } from "react-toastify";
@@ -14,8 +14,14 @@ function CartPage() {
     },
     {
       title: "Image",
-      dataIndex: "image",
-      render: (image) => <Image src={image} />,
+      dataIndex: "imageUrl",
+      render: (imageUrl) => (
+        <img
+          src={imageUrl}
+          alt="Toy"
+          style={{ width: "100px", height: "auto" }}
+        />
+      ), // Use <img> instead of Image
     },
     {
       title: "Name",
@@ -33,7 +39,7 @@ function CartPage() {
       key: "quantity",
     },
     {
-      title: "ToTal Price",
+      title: "Total Price",
       dataIndex: "price",
       key: "price",
     },

@@ -8,7 +8,8 @@ function Layout() {
       <div
         className="main-content"
         style={{
-          padding: 150,
+          paddingTop: "150px",
+          width: "100%",
           minHeight: "100vh",
         }}
       >

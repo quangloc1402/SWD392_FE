@@ -2,15 +2,15 @@
 
 .swiper-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: stretch;
+  gap: 10px;
   align-items: flex-start; // Căn chỉnh các phần tử
-  padding: 20px 0;
   width: 100%;
+  padding-top: 50px;
   overflow: hidden; // Ngăn chặn hình ảnh lớn tràn ra ngoài
-  padding-top: 75px;
   .swiper-wrapper {
     width: 70%; // Đặt chiều rộng Swiper
-    height: 350px; // Đặt chiều cao cố định cho Swiper (tùy chỉnh theo nhu cầu)
+    height: 100%; // Đặt chiều cao cố định cho Swiper (tùy chỉnh theo nhu cầu)
     margin-right: 10px; // Thêm một khoảng cách nhỏ giữa Swiper và hình ảnh nhỏ
   }
 
@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 25%; // Hình ảnh nhỏ chiếm 25% chiều rộng của container
+    width: 30%; // Hình ảnh nhỏ chiếm 25% chiều rộng của container
     
     img {
       width: 100%; // Đặt chiều rộng ảnh bằng 100%
