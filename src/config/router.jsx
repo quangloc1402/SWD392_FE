@@ -12,7 +12,7 @@ import CartPage from "../page/cart";
 import Layout from "../components/layout";
 import SuccessPage from "../page/success";
 import History from "../page/history";
-import PostBuy from "../components/postbuy";
+import PostSell from "../components/postsell";
 import Profile from "../components/profile";
 import ProductDetail from "../components/postdetail";
 import PostRent from "../components/postrent";
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/createpostbuy",
-        element: <PostBuy />,
+        element: <PostSell />,
       },
       {
         path: "/profile/:id",
@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
         element: <ProductDetail />,
       },
       {
-        path: "postrent",
+        path: "/postrent",
         element: <PostRent />,
       },
     ],

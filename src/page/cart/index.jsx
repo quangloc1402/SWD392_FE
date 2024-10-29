@@ -13,6 +13,11 @@ function CartPage() {
       key: "id",
     },
     {
+      title: "Image",
+      dataIndex: "image",
+      render: (image) => <Image src={image} />,
+    },
+    {
       title: "Name",
       dataIndex: "toyName",
       key: "toyName",

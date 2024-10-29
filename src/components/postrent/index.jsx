@@ -9,7 +9,7 @@ function PostRent() {
     try {
       const response = await api.get("post");
       const filteredProducts = response.data.filter((product) => {
-        return product.status === "APPROVED" && product.type == "RENTTOY";
+        return product.status === "APPROVED" && product.type == "RENT";
       });
       setProducts(filteredProducts);
       console.log(filteredProducts);
@@ -50,10 +50,7 @@ const Product = ({ product }) => {
   };
   return (
     <div className="product">
-      <img
-        src="https://product.hstatic.net/1000120104/product/tbd05683819_37d2223e434249d6bf5f73cd54722871_master.jpg"
-        alt=""
-      />
+      <img src={product.imageUrl} alt={product.toyName} />
       <h3>{product.toyName}</h3>
       <p>{product.description}</p>
       <p>{product.quantity}</p>
