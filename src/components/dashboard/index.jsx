@@ -41,6 +41,7 @@ const Dashboard = () => {
       >
         <div className="demo-logo-vertical" />
         <Menu
+        style={{paddingTop:"10vh"}}
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
@@ -64,8 +65,7 @@ const Dashboard = () => {
               margin: "16px 0",
             }}
           >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <h1>Dashboard</h1>
           </Breadcrumb>
           <div
             style={{
