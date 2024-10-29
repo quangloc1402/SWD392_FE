@@ -157,9 +157,13 @@ const ProductDetail = () => {
                 onChange={onChange}
               />
             </div>
-            <button onClick={() => handleAddToCart(product?.id, quantity)}>
+            <Button
+              className="btnadd"
+              onClick={() => handleAddToCart(product?.id, quantity)}
+            >
+              {" "}
               Add to Cart
-            </button>
+            </Button>
           </div>
         </div>
 
