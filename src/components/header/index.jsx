@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Avatar, Button } from "antd";
-import { ShoppingCartOutlined, SearchOutlined } from "@ant-design/icons";
+import { Layout, Input, Menu, Badge, Popover, Avatar, Button, Dropdown } from "antd";
+import { ShoppingCartOutlined, SearchOutlined, MenuOutlined, DownOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,28 @@ const { Header } = Layout;
 const { Search } = Input;
 
 const Headers = () => {
+  const [visible, setVisible] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState(null);
+
+  const handleMenuClick = (key) => {
+    if (currentMenu === key) {
+      setVisible(false);
+      setCurrentMenu(null);
+    } else {
+      setCurrentMenu(key);
+      setVisible(true);
+    }
+  };
+
+  const dropdownMenu = (
+    <Menu>
+      <Menu.Item key="1">Option 1</Menu.Item>
+      <Menu.Item key="2">Option 2</Menu.Item>
+      <Menu.Item key="3">Option 3</Menu.Item>
+    </Menu>
+  );
+
+
   const onSearch = (value, _e, info) => {
     console.log(info?.source, value);
   };
@@ -124,15 +146,50 @@ const Headers = () => {
                 <ShoppingCartOutlined
                   style={{
                     fontSize: 25,
-                    color: "#fff",
+                    color: "#000",
                   }}
                 />
               </Badge>
             </Menu.Item>
+
           </div>
         </Menu>
       </Header>
+      <Header className="secondary-header">
+        <Menu mode="horizontal" style={{ justifyContent: "space-between" }}>
+          <div className="menu-left">
+            <Menu.Item key="10" className="categories-menu-item">
+              <MenuOutlined style={{ fontSize: 20, marginRight: 8 }} />
+              Shop by Categories
+            </Menu.Item>
+            <Dropdown overlay={dropdownMenu} trigger={['click']}>
+              <Menu.Item key="6">
+                Home <DownOutlined />
+              </Menu.Item>
+            </Dropdown>
+            <Dropdown overlay={dropdownMenu} trigger={['click']}>
+              <Menu.Item key="7">
+                About Us <DownOutlined />
+              </Menu.Item>
+            </Dropdown>
+            <Dropdown overlay={dropdownMenu} trigger={['click']}>
+              <Menu.Item key="8">
+                Services <DownOutlined />
+              </Menu.Item>
+            </Dropdown>
+            <Dropdown overlay={dropdownMenu} trigger={['click']}>
+              <Menu.Item key="9">
+                Contact <DownOutlined />
+              </Menu.Item>
+            </Dropdown>
+          </div>
+        </Menu>
+      </Header>
+
+
+
     </Layout>
+
   );
 };
 
