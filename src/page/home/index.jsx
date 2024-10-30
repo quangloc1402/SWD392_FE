@@ -44,7 +44,7 @@ function Home() {
         `post?status=APPROVED&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) => product.status === "APPROVED"
+        (product) => product.status === "APPROVED" && product.type === "SELL"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
