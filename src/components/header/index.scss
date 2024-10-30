@@ -1,5 +1,4 @@
 .fedutoy-header {
-  
   position: fixed; // Make the header fixed to the top
   top: 0; // Stick to the top of the viewport
   left: 0;
@@ -12,10 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 100px;
-  padding-bottom: 5px;
-  // Logo Styling
-  background-color: #c320d9;
+
+  padding: 50px 290px;
+
+  background-color: #ffffff; // Background color
+
   .logo {
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
     margin-top: 19px;
 
     img {
-      height: 65px; // Default logo height
+      height: 105px; // Default logo height
     }
   }
 
@@ -32,14 +32,29 @@
     width: 100%; // Make sure it adapts based on the available space
   }
 
-  .shopee-search-bar {
-    width: auto; // Adjust this later based on screen size
-  }
-
   .search {
-    width: 65%; // Default search bar width
-    padding-left: 40px;
-    max-width: 1000px; // Limit the width for larger screens
+    max-width: 550px; // Allow it to expand within its container
+     // 50px top and bottom, 200px left and right padding
+  
+    .ant-input {
+      height: 55px;
+      font-size: 18px;
+      padding: 0 15px;
+      border-radius: 5px 0 0 5px;
+    }
+  
+    .ant-input-search-button {
+      height: 55px;
+      font-size: 18px;
+      padding: 0 20px;
+      border-radius: 0 5px 5px 0;
+      
+      color: white;
+  
+      &:hover {
+        background-color: darken(#1677ff, 10%);
+      }
+    }
   }
 
   // Menu Styling
@@ -66,9 +81,6 @@
   }
 
   // Responsive Adjustments
-
-  // For tablets and smaller desktops
-  
   @media (max-width: 1160px) {
     padding: 0 50px;
 
@@ -84,13 +96,13 @@
 
     .shopee-menu {
       margin-left: 5px;
-      
     }
 
     .ant-btn {
       font-size: 14px; // Reduce button font size for tablets
     }
   }
+  
   @media (max-width: 840px) {
     padding: 0 30px;
 
@@ -113,6 +125,7 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
+  
   @media (max-width: 750px) {
     padding: 0 30px;
 
@@ -135,7 +148,7 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
-  
+
   @media (max-width: 550px) {
     padding: 0 30px;
 
@@ -158,13 +171,94 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
+}
 
- 
-  
+.secondary-header {
+  background-color: #1677ff; // Set the background color for the header
+  color: #ffffff; // Set default text color to black
+  margin-top: 100px; // Space below the fixed header
+  position: relative; // Set position to relative for the header
+
+
+  .ant-menu-horizontal {
+    border-bottom: none; // Remove the bottom border
+    padding: 0; // Remove padding for better alignment
+    background: none; // Remove the white background
+    line-height: 60px; // Ensure menu items are vertically centered within the header height
+
+    .ant-menu-item {
+      background-color: transparent; // No background for each item
+      color: #ffffff; // Text color is black
+      flex: 1; // Make each item flexible to take equal space
+      text-align: center; // Center align text
+      font-weight: 600; // Make text bold
+
+      &:hover {
+        color: black; // Light blue on hover
+        background-color: transparent; // No background on hover
+      }
+
+      &.ant-menu-item-selected {
+        color: #ffffff; // Ensure selected text remains black
+        background-color: transparent; // Keep background transparent
+      }
+    }
+  }
+
+  .menu-left {
+    display: flex; // Use flexbox for horizontal alignment
+    align-items: center; // Center vertically
+    height: 100%; // Ensure the menu items take the full height of the header
+
+    .categories-menu-item {
+      margin-right: 20px; // Add spacing on the right
+      padding: 0 20px; // Add padding for better clickable area
+      color: #ffffff; // Ensure the text is black
+      position: relative; // Set position to relative for the pseudo-element
+
+      // Add padding right for spacing
+      padding-right: 100px; // Add padding to the right of the item
+      &::after {
+        content: ""; // Empty content for the pseudo-element
+        display: block; // Make it a block element
+        width: 1px; // Set the width of the line
+        height: 100%; // Set the height to 100% to fill the header
+        background-color: #ffffff; // Color of the line
+        position: absolute; // Position it absolutely
+        right: -10px; // Position it to the right of the item
+        top: 0; // Start from the top
+      }
+      // Remove the line for the last menu item
+      &:last-child {
+        &::after {
+          display: none; // Hide the line for the last item
+        }
+      }
+
+      &:hover {
+        color: black; // Light blue on hover for categories
+        background-color: transparent; // No background on hover
+      }
+    }
+  }
+  svg { // Style for the DownOutlined icon
+    margin-left: 8px; // Spacing on the left of the icon
+    margin-right: 8px; // Spacing on the right of the icon
+    font-size: 16px; // Adjust the size of the icon if needed
+  }
 }
-.main-content{
-  margin-top: -60px;
+
+
+
+
+
+
+
+
+.main-content {
+  margin-top: 70px; // Adjust margin to accommodate the fixed header height
 }
+
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -185,7 +279,7 @@
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
-  
+
   img {
     width: 100%;
     max-height: 100%;
@@ -226,10 +320,8 @@
 
     &:hover {
       background-color: #e64a19;
-    }   
+    }
   }
-  
 }
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light .ant-menu-item-selected{
-  background-color: transparent ;
-}
+
+
