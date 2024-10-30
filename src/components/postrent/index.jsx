@@ -14,7 +14,7 @@ function PostRent() {
         `post?status=APPROVED&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) => product.status === "APPROVED"
+        (product) => product.status === "APPROVED" && product.type === "RENT"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
