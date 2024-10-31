@@ -123,10 +123,24 @@ const Headers = () => {
             {user == null ? (
               <>
                 <Menu.Item key="1">
-                  <a href="/login">Log In</a>
+                  <Button
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    {" "}
+                    Login
+                  </Button>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <a href="/register">Sign Up</a>
+                <Menu.Item key="1">
+                  <Button
+                    onClick={() => {
+                      navigate("/register");
+                    }}
+                  >
+                    {" "}
+                    Sign Up
+                  </Button>
                 </Menu.Item>
               </>
             ) : (
@@ -135,7 +149,7 @@ const Headers = () => {
                   <Avatar
                     style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
                   >
-                    U
+                    Profile
                   </Avatar>
                 </Popover>
               </Menu.Item>

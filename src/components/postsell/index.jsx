@@ -10,18 +10,20 @@ import {
   Upload,
   Image,
 } from "antd";
-import api from "../../config/axios"; // Ensure this is set up correctly
+import api from "../../config/axios";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../assets/hook/useUpload";
+
 const { Option } = Select;
 
 function PostSell() {
   const [form] = Form.useForm();
-  const [categories, setCategories] = useState([]); // State to store categories
-  const [loading, setLoading] = useState(true); // Loading state
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -29,25 +31,16 @@ function PostSell() {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
   const uploadButton = (
-    <button
-      style={{
-        border: 0,
-        background: "none",
-      }}
-      type="button"
-    >
+    <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
+      <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -55,15 +48,16 @@ function PostSell() {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get("category"); // Replace with your actual endpoint
-        setCategories(response.data); // Assuming the response data is an array of categories
+        const response = await api.get("category");
+        setCategories(response.data);
       } catch (error) {
         message.error("Failed to fetch categories: " + error.message);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
@@ -72,19 +66,15 @@ function PostSell() {
 
   const handleSubmit = async (values) => {
     try {
-      console.log(values);
-      // Ensure categoryId is an array
       values.imageUrl = await uploadFile(values.imageUrl.file.originFileObj);
       values.categoryId = [Number(values.categoryId)];
       const response = await api.post("post/buy", values);
       message.success("Post successful!");
-      console.log("Success:", response.data); // Log the response data
-      form.resetFields(); // Reset form fields
+      form.resetFields();
     } catch (error) {
       message.error(
         "Error occurred: " + (error.response?.data?.message || error.message)
       );
-      console.error("Error:", error);
     }
   };
 
@@ -92,13 +82,16 @@ function PostSell() {
     <div>
       <h2>Tạo Đơn Bán Hàng</h2>
       {loading ? (
-        <Spin tip="Loading categories..." /> // Show loading spinner while fetching categories
+        <Spin tip="Loading categories..." />
       ) : (
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             name="toyName"
             label="Tên Sản Phẩm"
-            rules={[{ required: true, message: "Please input the toy name!" }]}
+            rules={[
+              { required: true, message: "Please input the toy name!" },
+              { min: 3, message: "Toy name must be at least 3 characters" },
+            ]}
           >
             <Input placeholder="Enter toy name" />
           </Form.Item>
@@ -106,7 +99,10 @@ function PostSell() {
           <Form.Item
             name="quantity"
             label="Số Lượng"
-            rules={[{ required: true, message: "Please input the quantity!" }]}
+            rules={[
+              { required: true, message: "Please input the quantity!" },
+              { type: "number", min: 1, message: "Quantity must be at least 1" },
+            ]}
           >
             <InputNumber min={1} placeholder="Enter quantity" />
           </Form.Item>
@@ -115,7 +111,13 @@ function PostSell() {
             name="imageUrl"
             label="Hình ảnh đồ chơi"
             rules={[
-              { required: false, message: "Please input the image URL!" },
+              { required: true, message: "Please upload at least one image!" },
+              {
+                validator: (_, value) =>
+                  value?.fileList?.length
+                    ? Promise.resolve()
+                    : Promise.reject("Please upload an image."),
+              },
             ]}
           >
             <Upload
@@ -134,6 +136,7 @@ function PostSell() {
             label="Mô Tả"
             rules={[
               { required: true, message: "Please input the description!" },
+              { min: 10, message: "Description must be at least 10 characters" },
             ]}
           >
             <Input.TextArea
@@ -145,26 +148,29 @@ function PostSell() {
           <Form.Item
             name="price"
             label="Giá"
-            rules={[{ required: true, message: "Please input the price!" }]}
+            rules={[
+              { required: true, message: "Please input the price!" },
+              { type: "number", min: 0.01, message: "Price must be positive" },
+            ]}
           >
-            <InputNumber min={0} step={0.01} placeholder="Enter price" />
+            <InputNumber min={0.01} step={0.01} placeholder="Enter price" />
           </Form.Item>
 
           <Form.Item
             name="categoryId"
             label="Chọn Danh Mục"
             rules={[
-              { required: true, message: "Please select a category ID!" },
+              { required: true, message: "Please select a category!" },
             ]}
           >
             <Select
               placeholder="Select category"
               options={
                 categories?.map((item) => ({
-                  label: item.categoryName, // Sử dụng `label` để hiển thị
-                  value: item.id, // Sử dụng `value` cho giá trị
+                  label: item.categoryName,
+                  value: item.id,
                 })) || []
-              } // Nếu categories không có dữ liệu, trả về mảng rỗng
+              }
             />
           </Form.Item>
 
