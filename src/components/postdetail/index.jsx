@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Row, Col } from 'antd';
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -135,33 +136,59 @@ const ProductDetail = () => {
           <div className="product-detail__info">
             <h1 className="product-detail__title">{product?.toyName}</h1>
             <p className="product-detail__description">
-              {product?.description}
-            </p>
-            <div className="product-detail__pricing">
-              <p>
-                <span>Quantity:</span> {product?.quantity}
-              </p>
-              <p>
-                <span>Price:</span> đ{product?.price}
-              </p>
-              <p>
-                <span>Price by Day:</span> đ{product?.priceByDay}
-              </p>
-              <p>
-                <span>Deposit Fee:</span> đ{product?.depositFee}
-              </p>
-              <InputNumber
-                min={1}
-                max={10}
-                defaultValue={1}
-                onChange={onChange}
-              />
-            </div>
+                  {product?.description}
+                </p>
+            <Row gutter={16}> {/* You can adjust the gutter value as needed */}
+              <Col span={12}>
+                <div className="quantity">
+                  <p>
+                    <span>Quantity:</span> {product?.quantity}
+                  </p>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="price">
+                <p>
+                    <span>Price:</span> đ{product?.price}
+                  </p>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="pricebyday">
+                <p>
+                    <span>Price by Day:</span> đ{product?.priceByDay}
+                  </p>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="fee">
+                  <p>
+                    <span>Deposit Fee:</span> đ{product?.depositFee}
+                  </p>
+                  
+                </div>
+              </Col>
+
+              <Col span={12}>
+                <div className="amount">
+                  Amount:  
+                  <InputNumber
+                  style={{marginLeft:"10px"}}
+                    min={1}
+                    max={10}
+                    defaultValue={1}
+                    onChange={onChange}
+                  />
+                </div>
+              </Col>
+              
+              
+            </Row>
             <Button
+            type="primary"
               className="btnadd"
               onClick={() => handleAddToCart(product?.id, quantity)}
             >
-              {" "}
               Add to Cart
             </Button>
           </div>

@@ -1,22 +1,22 @@
 import React from "react";
 import "./index.scss";
-import { Button, Checkbox, Flex, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, ggProvider } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/counterSlice";
+
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleLogin = async (values) => {
     try {
       const response = await api.post("login", values);
-      toast.success("Succes");
-      console.log(response.data);
+      toast.success("Success");
       dispatch(login(response.data));
       const { role, token } = response.data;
       localStorage.setItem("token", token);
@@ -28,38 +28,27 @@ function Login() {
         navigate("/");
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.response.data);
+      toast.error(err.response?.data || "Login failed");
     }
   };
-  const handleLoginGoole = () => {
+
+  const handleLoginGoogle = () => {
     signInWithPopup(auth, ggProvider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        // The signed-in user info.
         const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        toast.error(errorMessage);
       });
   };
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <div className="login">
       <div className="login__form">
@@ -67,13 +56,13 @@ function Login() {
         <div className="login__form__wrap">
           <div
             className="login__form__wrap--buttonGG"
-            onClick={handleLoginGoole}
+            onClick={handleLoginGoogle}
           >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png"
-              alt=""
+              alt="Google logo"
             />
-            <span>Login with google</span>
+            <span>Login with Google</span>
           </div>
           <div className="login__form__wrap--Form">
             <Form
@@ -89,19 +78,23 @@ function Login() {
                 labelCol={{
                   span: 24,
                 }}
-                label="UserName"
+                label="Username"
                 name="username"
                 rules={[
                   {
                     required: true,
                     message: "Please input your username!",
                   },
+                  {
+                    pattern: /^[a-zA-Z0-9]+$/,
+                    message: "Username must be alphanumeric!",
+                  },
                 ]}
               >
                 <Input />
               </Form.Item>
               <div className="login__form__wrap--Form--Pass">
-                <a href="">Forgot password</a>
+                <a href="">Forgot password?</a>
                 <Form.Item
                   labelCol={{
                     span: 24,
@@ -112,6 +105,10 @@ function Login() {
                     {
                       required: true,
                       message: "Please input your password!",
+                    },
+                    {
+                      min: 6,
+                      message: "Password must be at least 6 characters!",
                     },
                   ]}
                 >

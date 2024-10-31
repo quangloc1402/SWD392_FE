@@ -75,7 +75,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
 
     &__title {
       font-size: 24px;
@@ -197,5 +197,90 @@
       font-size: 14px; // Adjust font size for better readability
     }
   }
+ 
+}
+
+.product-detail__info {
+  background-color: #e7dfed;
+  border-radius: 20px;
+}
+
+.product-detail__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-detail__description {
+  font-size: 18px;
+  color: white;
+  margin: 20px;
+  border-radius: 20px;
+  background-color: #45a049;
+  padding: 20px;
+}
+
+
+
+.btnadd {
+  margin-top: 10px;
+
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+
+.quantity{
+  font-size: 18px;
+  color: white;
+  margin-left: 20px;
+  border-radius: 20px;
+  background-color: #c8b1e6;
+  padding: 20px;
+}
+
+.price{
+  font-size: 18px;
+  color: white;
+  margin-right: 20px;
+  border-radius: 20px;
+  background-color: #bdcc87;
+  padding: 20px;
+}
+
+.pricebyday{
+  font-size: 18px;
+  color: white;
+  margin-left: 20px;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: #f7a474;
+  padding: 20px;
   
+}
+
+
+.fee{
+  font-size: 18px;
+  color: white;
+  margin-right: 20px;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: #b6ccdb;
+  padding: 20px;
+}
+
+.amount{
+  font-size: 18px;
+  color: white;
+  margin-left: 20px;
+  border-radius: 20px;
+  background-color: #45a049;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
