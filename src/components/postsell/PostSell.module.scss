@@ -1,0 +1,23 @@
+// PostSell.module.scss
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    margin: 4rem;
+  }
+  
+  .formContent {
+    max-width: 800px; 
+    width: 100%;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .row {
+    display: flex;
+    gap: 16px;
+  }
+
