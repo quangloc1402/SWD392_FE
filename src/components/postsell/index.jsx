@@ -13,6 +13,8 @@ import {
 import api from "../../config/axios";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../assets/hook/useUpload";
+import { Row, Col } from 'antd';
+import styles from "./PostSell.module.scss"; // Import the SCSS module
 
 const { Option } = Select;
 
@@ -79,121 +81,138 @@ function PostSell() {
   };
 
   return (
-    <div>
-      <h2>Tạo Đơn Bán Hàng</h2>
-      {loading ? (
-        <Spin tip="Loading categories..." />
-      ) : (
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item
-            name="toyName"
-            label="Tên Sản Phẩm"
-            rules={[
-              { required: true, message: "Please input the toy name!" },
-              { min: 3, message: "Toy name must be at least 3 characters" },
-            ]}
-          >
-            <Input placeholder="Enter toy name" />
-          </Form.Item>
+    <div className={styles.formContainer}>
+      <div className={styles.formContent}>
+        <h2>Tạo Đơn Bán Hàng</h2>
+        {loading ? (
+          <Spin tip="Loading categories..." />
+        ) : (
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <Row gutter={16} className={styles.row}>
+              <Col span={10}>
+                <Form.Item
+                  name="toyName"
+                  label="Tên Sản Phẩm"
+                  rules={[
+                    { required: true, message: "Please input the toy name!" },
+                    { min: 3, message: "Toy name must be at least 3 characters" },
+                  ]}
+                >
+                  <Input placeholder="Enter toy name" />
+                </Form.Item>
+              </Col>
 
-          <Form.Item
-            name="quantity"
-            label="Số Lượng"
-            rules={[
-              { required: true, message: "Please input the quantity!" },
-              { type: "number", min: 1, message: "Quantity must be at least 1" },
-            ]}
-          >
-            <InputNumber min={1} placeholder="Enter quantity" />
-          </Form.Item>
+              <Col span={12}>
+                <Form.Item
+                  name="categoryId"
+                  label="Chọn Danh Mục"
+                  rules={[
+                    { required: true, message: "Please select a category!" },
+                  ]}
+                >
+                  <Select
+                    placeholder="Select category"
+                    options={
+                      categories?.map((item) => ({
+                        label: item.categoryName,
+                        value: item.id,
+                      })) || []
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item
+                  name="quantity"
+                  label="Số Lượng"
+                  rules={[
+                    { required: true, message: "Please input the quantity!" },
+                    { type: "number", min: 1, message: "Quantity must be at least 1" },
+                  ]}
+                >
+                  <InputNumber min={1} placeholder="Enter quantity" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="price"
+                  label="Giá"
+                  rules={[
+                    { required: true, message: "Please input the price!" },
+                    { type: "number", min: 0.01, message: "Price must be positive" },
+                  ]}
+                >
+                  <InputNumber min={0.01} step={0.01} placeholder="Enter price" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="description"
+                  label="Mô Tả"
+                  rules={[
+                    { required: true, message: "Please input the description!" },
+                    { min: 10, message: "Description must be at least 10 characters" },
+                  ]}
+                >
+                  <Input.TextArea
+                    placeholder="Enter description"
+                    autoSize={{ minRows: 3, maxRows: 5 }}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <Form.Item
-            name="imageUrl"
-            label="Hình ảnh đồ chơi"
-            rules={[
-              { required: true, message: "Please upload at least one image!" },
-              {
-                validator: (_, value) =>
-                  value?.fileList?.length
-                    ? Promise.resolve()
-                    : Promise.reject("Please upload an image."),
-              },
-            ]}
-          >
-            <Upload
-              action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-          </Form.Item>
+            <Row gutter={16} className={styles.row}>
+              <Col span={12}>
+                <Form.Item
+                  name="imageUrl"
+                  label="Hình ảnh đồ chơi"
+                  rules={[
+                    { required: true, message: "Please upload at least one image!" },
+                    {
+                      validator: (_, value) =>
+                        value?.fileList?.length
+                          ? Promise.resolve()
+                          : Promise.reject("Please upload an image."),
+                    },
+                  ]}
+                >
+                  <Upload
+                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                  >
+                    {fileList.length >= 8 ? null : uploadButton}
+                  </Upload>
+                </Form.Item>
+              </Col>
 
-          <Form.Item
-            name="description"
-            label="Mô Tả"
-            rules={[
-              { required: true, message: "Please input the description!" },
-              { min: 10, message: "Description must be at least 10 characters" },
-            ]}
-          >
-            <Input.TextArea
-              placeholder="Enter description"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-            />
-          </Form.Item>
+            </Row>
 
-          <Form.Item
-            name="price"
-            label="Giá"
-            rules={[
-              { required: true, message: "Please input the price!" },
-              { type: "number", min: 0.01, message: "Price must be positive" },
-            ]}
-          >
-            <InputNumber min={0.01} step={0.01} placeholder="Enter price" />
-          </Form.Item>
 
-          <Form.Item
-            name="categoryId"
-            label="Chọn Danh Mục"
-            rules={[
-              { required: true, message: "Please select a category!" },
-            ]}
-          >
-            <Select
-              placeholder="Select category"
-              options={
-                categories?.map((item) => ({
-                  label: item.categoryName,
-                  value: item.id,
-                })) || []
-              }
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      )}
-      {previewImage && (
-        <Image
-          wrapperStyle={{
-            display: "none",
-          }}
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible) => setPreviewOpen(visible),
-            afterOpenChange: (visible) => !visible && setPreviewImage(""),
-          }}
-          src={previewImage}
-        />
-      )}
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
+        {previewImage && (
+          <Image
+            wrapperStyle={{
+              display: "none",
+            }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+            }}
+            src={previewImage}
+          />
+        )}
+      </div>
     </div>
   );
 }
