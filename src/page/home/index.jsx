@@ -9,6 +9,7 @@ import {
   Image,
   Input,
   Modal,
+  Menu,
   Popconfirm,
   Table,
   Card,
@@ -17,7 +18,6 @@ import {
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-import { data } from "autoprefixer";
 import { render } from "react-dom";
 import { Autoplay, Pagination as SwipperPag, Navigation } from "swiper/modules";
 import Category from "../../components/category";
@@ -41,10 +41,11 @@ function Home() {
   const fetchProduct = async () => {
     try {
       const response = await api.get(
-        `post?status=APPROVED&page=${pageCurrent}&size=${pageSize}`
+        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) => product.status === "APPROVED" && product.type === "SELL"
+        (product) =>
+          product.status === "APPROVED" && product.postType === "SELL"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
@@ -123,7 +124,6 @@ function Home() {
         <></> // You can render something else for non-logged-in users or leave it empty
       )}
 
-      
       <img
         src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
         alt=""

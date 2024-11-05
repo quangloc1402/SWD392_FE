@@ -40,82 +40,101 @@ const ManageUser = () => {
 
   // Calculate user statistics
   const totalUsers = userData.length;
-  const activeUsers = userData.filter(user => user.status).length;
+  const activeUsers = userData.filter((user) => user.status).length;
   const inactiveUsers = totalUsers - activeUsers;
-  const totalPosts = userData.reduce((sum, user) => sum + (user.postCount || 0), 0);
-  const averagePoints = totalUsers > 0 
-    ? (userData.reduce((sum, user) => sum + (user.point || 0), 0) / totalUsers).toFixed(2) 
-    : 0;
+  const totalPosts = userData.reduce(
+    (sum, user) => sum + (user.postCount || 0),
+    0
+  );
+  const averagePoints =
+    totalUsers > 0
+      ? (
+          userData.reduce((sum, user) => sum + (user.point || 0), 0) /
+          totalUsers
+        ).toFixed(2)
+      : 0;
 
   const columns = [
     {
-      title: 'Tên Đăng Nhập',
-      dataIndex: 'username',
-      key: 'username',
+      title: "Tên Đăng Nhập",
+      dataIndex: "username",
+      key: "username",
     },
     {
-      title: 'Điện Thoại',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: "Điện Thoại",
+      dataIndex: "phone",
+      key: "phone",
       render: (phone) => (
-        <span title={phone}>{phone.length > 10 ? `${phone.substring(0, 10)}...` : phone}</span>
+        <span title={phone}>
+          {phone.length > 10 ? `${phone.substring(0, 10)}...` : phone}
+        </span>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Địa Chỉ',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Địa Chỉ",
+      dataIndex: "address",
+      key: "address",
     },
     {
-      title: 'Trạng Thái',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Trạng Thái",
+      dataIndex: "status",
+      key: "status",
       render: (status) => (status ? "Kích Hoạt" : "Không Kích Hoạt"),
     },
     {
-      title: 'Vai Trò',
-      dataIndex: 'role',
-      key: 'role',
+      title: "Vai Trò",
+      dataIndex: "role",
+      key: "role",
     },
     {
-      title: 'Hình Ảnh',
-      dataIndex: 'image',
-      key: 'image',
-      render: (image) => <img src={image} alt="User" style={{ width: 50, height: 50 }} />,
+      title: "Hình Ảnh",
+      dataIndex: "image",
+      key: "image",
+      render: (image) => (
+        <img src={image} alt="User" style={{ width: 50, height: 50 }} />
+      ),
     },
     {
-      title: 'Số Bài Đăng',
-      dataIndex: 'postCount',
-      key: 'postCount',
+      title: "Số Bài Đăng",
+      dataIndex: "postCount",
+      key: "postCount",
     },
     {
-      title: 'Điểm',
-      dataIndex: 'point',
-      key: 'point',
+      title: "Điểm",
+      dataIndex: "point",
+      key: "point",
     },
   ];
 
   return (
     <Content className="manage-user-content">
       <div className="manage-user-container">
-        <Table 
-          dataSource={userData} 
-          columns={columns} 
-          rowKey="id" 
+        <Table
+          dataSource={userData}
+          columns={columns}
+          rowKey="id"
           pagination={false}
         />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', paddingTop:"20px" }}>
-        <p>Tổng số nhân viên: {totalUsers}</p>
-        <p>Số nhân viên hoạt động: {activeUsers}</p>
-        <p>Số nhân viên không hoạt động: {inactiveUsers}</p>
-        <p>Tổng số bài đăng: {totalPosts}</p>
-        <p>Điểm trung bình: {averagePoints}</p>
-    </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "16px",
+            marginBottom: "24px",
+            paddingTop: "20px",
+          }}
+        >
+          <p>Tổng số nhân viên: {totalUsers}</p>
+          <p>Số nhân viên hoạt động: {activeUsers}</p>
+          <p>Số nhân viên không hoạt động: {inactiveUsers}</p>
+          <p>Tổng số bài đăng: {totalPosts}</p>
+          <p>Điểm trung bình: {averagePoints}</p>
+        </div>
       </div>
     </Content>
   );

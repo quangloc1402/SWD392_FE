@@ -99,11 +99,11 @@ function CartPage() {
   };
   const handleClearAll = async () => {
     try {
-      const response = await api.post("cart/clear"); // Adjust endpoint accordingly
+      const response = await api.post("cart/clear");
       console.log(response.data);
       toast.success("Cart cleared successfully!");
-      setCartData([]); // Clear the local cart data state
-      dispatch(clearAll()); // Dispatch Redux action to clear the cart here if necessary
+      setCartData([]);
+      dispatch(clearAll());
     } catch (error) {
       console.error("Failed to clear cart", error);
       toast.error("Failed to clear cart");
