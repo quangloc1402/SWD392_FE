@@ -1,167 +1,206 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Table, Spin, message, Popconfirm, Button } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
+import { useEffect, useState } from "react";
 import api from "../../../config/axios";
-import "./ManageStaff.css";
+import { toast } from "react-toastify";
 
-const { Content } = Layout;
+function ManageStaff() {
+  const [staffs, setStaffs] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
-const ManageStaff = () => {
-  const [staffData, setStaffData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStaffList = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(`v1/account/staff`);
-        if (response.data) {
-          setStaffData(response.data);
-        } else {
-          message.warning("No staff data found.");
-        }
-      } catch (error) {
-        console.error("Failed to fetch staff list", error);
-        message.error("Could not load staff data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStaffList();
-  }, []);
-
-  const handleDelete = async (id) => {
+  // Fetch Staff List
+  const fetchStaff = async () => {
     try {
-      const response = await api.delete(`v1/account/staff/${id}`, {
-        data: { isDeleted: 1 },
-      });
-      if (response.status === 200) {
-        message.success("Staff member deleted successfully.");
-        setStaffData((prevData) => 
-          prevData.map((staff) => 
-            staff.id === id ? { ...staff, status: false } : staff
-          )
-        );
-      } else {
-        message.error("Failed to delete staff member.");
-      }
-    } catch (error) {
-      console.error("Error deleting staff member", error);
-      message.error("Could not delete staff member.");
+      const response = await api.get("/v1/account/staff");
+      setStaffs(response.data); // Update state with the latest data
+    } catch (err) {
+      toast.error(err.response?.data?.message || "An error occurred");
     }
   };
 
-  if (loading) {
-    return (
-      <div className="spinner-container">
-        <Spin tip="Loading..." size="large" />
-      </div>
-    );
-  }
+  // Create or Update Staff
+  const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      if (!values.id) {
+        values.isActive = true; // Set new staff status as active by default
+      }
 
-  // Calculating statistics
-  const totalStaff = staffData.length;
-  const activeStaff = staffData.filter(staff => staff.status).length;
-  const inactiveStaff = totalStaff - activeStaff;
-  const roleCounts = staffData.reduce((acc, staff) => {
-    acc[staff.role] = (acc[staff.role] || 0) + 1;
-    return acc;
-  }, {});
-  const averagePoint = (staffData.reduce((sum, staff) => sum + (staff.point || 0), 0) / totalStaff).toFixed(2);
-  const averagePostCount = (staffData.reduce((sum, staff) => sum + (staff.postCount || 0), 0) / totalStaff).toFixed(2);
+      if (values.id) {
+        // Update staff
+        await api.put(`v1/account/${values.id}`, values);
+        toast.success("Staff updated successfully!");
+      } else {
+        // Create new staff
+        await api.post("/staff", values);
+        toast.success("Staff created successfully!");
+      }
 
+      fetchStaff(); // Refresh staff list
+      form.resetFields();
+      setOpenModal(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete Staff
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`v1/account/${id}`);
+      toast.success("Staff deleted successfully!");
+      fetchStaff(); // Refresh staff list
+    } catch (err) {
+      toast.error(err.response?.data?.message || "An error occurred");
+    }
+  };
+
+  // Restore Staff
+  const handleRestore = async (id) => {
+    try {
+      await api.put(`v1/account/${id}/restore`);
+      toast.success("Staff restored successfully!");
+      fetchStaff(); // Refresh staff list
+    } catch (err) {
+      toast.error(err.response?.data?.message || "An error occurred");
+    }
+  };
+
+  // Fetch staff on component mount
+  useEffect(() => {
+    fetchStaff();
+  }, []);
+
+  // Table Columns
   const columns = [
     {
-      title: 'Tên Đăng Nhập',
-      dataIndex: 'username',
-      key: 'username',
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Điện Thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-      render: (phone) => phone.split('|').map((num, index) => (
-        <div key={index}>{num}</div>
-      )),
+      title: "Name",
+      dataIndex: "username",
+      key: "username",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Địa Chỉ',
-      dataIndex: 'address',
-      key: 'address',
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
-      title: 'Trạng Thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (status ? "Kích Hoạt" : "Không Kích Hoạt"),
-    },
-    {
-      title: 'Vai Trò',
-      dataIndex: 'role',
-      key: 'role',
-    },
-    {
-      title: 'Hình Ảnh',
-      dataIndex: 'image',
-      key: 'image',
-      render: (image) => <img src={image} alt="Staff" style={{ width: 50, height: 50 }} />,
-    },
-    {
-      title: 'Số Bài Đăng',
-      dataIndex: 'postCount',
-      key: 'postCount',
-    },
-    {
-      title: 'Điểm',
-      dataIndex: 'point',
-      key: 'point',
-    },
-    {
-      title: 'Hành Động',
-      key: 'action',
-      render: (text, record) => (
-        <Popconfirm
-          title="Bạn có chắc chắn muốn xóa nhân viên này không?"
-          onConfirm={() => handleDelete(record.id)}
-          okText="Có"
-          cancelText="Không"
-        >
-          <Button type="primary" danger>Xóa</Button>
-        </Popconfirm>
+      title: "Action",
+      dataIndex: "id",
+      key: "action",
+      render: (id, staff) => (
+        <>
+          <Button
+            type="primary"
+            onClick={() => {
+              setOpenModal(true);
+              form.setFieldsValue(staff);
+            }}
+          >
+            Update
+          </Button>
+          <Popconfirm
+            title="Delete"
+            description="Do you want to delete this staff?"
+            onConfirm={() => handleDelete(id)}
+          >
+            <Button type="primary" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+          {!staff.is_active && ( // Show Restore button only if the user is deleted
+            <Button
+              type="default"
+              onClick={() => handleRestore(id)}
+              style={{ marginLeft: 8 }}
+            >
+              Restore
+            </Button>
+          )}
+        </>
       ),
     },
   ];
 
-  return (
-    <Content className="manage-staff-content">
-      <div className="manage-staff-container">
-        <Table 
-          dataSource={staffData} 
-          columns={columns} 
-          rowKey="id" 
-          pagination={false}
-        />
-         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', paddingTop:"20px" }}>
-      <p>Tổng số nhân viên: {totalStaff}</p>
-      <p>Số nhân viên kích hoạt: {activeStaff}</p>
-      <p>Số nhân viên không kích hoạt: {inactiveStaff}</p>
-      <p>Điểm trung bình: {averagePoint}</p>
-      <p>Số bài đăng trung bình: {averagePostCount}</p>
-      <p>Số lượng theo vai trò:</p>
+  // Open Modal
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    form.resetFields(); // Reset form fields when opening modal
+  };
 
-      {Object.entries(roleCounts).map(([role, count]) => (
-        <p key={role}>{role}: {count}</p>
-      ))}
+  // Close Modal
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    form.resetFields();
+  };
+
+  return (
+    <div>
+      <h1>Staff Management</h1>
+      <Button onClick={handleOpenModal}>Create New Staff</Button>
+      <Table columns={columns} dataSource={staffs} rowKey="id" />
+      <Modal
+        title="Staff"
+        open={openModal}
+        onCancel={handleCloseModal}
+        onOk={() => form.submit()}
+        confirmLoading={loading} // Show loading state on confirm button
+      >
+        <Form
+          form={form}
+          labelCol={{ span: 24 }}
+          onFinish={handleSubmit}
+        >
+          <Form.Item name="id" hidden>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Staff Name"
+            name="username"
+            rules={[{ required: true, message: "Please input staff's name!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input an email!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Phone"
+            name="phone"
+            rules={[{ required: true, message: "Please input a phone number!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              { required: true, message: "Please input a password!" },
+              { min: 6, message: "Password must be at least 6 characters long." },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
-      </div>
-      
-    </Content>
   );
-};
+}
 
 export default ManageStaff;
