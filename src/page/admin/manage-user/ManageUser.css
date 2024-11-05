@@ -4,7 +4,7 @@
   
   .manage-user-container {
     background: #fff;
-    padding: 24px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
@@ -15,4 +15,8 @@
     align-items: center;
     height: 100vh; /* Adjust as needed */
   }
-  
+  /* Add spacing for action buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px; /* Adjust the gap as needed */
+}

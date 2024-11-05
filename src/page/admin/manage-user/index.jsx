@@ -1,124 +1,114 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Table, Spin, message } from "antd";
+import { Button, Popconfirm, Table } from "antd";
+import { useEffect, useState } from "react";
 import api from "../../../config/axios";
-import "./ManageUser.css";
+import { toast } from "react-toastify";
 
-const { Content } = Layout;
+function ManageUser() {
+  const [staffs, setStaffs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-const ManageUser = () => {
-  const [userData, setUserData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Delete User
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`v1/account/${id}`);
+      toast.success("Deleted Successfully!");
+      fetchStaff();
+    } catch (err) {
+      console.error("Error in handleDelete:", err);
+      const errorMessage = err.response?.data?.message || "An error occurred";
+      toast.error(errorMessage);
+    }
+  };
+
+  // Restore User
+  const handleRestore = async (id) => {
+    try {
+      await api.put(`v1/account/${id}/restore`);
+      toast.success("Restored Successfully!");
+      // Update the status in the local state after successful restore
+      setStaffs((prevStaffs) =>
+        prevStaffs.map((staff) =>
+          staff.id === id ? { ...staff, isActive: true } : staff
+        )
+      );
+    } catch (err) {
+      console.error("Error in handleRestore:", err);
+      const errorMessage = err.response?.data?.message || "An error occurred";
+      toast.error(errorMessage);
+    }
+  };
+
+  // Fetch Users
+  const fetchStaff = async () => {
+    try {
+      const response = await api.get("/v1/account/user");
+      setStaffs(response.data);
+    } catch (err) {
+      toast.error(err.response?.data || "An error occurred");
+    }
+  };
 
   useEffect(() => {
-    const fetchUserList = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(`v1/account/user`);
-        if (response.data) {
-          setUserData(response.data);
-        } else {
-          message.warning("No user data found.");
-        }
-      } catch (error) {
-        console.error("Failed to fetch user list", error);
-        message.error("Could not load user data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserList();
+    fetchStaff();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="spinner-container">
-        <Spin tip="Loading..." size="large" />
-      </div>
-    );
-  }
-
-  // Calculate user statistics
-  const totalUsers = userData.length;
-  const activeUsers = userData.filter(user => user.status).length;
-  const inactiveUsers = totalUsers - activeUsers;
-  const totalPosts = userData.reduce((sum, user) => sum + (user.postCount || 0), 0);
-  const averagePoints = totalUsers > 0 
-    ? (userData.reduce((sum, user) => sum + (user.point || 0), 0) / totalUsers).toFixed(2) 
-    : 0;
 
   const columns = [
     {
-      title: 'Tên Đăng Nhập',
-      dataIndex: 'username',
-      key: 'username',
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Điện Thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-      render: (phone) => (
-        <span title={phone}>{phone.length > 10 ? `${phone.substring(0, 10)}...` : phone}</span>
+      title: "Name",
+      dataIndex: "username",
+      key: "username",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Status",
+      dataIndex: "isActive", // Assuming this field indicates if the user is active
+      key: "status",
+      render: (isActive) => (isActive ? "Active" : "Deleted"), // Display status based on isActive
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "action",
+      render: (id, staff) => (
+        <>
+          <Popconfirm
+            title="Delete"
+            description="Do you want to delete this user?"
+            onConfirm={() => handleDelete(id)}
+          >
+            <Button type="primary" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+          {!staff.isActive && ( // Show Restore button only if the user is deleted
+            <Button
+              type="default"
+              onClick={() => handleRestore(id)}
+              style={{ marginLeft: 8 }}
+            >
+              Restore
+            </Button>
+          )}
+        </>
       ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Địa Chỉ',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Trạng Thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (status ? "Kích Hoạt" : "Không Kích Hoạt"),
-    },
-    {
-      title: 'Vai Trò',
-      dataIndex: 'role',
-      key: 'role',
-    },
-    {
-      title: 'Hình Ảnh',
-      dataIndex: 'image',
-      key: 'image',
-      render: (image) => <img src={image} alt="User" style={{ width: 50, height: 50 }} />,
-    },
-    {
-      title: 'Số Bài Đăng',
-      dataIndex: 'postCount',
-      key: 'postCount',
-    },
-    {
-      title: 'Điểm',
-      dataIndex: 'point',
-      key: 'point',
     },
   ];
 
   return (
-    <Content className="manage-user-content">
-      <div className="manage-user-container">
-        <Table 
-          dataSource={userData} 
-          columns={columns} 
-          rowKey="id" 
-          pagination={false}
-        />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', paddingTop:"20px" }}>
-        <p>Tổng số nhân viên: {totalUsers}</p>
-        <p>Số nhân viên hoạt động: {activeUsers}</p>
-        <p>Số nhân viên không hoạt động: {inactiveUsers}</p>
-        <p>Tổng số bài đăng: {totalPosts}</p>
-        <p>Điểm trung bình: {averagePoints}</p>
+    <div>
+      <h1>User Management</h1>
+      <Table columns={columns} dataSource={staffs} rowKey="id" loading={loading} />
     </div>
-      </div>
-    </Content>
   );
-};
+}
 
 export default ManageUser;
