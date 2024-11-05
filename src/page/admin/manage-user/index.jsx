@@ -6,13 +6,20 @@ import { toast } from "react-toastify";
 function ManageUser() {
   const [staffs, setStaffs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [restoreLoading, setRestoreLoading] = useState(null); // Track which user is being restored
 
   // Delete User
   const handleDelete = async (id) => {
     try {
       await api.delete(`v1/account/${id}`);
       toast.success("Deleted Successfully!");
-      fetchStaff();
+
+      // Update the status in the local state after successful deletion
+      setStaffs((prevStaffs) =>
+        prevStaffs.map((staff) =>
+          staff.id === id ? { ...staff, isActive: false } : staff
+        )
+      );
     } catch (err) {
       console.error("Error in handleDelete:", err);
       const errorMessage = err.response?.data?.message || "An error occurred";
@@ -22,9 +29,11 @@ function ManageUser() {
 
   // Restore User
   const handleRestore = async (id) => {
+    setRestoreLoading(id); // Set loading for this particular user
     try {
       await api.put(`v1/account/${id}/restore`);
       toast.success("Restored Successfully!");
+
       // Update the status in the local state after successful restore
       setStaffs((prevStaffs) =>
         prevStaffs.map((staff) =>
@@ -35,6 +44,8 @@ function ManageUser() {
       console.error("Error in handleRestore:", err);
       const errorMessage = err.response?.data?.message || "An error occurred";
       toast.error(errorMessage);
+    } finally {
+      setRestoreLoading(null); // Clear the loading state
     }
   };
 
@@ -69,12 +80,6 @@ function ManageUser() {
       key: "email",
     },
     {
-      title: "Status",
-      dataIndex: "isActive", // Assuming this field indicates if the user is active
-      key: "status",
-      render: (isActive) => (isActive ? "Active" : "Deleted"), // Display status based on isActive
-    },
-    {
       title: "Action",
       dataIndex: "id",
       key: "action",
@@ -89,10 +94,11 @@ function ManageUser() {
               Delete
             </Button>
           </Popconfirm>
-          {!staff.isActive && ( // Show Restore button only if the user is deleted
+          {!staff.isActive && (
             <Button
               type="default"
               onClick={() => handleRestore(id)}
+              loading={restoreLoading === id} // Show loading if restoring this user
               style={{ marginLeft: 8 }}
             >
               Restore
