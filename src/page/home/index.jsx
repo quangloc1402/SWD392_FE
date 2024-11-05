@@ -123,10 +123,7 @@ function Home() {
         <></> // You can render something else for non-logged-in users or leave it empty
       )}
 
-      <Card bordered={true} style={{ width: "100%", textAlign: "left" }}>
-        <div style={{ fontSize: "25px", marginBottom: "16px" }}>Danh Mục</div>
-        <Category />
-      </Card>
+      
       <img
         src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
         alt=""
