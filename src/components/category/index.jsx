@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
-import { Button } from "antd";
+import { Button, Menu } from "antd";
 import "./index.scss";
 
 function Category() {
@@ -20,7 +20,7 @@ function Category() {
     fetchCategories();
   }, []);
   return (
-    <div style={{ margin: " auto" }} className="product-list">
+    <div className="product-list">
       {categories.map((category) => (
         <Categories category={category} />
       ))}
@@ -29,8 +29,10 @@ function Category() {
 }
 const Categories = ({ category }) => {
   return (
-    <div className="container">
-      <Button className="category">{category.categoryName}</Button>
+    <div>
+      <Menu.Item>
+        {category.categoryName}
+      </Menu.Item>
     </div>
   );
 };

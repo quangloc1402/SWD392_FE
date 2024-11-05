@@ -1,67 +1,73 @@
 .fedutoy-header {
-  position: fixed;
-  top: 0;
+  position: fixed; // Make the header fixed to the top
+  top: 0; // Stick to the top of the viewport
   left: 0;
   right: 0;
-  z-index: 1000;
-  width: 100%;
-  transition: all 0.3s ease;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  z-index: 1000; // Ensure the header stays above other content
+  width: 100%; // Make sure the header stretches the entire width
+  transition: all 0.3s ease; // Smooth transition when scrolling
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Add subtle shadow for a floating effect
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 3.125rem 18.125rem;
-  background-color: #ffffff;
+  padding: 50px 290px;
+
+  background-color: #ffffff; // Background color
 
   .logo {
     display: flex;
     align-items: center;
-    margin-right: 3.125rem;
-    margin-top: 1.188rem;
+    margin-right: 50px;
+    margin-top: 19px;
 
     img {
-      height: 6.563rem;
+      height: 105px; // Default logo height
     }
   }
 
+  // Search Input Styling
   .input {
-    width: 100%;
+    width: 100%; // Make sure it adapts based on the available space
   }
 
   .search {
-    max-width: 34.375rem;
-
+    max-width: 550px; // Allow it to expand within its container
+     // 50px top and bottom, 200px left and right padding
+  
     .ant-input {
-      height: 3.438rem;
-      font-size: 1.125rem;
-      padding: 0 0.938rem;
-      border-radius: 0.313rem 0 0 0.313rem;
+      height: 55px;
+      font-size: 18px;
+      padding: 0 15px;
+      border-radius: 5px 0 0 5px;
     }
-
+  
     .ant-input-search-button {
-      height: 3.438rem;
-      font-size: 1.125rem;
-      padding: 0 1.25rem;
-      border-radius: 0 0.313rem 0.313rem 0;
+      height: 55px;
+      font-size: 18px;
+      padding: 0 20px;
+      border-radius: 0 5px 5px 0;
+      
       color: white;
-
+  
       &:hover {
         background-color: darken(#1677ff, 10%);
       }
     }
   }
 
+  // Menu Styling
   .shopee-menu {
     background-color: transparent;
-    line-height: 4rem;
-    margin-left: 1.25rem;
+    line-height: 64px;
+    margin-left: 20px;
 
     a {
       color: white;
     }
 
+    // Button Styles
     .ant-btn-primary {
       background-color: white;
       color: #fb5533;
@@ -74,249 +80,230 @@
     }
   }
 
+  // Responsive Adjustments
   @media (max-width: 1160px) {
-    padding: 0 3.125rem;
+    padding: 0 50px;
 
     .logo img {
-      height: 4.063rem;
+      height: 65px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 60%;
-      padding-left: 0.625rem;
-      max-width: 75rem;
+      width: 60%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 1200px;
     }
 
     .shopee-menu {
-      margin-left: 0.313rem;
+      margin-left: 5px;
     }
 
     .ant-btn {
-      font-size: 0.875rem;
+      font-size: 14px; // Reduce button font size for tablets
     }
   }
-
+  
   @media (max-width: 840px) {
-    padding: 0 1.875rem;
+    padding: 0 30px;
 
     .logo img {
-      height: 4.063rem;
+      height: 65px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 50%;
-      padding-left: 0;
+      width: 50%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
       max-width: auto;
     }
 
     .shopee-menu {
-      margin-left: 0.313rem;
-      line-height: 3.125rem;
+      margin-left: 5px;
+      line-height: 50px;
     }
 
     .ant-btn {
-      font-size: 0.875rem;
+      font-size: 14px; // Reduce button font size for tablets
     }
   }
-
+  
   @media (max-width: 750px) {
-    padding: 0 1.875rem;
+    padding: 0 30px;
 
     .logo img {
-      height: 4.063rem;
+      height: 65px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 40%;
-      padding-left: 0;
+      width: 40%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
       max-width: auto;
     }
 
     .shopee-menu {
-      margin-left: 0.313rem;
-      line-height: 3.125rem;
+      margin-left: 5px;
+      line-height: 50px;
     }
 
     .ant-btn {
-      font-size: 0.875rem;
+      font-size: 14px; // Reduce button font size for tablets
     }
   }
 
   @media (max-width: 550px) {
-    padding: 0 1.875rem;
+    padding: 0 30px;
 
     .logo img {
-      height: 4.063rem;
+      height: 65px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: auto;
-      padding-left: 0;
-      max-width: 8.75rem;
+      width: auto; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
+      max-width: 140px;
     }
 
     .shopee-menu {
-      margin-left: 0.313rem;
-      line-height: 3.125rem;
+      margin-left: 5px;
+      line-height: 50px;
     }
 
     .ant-btn {
-      font-size: 0.875rem;
+      font-size: 14px; // Reduce button font size for tablets
     }
   }
 }
 
 .secondary-header {
-  background-color: #0056b3;
-  color: #ffffff;
-  margin-top: 6.25rem;
-  position: sticky;
-  top: 0;
-  z-index: 900;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  background-color: #1677ff; // Set the background color for the header
+  color: #ffffff; // Set default text color to black
+  margin-top: 100px; // Space below the fixed header
+  position: relative; // Set position to relative for the header
+
 
   .ant-menu-horizontal {
-    border-bottom: none;
-    padding: 0;
-    background: none;
-    line-height: 3.75rem;
+    border-bottom: none; // Remove the bottom border
+    padding: 0; // Remove padding for better alignment
+    background: none; // Remove the white background
+    line-height: 60px; // Ensure menu items are vertically centered within the header height
 
     .ant-menu-item {
-      background-color: transparent;
-      color: #ffffff;
-      flex: 1;
-      text-align: center;
-      font-weight: 600;
-      transition: color 0.3s ease;
+      background-color: transparent; // No background for each item
+      color: #ffffff; // Text color is black
+      flex: 1; // Make each item flexible to take equal space
+      text-align: center; // Center align text
+      font-weight: 600; // Make text bold
 
       &:hover {
-        color: #d1e0ff;
-        background-color: rgba(0, 0, 0, 0.05);
+        color: black; // Light blue on hover
+        background-color: transparent; // No background on hover
       }
 
       &.ant-menu-item-selected {
-        color: #ffcc00;
-        background-color: rgba(0, 0, 0, 0.1);
+        color: #ffffff; // Ensure selected text remains black
+        background-color: transparent; // Keep background transparent
       }
     }
   }
 
   .menu-left {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    flex-wrap: wrap; /* Để các mục có thể xuống dòng khi không đủ chỗ */
+    display: flex; // Use flexbox for horizontal alignment
+    align-items: center; // Center vertically
+    height: 100%; // Ensure the menu items take the full height of the header
 
     .categories-menu-item {
-      margin-right: 1.25rem;
-      padding: 0 1.25rem;
-      color: #ffffff;
-      position: relative;
+      margin-right: 20px; // Add spacing on the right
+      padding: 0 20px; // Add padding for better clickable area
+      color: #ffffff; // Ensure the text is black
+      position: relative; // Set position to relative for the pseudo-element
 
+      // Add padding right for spacing
+      padding-right: 100px; // Add padding to the right of the item
       &::after {
-        content: "";
-        display: block;
-        width: 0.063rem;
-        height: 100%;
-        background-color: #ffffff;
-        position: absolute;
-        right: -0.625rem;
-        top: 0;
+        content: ""; // Empty content for the pseudo-element
+        display: block; // Make it a block element
+        width: 1px; // Set the width of the line
+        height: 100%; // Set the height to 100% to fill the header
+        background-color: #ffffff; // Color of the line
+        position: absolute; // Position it absolutely
+        right: -10px; // Position it to the right of the item
+        top: 0; // Start from the top
       }
-
+      // Remove the line for the last menu item
       &:last-child {
         &::after {
-          display: none;
+          display: none; // Hide the line for the last item
         }
       }
 
       &:hover {
-        color: #d1e0ff;
-        background-color: transparent;
+        color: black; // Light blue on hover for categories
+        background-color: transparent; // No background on hover
       }
     }
   }
-
-  /* Responsive adjustments */
-  @media (max-width: 1024px) {
-    .menu-left {
-      justify-content: space-around; /* Căn đều các mục khi màn hình nhỏ hơn */
-      flex-wrap: wrap;
-    }
-
-    .categories-menu-item {
-      flex: 1 1 45%; /* Chỉnh kích thước các mục xuống 45% chiều rộng */
-      text-align: center;
-      margin-right: 0.625rem;
-      padding: 0.625rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .menu-left {
-      justify-content: center;
-      padding: 0.625rem 0;
-    }
-
-    .categories-menu-item {
-      flex: 1 1 100%; /* Cho mỗi mục chiếm toàn bộ chiều rộng khi trên màn hình nhỏ */
-      margin: 0.313rem 0;
-      padding: 0.5rem;
-    }
+  svg { // Style for the DownOutlined icon
+    margin-left: 8px; // Spacing on the left of the icon
+    margin-right: 8px; // Spacing on the right of the icon
+    font-size: 16px; // Adjust the size of the icon if needed
   }
 }
 
 
 
-// .main-content {
-//   margin-top: 4.375rem;
-// }
+
+
+
+
+
+.main-content {
+  margin-top: 70px; // Adjust margin to accommodate the fixed header height
+}
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
-  gap: 1.25rem;
-  padding: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 .product {
   background-color: #fff;
-  border: 0.001rem solid rgba(18, 3, 3, 0.1);
-  border-radius: 0.5rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  border: 0.01px solid rgba(18, 3, 3, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: all 0.3s ease;
-  padding: 0.625rem;
+  padding: 10px;
 
   &:hover {
-    transform: translateY(-0.313rem);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   img {
     width: 100%;
     max-height: 100%;
     object-fit: cover;
-    border-radius: 0.25rem;
+    border-radius: 4px;
   }
 
   h3 {
-    font-size: 1rem;
+    font-size: 16px;
     color: #333;
-    margin: 0.625rem 0;
-    height: 2.5rem;
+    margin: 10px 0;
+    height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #999;
-    margin: 0.313rem 0;
+    margin: 5px 0;
   }
 
   .price {
-    font-size: 1rem;
+    font-size: 16px;
     color: #ff5722;
     font-weight: bold;
   }
@@ -325,16 +312,14 @@
     background-color: #ff5722;
     color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
+    padding: 8px 16px;
+    border-radius: 4px;
     cursor: pointer;
-    margin-top: 0.625rem;
-    font-size: 0.875rem;
+    margin-top: 10px;
+    font-size: 14px;
 
     &:hover {
       background-color: #e64a19;
     }
   }
 }
-
-

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
 import api from "../../config/axios";
 import LOGO from "../../assets/images/logo.jpg";
+import Category from "../category";
 const { Header } = Layout;
 const { Search } = Input;
 
@@ -26,12 +27,11 @@ const Headers = () => {
 
   const dropdownMenu = (
     <Menu>
-      <Menu.Item key="1">Option 1</Menu.Item>
-      <Menu.Item key="2">Option 2</Menu.Item>
-      <Menu.Item key="3">Option 3</Menu.Item>
+      <Menu.Item>
+        <Category />
+      </Menu.Item>
     </Menu>
   );
-
 
   const onSearch = (value, _e, info) => {
     console.log(info?.source, value);
@@ -123,24 +123,10 @@ const Headers = () => {
             {user == null ? (
               <>
                 <Menu.Item key="1">
-                  <Button
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                  >
-                    {" "}
-                    Login
-                  </Button>
+                  <a href="/login">Log In</a>
                 </Menu.Item>
-                <Menu.Item key="1">
-                  <Button
-                    onClick={() => {
-                      navigate("/register");
-                    }}
-                  >
-                    {" "}
-                    Sign Up
-                  </Button>
+                <Menu.Item key="2">
+                  <a href="/register">Sign Up</a>
                 </Menu.Item>
               </>
             ) : (
@@ -149,7 +135,7 @@ const Headers = () => {
                   <Avatar
                     style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
                   >
-                    Profile
+                    U
                   </Avatar>
                 </Popover>
               </Menu.Item>
@@ -178,32 +164,22 @@ const Headers = () => {
             </Menu.Item>
             <Dropdown overlay={dropdownMenu} trigger={['click']}>
               <Menu.Item key="6">
-                Home <DownOutlined />
+                Category <DownOutlined />
               </Menu.Item>
             </Dropdown>
-            <Dropdown overlay={dropdownMenu} trigger={['click']}>
-              <Menu.Item key="7">
-                About Us <DownOutlined />
-              </Menu.Item>
-            </Dropdown>
-            <Dropdown overlay={dropdownMenu} trigger={['click']}>
-              <Menu.Item key="8">
-                Services <DownOutlined />
-              </Menu.Item>
-            </Dropdown>
-            <Dropdown overlay={dropdownMenu} trigger={['click']}>
-              <Menu.Item key="9">
-                Contact <DownOutlined />
-              </Menu.Item>
-            </Dropdown>
+            <Menu.Item key="7">
+              About Us <DownOutlined />
+            </Menu.Item>
+            <Menu.Item key="8">
+              Services <DownOutlined />
+            </Menu.Item>
+            <Menu.Item key="9">
+              Contact <DownOutlined />
+            </Menu.Item>
           </div>
         </Menu>
       </Header>
-
-
-
     </Layout>
-
   );
 };
 

@@ -1,6 +1,21 @@
-.categegory {
-    align-items: center;
-}
+.ant-dropdown-menu {
+ 
+  
 
+
+  .ant-dropdown-menu-item {
+   
+
+    &:hover {
+      background-color: #333;
+      color: #1890ff;
+    }
+
+    &.ant-dropdown-menu-item-selected {
+      background-color: #ffffff;
+      color: #1890ff;
+    }
+  }
 
   
+}
