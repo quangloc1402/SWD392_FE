@@ -11,11 +11,10 @@ function PostRent() {
   const fetchProduct = async () => {
     try {
       const response = await api.get(
-        `post?status=APPROVED&TYPE=RENT&page=${pageCurrent}&size=${pageSize}`
+        `toy?status=CREATED&TYPE=RENT&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) =>
-          product.status === "APPROVED" && product.postType === "RENT"
+        (product) => product.status === "CREATED" && product.toyType === "RENT"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
@@ -32,11 +31,10 @@ function PostRent() {
     setPagecurrent(page - 1);
     try {
       const response = await api.get(
-        `post?status=APPROVED&type=RENT&page=${pageCurrent}&size=${pageSize}`
+        `toy?status=CREATED&type=RENT&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) =>
-          product.postType === "RENT" && product.status === "APPROVED"
+        (product) => product.toyType === "RENT" && product.status === "CREATED"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
