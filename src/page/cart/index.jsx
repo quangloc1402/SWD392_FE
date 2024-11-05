@@ -56,14 +56,13 @@ function CartPage() {
         const response = await api.get("cart"); // Adjust endpoint accordingly
         const cartItems = response.data.cartItems.map((item) => ({
           id: item.id,
-          toyName: item.post.toyName,
+          toyName: item.toy.toyName,
           quantity: item.quantity,
-          description: item.post.description,
+          description: item.toy.description,
           price: item.price,
-          imageUrl: item.post.imageUrl, // Assuming you want to keep track of it
-          priceByDay: item.post.priceByDay,
-          depositFee: item.post.depositFee,
-          status: item.post.status,
+          imageUrl: item.toy.imageUrl, // Assuming you want to keep track of it
+          priceByDay: item.toy.priceByDay,
+          depositFee: item.toy.depositFee,
         }));
 
         setCartData(cartItems);
