@@ -41,11 +41,10 @@ function Home() {
   const fetchProduct = async () => {
     try {
       const response = await api.get(
-        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
+        `toy?status=CREATED&type=SELL&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) =>
-          product.status === "APPROVED" && product.postType === "SELL"
+        (product) => product.status === "CREATED" && product.toyType === "SELL"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
@@ -63,11 +62,10 @@ function Home() {
     setPagecurrent(page - 1);
     try {
       const response = await api.get(
-        `post?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
+        `toy?status=APPROVED&type=SELL&page=${pageCurrent}&size=${pageSize}`
       );
       const filteredProducts = response.data.filter(
-        (product) =>
-          product.postType === "SELL" && product.status === "APPROVED"
+        (product) => product.toyType === "SELL" && product.status === "CREATED"
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
