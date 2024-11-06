@@ -13,7 +13,7 @@ import {
 import api from "../../config/axios";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../assets/hook/useUpload";
-import { Row, Col } from 'antd';
+import { Row, Col } from "antd";
 import styles from "./PostSell.module.scss"; // Import the SCSS module
 
 const { Option } = Select;
@@ -70,7 +70,7 @@ function PostSell() {
     try {
       values.imageUrl = await uploadFile(values.imageUrl.file.originFileObj);
       values.categoryId = [Number(values.categoryId)];
-      const response = await api.post("post/buy", values);
+      const response = await api.post("toy/buy", values);
       message.success("Post successful!");
       form.resetFields();
     } catch (error) {
@@ -95,7 +95,10 @@ function PostSell() {
                   label="Tên Sản Phẩm"
                   rules={[
                     { required: true, message: "Please input the toy name!" },
-                    { min: 3, message: "Toy name must be at least 3 characters" },
+                    {
+                      min: 3,
+                      message: "Toy name must be at least 3 characters",
+                    },
                   ]}
                 >
                   <Input placeholder="Enter toy name" />
@@ -127,7 +130,11 @@ function PostSell() {
                   label="Số Lượng"
                   rules={[
                     { required: true, message: "Please input the quantity!" },
-                    { type: "number", min: 1, message: "Quantity must be at least 1" },
+                    {
+                      type: "number",
+                      min: 1,
+                      message: "Quantity must be at least 1",
+                    },
                   ]}
                 >
                   <InputNumber min={1} placeholder="Enter quantity" />
@@ -139,10 +146,18 @@ function PostSell() {
                   label="Giá"
                   rules={[
                     { required: true, message: "Please input the price!" },
-                    { type: "number", min: 0.01, message: "Price must be positive" },
+                    {
+                      type: "number",
+                      min: 0.01,
+                      message: "Price must be positive",
+                    },
                   ]}
                 >
-                  <InputNumber min={0.01} step={0.01} placeholder="Enter price" />
+                  <InputNumber
+                    min={0.01}
+                    step={0.01}
+                    placeholder="Enter price"
+                  />
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -150,8 +165,14 @@ function PostSell() {
                   name="description"
                   label="Mô Tả"
                   rules={[
-                    { required: true, message: "Please input the description!" },
-                    { min: 10, message: "Description must be at least 10 characters" },
+                    {
+                      required: true,
+                      message: "Please input the description!",
+                    },
+                    {
+                      min: 10,
+                      message: "Description must be at least 10 characters",
+                    },
                   ]}
                 >
                   <Input.TextArea
@@ -168,7 +189,10 @@ function PostSell() {
                   name="imageUrl"
                   label="Hình ảnh đồ chơi"
                   rules={[
-                    { required: true, message: "Please upload at least one image!" },
+                    {
+                      required: true,
+                      message: "Please upload at least one image!",
+                    },
                     {
                       validator: (_, value) =>
                         value?.fileList?.length
@@ -188,9 +212,7 @@ function PostSell() {
                   </Upload>
                 </Form.Item>
               </Col>
-
             </Row>
-
 
             <Form.Item>
               <Button type="primary" htmlType="submit">
