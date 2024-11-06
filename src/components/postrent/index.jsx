@@ -1,4 +1,4 @@
-import { Card, Pagination } from "antd";
+import { Button, Card, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../config/axios";
@@ -64,39 +64,38 @@ function PostRent() {
 }
 const Product = ({ product }) => {
   const dispatch = useDispatch();
-  const handleAddToCart = async (postId, quantity) => {
+
+  const handleRent = async (id, quantity, daysToRent) => {
     try {
       const response = await api.post(
-        `cart/add?postId=${postId}&quantity=${quantity}&type=BUYTOY`
+        `order-rent/create?toyId=${id}&quantity=${quantity}&daysToRent=${daysToRent}`
       );
-      console.log(response.data);
-      toast.success("Item added to cart successfully");
 
-      // Refresh the page to show the updated cart
-      window.location.reload();
+      console.log(response.data);
     } catch (error) {
-      console.error("Failed to add item to cart", error);
-      toast.error("Failed to add item to cart");
+      console.error("Failed to rent", error);
+      toast.error("Failed to rent");
     }
   };
+
   return (
     <div className="product">
       <img src={product.imageUrl} alt={product.toyName} />
       <h3>{product.toyName}</h3>
       <p>{product.description}</p>
       <p>Quantity: {product.quantity}</p>
-      <p>Price: đ{product.price}</p>
+
       <p>Price by Day: đ{product.priceByDay}</p>
       <p>Deposit Fee: đ{product.depositFee}</p>
 
       <center>
-        <button
+        <Button
           className="buttonAdd"
-          onClick={() => handleAddToCart(product?.id, 1)}
+          onClick={() => handleRent(product.id, 1, 3)}
         >
-          {" "}
-          Add to Cart
-        </button>
+          Thanh Toán
+        </Button>
+
         <br />
         <Link to={`/post/${product.id}`}>
           <button>Detail</button>
