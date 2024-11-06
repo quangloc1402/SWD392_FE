@@ -103,5 +103,4 @@ const Product = ({ product }) => {
     </div>
   );
 };
-
 export default BuyPage;
