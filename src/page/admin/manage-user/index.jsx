@@ -85,21 +85,21 @@ function ManageUser() {
       key: "action",
       render: (id, staff) => (
         <>
-          <Popconfirm
-            title="Delete"
-            description="Do you want to delete this user?"
-            onConfirm={() => handleDelete(id)}
-          >
-            <Button type="primary" danger>
-              Delete
-            </Button>
-          </Popconfirm>
-          {!staff.isActive && (
+          {staff.isActive ? (
+            <Popconfirm
+              title="Delete"
+              description="Do you want to delete this user?"
+              onConfirm={() => handleDelete(id)}
+            >
+              <Button type="primary" danger>
+                Delete
+              </Button>
+            </Popconfirm>
+          ) : (
             <Button
               type="default"
               onClick={() => handleRestore(id)}
               loading={restoreLoading === id} // Show loading if restoring this user
-              style={{ marginLeft: 8 }}
             >
               Restore
             </Button>
