@@ -48,7 +48,14 @@ const Headers = () => {
   );
   const dropdownService = (
     <Menu>
-      <Menu.Item key="1">Mua đồ chơi</Menu.Item>
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          navigate("/buypage");
+        }}
+      >
+        Mua đồ chơi
+      </Menu.Item>
       <Menu.Item
         key="2"
         onClick={() => {

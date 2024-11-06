@@ -16,6 +16,7 @@ import PostSell from "../components/postsell";
 import Profile from "../components/profile";
 import ProductDetail from "../components/postdetail";
 import PostRent from "../components/postrent";
+import BuyPage from "../components/buypage";
 import Pakage from "../page/pakage";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -69,6 +70,10 @@ export const router = createBrowserRouter([
       {
         path: "/pakage",
         element: <Pakage />,
+      },
+      {
+        path: "/buypage",
+        element: <BuyPage />,
       },
     ],
   },
