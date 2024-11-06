@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import { Button, InputNumber, Rate } from "antd"; // Thêm Rate vào import
+import { Button, InputNumber, Rate, Modal } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./index.scss";
@@ -20,10 +20,12 @@ const ProductDetail = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
-  const [feedback, setFeedback] = useState([]); // Đặt giá trị mặc định là mảng rỗng
+  const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
-  const swiperRef = useRef(null); // Reference to the Swiper instance
+  const swiperRef = useRef(null);
   const [quantity, setQuantity] = useState(1);
+  const [daysToRent, setDaysToRent] = useState(1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onChange = (value) => {
     setQuantity(value);
@@ -48,10 +50,10 @@ const ProductDetail = () => {
   const fetchFeedback = async () => {
     try {
       const response = await api.get(`feedback/${id}`);
-      setFeedback(response.data); // Cập nhật feedback
+      setFeedback(response.data);
       setLoading(false);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       toast.error("Could not fetch feedback");
       setLoading(false);
     }
@@ -62,6 +64,20 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleAddToCart = async (postId, quantity) => {
+    // Check if quantity is less than 1
+    if (quantity < 1) {
+      toast.error("Quantity must be at least 1.");
+      return;
+    }
+
+    // Check if price is zero
+    if (product?.price === 0) {
+      toast.error(
+        "Đồ chơi cho thuê không thể thêm vào giỏ hàng. Vui lòng chọn thuê đồ chơi"
+      );
+      return;
+    }
+
     try {
       const response = await api.post(
         `cart/add?postId=${postId}&quantity=${quantity}&type=BUYTOY`
@@ -77,9 +93,30 @@ const ProductDetail = () => {
     }
   };
 
+  const showRentModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    try {
+      const response = await api.post(
+        `order-rent/create?toyId=${product?.id}&quantity=${quantity}&daysToRent=${daysToRent}`
+      );
+      window.open(response.data);
+      setIsModalVisible(false); // Close modal after renting
+    } catch (error) {
+      console.error("Failed to rent", error);
+      toast.error("Failed to rent");
+      setIsModalVisible(false); // Close the modal if there's an error
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
-  // Example array of images to use in thumbnails
   const images = [
     "https://img.pikbest.com/templates/20240725/sale-banner-template-to-decorate-a-shop-selling-children-27s-toys_10680872.jpg!w700wp",
     "https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg",
@@ -87,7 +124,6 @@ const ProductDetail = () => {
   ];
 
   const handleThumbnailClick = (index) => {
-    // Use the Swiper instance to slide to the clicked thumbnail's index
     if (swiperRef.current) {
       swiperRef.current.swiper.slideTo(index);
     }
@@ -139,8 +175,6 @@ const ProductDetail = () => {
               {product?.description}
             </p>
             <Row gutter={16}>
-              {" "}
-              {/* You can adjust the gutter value as needed */}
               <Col span={12}>
                 <div className="quantity">
                   <p>
@@ -169,18 +203,20 @@ const ProductDetail = () => {
                   </p>
                 </div>
               </Col>
-              <Col span={12}>
-                <div className="amount">
-                  Amount:
-                  <InputNumber
-                    style={{ marginLeft: "10px" }}
-                    min={1}
-                    max={10}
-                    defaultValue={1}
-                    onChange={onChange}
-                  />
-                </div>
-              </Col>
+              {product?.price !== 0 && ( // Show input only when price is not zero
+                <Col span={12}>
+                  <div className="amount">
+                    Amount:
+                    <InputNumber
+                      style={{ marginLeft: "10px" }}
+                      min={1}
+                      max={10}
+                      defaultValue={1}
+                      onChange={onChange}
+                    />
+                  </div>
+                </Col>
+              )}
             </Row>
             <Button
               type="primary"
@@ -189,6 +225,16 @@ const ProductDetail = () => {
             >
               Add to Cart
             </Button>
+            {product?.price === 0 && (
+              <Button
+                type="default"
+                className="btn-rent"
+                onClick={showRentModal} // Show modal when renting
+                style={{ marginLeft: "10px" }}
+              >
+                Thuê Đồ Chơi
+              </Button>
+            )}
           </div>
         </div>
 
@@ -202,12 +248,11 @@ const ProductDetail = () => {
         <h2>Feedback</h2>
         {feedback.length > 0 ? (
           <ul>
-            {feedback.map((item, index) => (
+            {feedback.map((item) => (
               <li key={item.id} className="feedback-item">
                 <strong>Rating:</strong>
                 <p>{item?.content}</p>
-                <Rate disabled allowHalf value={item.rating} />{" "}
-                {/* Hiển thị đánh giá */}
+                <Rate disabled allowHalf value={item.rating} />
                 <p>{item.content}</p>
               </li>
             ))}
@@ -216,6 +261,37 @@ const ProductDetail = () => {
           <p>No feedback available</p>
         )}
       </div>
+
+      {/* Rent Modal */}
+      <Modal
+        title="Rent Toy"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <div>
+          <label>
+            Quantity:
+            <InputNumber
+              min={1}
+              max={10}
+              defaultValue={1}
+              onChange={setQuantity}
+              style={{ marginLeft: "10px" }}
+            />
+          </label>
+          <br />
+          <label>
+            Days to Rent:
+            <InputNumber
+              min={1}
+              defaultValue={1}
+              onChange={setDaysToRent}
+              style={{ marginLeft: "10px" }}
+            />
+          </label>
+        </div>
+      </Modal>
     </div>
   );
 };
