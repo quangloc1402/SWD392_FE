@@ -122,7 +122,7 @@ function Home() {
         <></> // You can render something else for non-logged-in users or leave it empty
       )}
 
-      <img
+      {/* <img
         src="https://daiphattoy.vn/upload/images/do-choi-am-nhac-cho-be(1).jpg"
         alt=""
         style={{
@@ -132,7 +132,7 @@ function Home() {
           objectFit: "cover",
           objectPosition: "center",
         }}
-      />
+      /> */}
       <div style={{ margin: "100px auto" }} className="product-list">
         {products.map((product) => (
           <Product product={product} />

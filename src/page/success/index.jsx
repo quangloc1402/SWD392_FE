@@ -44,16 +44,23 @@ function SuccessPage() {
           title="Successfully Purchased for FEdutoy"
           subTitle={`Cảm ơn ${username} đã thanh toán đơn hàng trên FEduToy`}
           extra={[
+            // <Button
+            //   type="primary"
+            //   key="history"
+            //   onClick={() => {
+            //     navigate("/history");
+            //   }}
+            // >
+            //   Go To History
+            // </Button>,
             <Button
-              type="primary"
-              key="history"
+              key="buy"
               onClick={() => {
-                navigate("/history");
+                navigate("/");
               }}
             >
-              Go To History
+              Buy Again
             </Button>,
-            <Button key="buy">Buy Again</Button>,
           ]}
         />
       </div>
