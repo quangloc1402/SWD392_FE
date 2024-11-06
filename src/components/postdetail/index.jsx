@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { Row, Col } from 'antd';
+import { Row, Col } from "antd";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const ProductDetail = () => {
 
   const fetchProductDetail = async () => {
     try {
-      const response = await api.get(`post/${id}`);
+      const response = await api.get(`toy/${id}`);
       setProduct(response.data);
       setLoading(false);
     } catch (error) {
@@ -136,9 +136,11 @@ const ProductDetail = () => {
           <div className="product-detail__info">
             <h1 className="product-detail__title">{product?.toyName}</h1>
             <p className="product-detail__description">
-                  {product?.description}
-                </p>
-            <Row gutter={16}> {/* You can adjust the gutter value as needed */}
+              {product?.description}
+            </p>
+            <Row gutter={16}>
+              {" "}
+              {/* You can adjust the gutter value as needed */}
               <Col span={12}>
                 <div className="quantity">
                   <p>
@@ -148,14 +150,14 @@ const ProductDetail = () => {
               </Col>
               <Col span={12}>
                 <div className="price">
-                <p>
+                  <p>
                     <span>Price:</span> đ{product?.price}
                   </p>
                 </div>
               </Col>
               <Col span={12}>
                 <div className="pricebyday">
-                <p>
+                  <p>
                     <span>Price by Day:</span> đ{product?.priceByDay}
                   </p>
                 </div>
@@ -165,15 +167,13 @@ const ProductDetail = () => {
                   <p>
                     <span>Deposit Fee:</span> đ{product?.depositFee}
                   </p>
-                  
                 </div>
               </Col>
-
               <Col span={12}>
                 <div className="amount">
-                  Amount:  
+                  Amount:
                   <InputNumber
-                  style={{marginLeft:"10px"}}
+                    style={{ marginLeft: "10px" }}
                     min={1}
                     max={10}
                     defaultValue={1}
@@ -181,11 +181,9 @@ const ProductDetail = () => {
                   />
                 </div>
               </Col>
-              
-              
             </Row>
             <Button
-            type="primary"
+              type="primary"
               className="btnadd"
               onClick={() => handleAddToCart(product?.id, quantity)}
             >
