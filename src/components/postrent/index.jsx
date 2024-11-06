@@ -70,7 +70,7 @@ const Product = ({ product }) => {
       const response = await api.post(
         `order-rent/create?toyId=${id}&quantity=${quantity}&daysToRent=${daysToRent}`
       );
-
+      window.open(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Failed to rent", error);
