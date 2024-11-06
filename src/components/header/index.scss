@@ -69,13 +69,13 @@
 
     // Button Styles
     .ant-btn-primary {
-      background-color: white;
-      color: #fb5533;
+      background-color: #1677ff;
+      color: #ffffff;
       border: none;
 
       &:hover {
-        background-color: #ffd5d0;
-        color: #fb5533;
+        background-color: darken(#1677ff, 10%);
+        color: #ffffff;
       }
     }
   }
