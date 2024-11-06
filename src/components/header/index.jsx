@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Input, Menu, Badge, Popover, Avatar, Button, Dropdown } from "antd";
-import { ShoppingCartOutlined, SearchOutlined, MenuOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  Layout,
+  Input,
+  Menu,
+  Badge,
+  Popover,
+  Avatar,
+  Button,
+  Dropdown,
+} from "antd";
+import {
+  ShoppingCartOutlined,
+  SearchOutlined,
+  MenuOutlined,
+  DownOutlined,
+} from "@ant-design/icons";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +46,27 @@ const Headers = () => {
       </Menu.Item>
     </Menu>
   );
-
+  const dropdownService = (
+    <Menu>
+      <Menu.Item key="1">Mua đồ chơi</Menu.Item>
+      <Menu.Item
+        key="2"
+        onClick={() => {
+          navigate("/postrent");
+        }}
+      >
+        Thuê đồ chơi
+      </Menu.Item>
+      <Menu.Item
+        key="3"
+        onClick={() => {
+          navigate("/pakage");
+        }}
+      >
+        Mua gói đăng
+      </Menu.Item>
+    </Menu>
+  );
   const onSearch = (value, _e, info) => {
     console.log(info?.source, value);
   };
@@ -109,16 +143,6 @@ const Headers = () => {
           className="shopee-menu"
           style={{ flexGrow: 1, justifyContent: "flex-end" }}
         >
-          <Menu.Item key="1">
-            <Button
-              onClick={() => {
-                navigate("/postrent");
-              }}
-            >
-              {" "}
-              Rent
-            </Button>
-          </Menu.Item>
           <div className="menu-items">
             {user == null ? (
               <>
@@ -151,7 +175,6 @@ const Headers = () => {
                 />
               </Badge>
             </Menu.Item>
-
           </div>
         </Menu>
       </Header>
@@ -162,7 +185,7 @@ const Headers = () => {
               <MenuOutlined style={{ fontSize: 20, marginRight: 8 }} />
               Shop by Categories
             </Menu.Item>
-            <Dropdown overlay={dropdownMenu} trigger={['click']}>
+            <Dropdown overlay={dropdownMenu} trigger={["click"]}>
               <Menu.Item key="6">
                 Category <DownOutlined />
               </Menu.Item>
@@ -170,9 +193,11 @@ const Headers = () => {
             <Menu.Item key="7">
               About Us <DownOutlined />
             </Menu.Item>
-            <Menu.Item key="8">
-              Services <DownOutlined />
-            </Menu.Item>
+            <Dropdown overlay={dropdownService} trigger={["click"]}>
+              <Menu.Item key="8">
+                Service <DownOutlined />
+              </Menu.Item>
+            </Dropdown>
             <Menu.Item key="9">
               Contact <DownOutlined />
             </Menu.Item>
