@@ -72,7 +72,7 @@ const Headers = () => {
       <Menu.Item
         key="3"
         onClick={() => {
-          navigate("/pakage");
+          navigate("/package");
         }}
       >
         Mua gói đăng
