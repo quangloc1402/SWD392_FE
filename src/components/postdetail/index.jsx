@@ -64,13 +64,11 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleAddToCart = async (postId, quantity) => {
-    // Check if quantity is less than 1
     if (quantity < 1) {
       toast.error("Quantity must be at least 1.");
       return;
     }
 
-    // Check if price is zero
     if (product?.price === 0) {
       toast.error(
         "Đồ chơi cho thuê không thể thêm vào giỏ hàng. Vui lòng chọn thuê đồ chơi"
@@ -84,9 +82,6 @@ const ProductDetail = () => {
       );
       console.log(response.data);
       toast.success("Item added to cart successfully");
-
-      // Refresh the page to show the updated cart
-      window.location.reload();
     } catch (error) {
       console.error("Failed to add item to cart", error);
       toast.error("Failed to add item to cart");
@@ -103,11 +98,11 @@ const ProductDetail = () => {
         `order-rent/create?toyId=${product?.id}&quantity=${quantity}&daysToRent=${daysToRent}`
       );
       window.open(response.data);
-      setIsModalVisible(false); // Close modal after renting
+      setIsModalVisible(false);
     } catch (error) {
       console.error("Failed to rent", error);
       toast.error("Failed to rent");
-      setIsModalVisible(false); // Close the modal if there's an error
+      setIsModalVisible(false);
     }
   };
 
@@ -203,7 +198,7 @@ const ProductDetail = () => {
                   </p>
                 </div>
               </Col>
-              {product?.price !== 0 && ( // Show input only when price is not zero
+              {product?.price !== 0 && (
                 <Col span={12}>
                   <div className="amount">
                     Amount:
@@ -229,7 +224,7 @@ const ProductDetail = () => {
               <Button
                 type="default"
                 className="btn-rent"
-                onClick={showRentModal} // Show modal when renting
+                onClick={showRentModal}
                 style={{ marginLeft: "10px" }}
               >
                 Thuê Đồ Chơi

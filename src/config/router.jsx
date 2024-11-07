@@ -18,6 +18,7 @@ import ProductDetail from "../components/postdetail";
 import PostRent from "../components/postrent";
 import BuyPage from "../components/buypage";
 import Package from "../page/package";
+import GetAllToy from "../components/getalltoy";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       {
         path: "/buypage",
         element: <BuyPage />,
+      },
+      {
+        path: "/alltoys",
+        element: <GetAllToy />,
       },
     ],
   },
