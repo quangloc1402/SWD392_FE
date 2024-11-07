@@ -1,14 +1,14 @@
 import React from "react";
 import "./index.scss";
 import { Button, Form, Input } from "antd";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth, ggProvider } from "../../config/firebase";
+import { signInWithPopup, GoogleAuthProvider, getIdToken } from "firebase/auth";
+import { auth, ggProvider, messaging } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/counterSlice";
-
+import { getToken } from "firebase/messaging";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
