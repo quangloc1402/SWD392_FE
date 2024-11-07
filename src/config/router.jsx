@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
         element: <BuyPage />,
       },
       {
-        path: "/alltoys",
+        path: "/alltoys/:value?",
         element: <GetAllToy />,
       },
     ],

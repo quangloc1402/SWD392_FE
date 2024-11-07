@@ -29,7 +29,6 @@ const { Search } = Input;
 const Headers = () => {
   const [visible, setVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState(null);
-
   const handleMenuClick = (key) => {
     if (currentMenu === key) {
       setVisible(false);
@@ -83,8 +82,9 @@ const Headers = () => {
       </Menu.Item>
     </Menu>
   );
-  const onSearch = (value, _e, info) => {
-    console.log(info?.source, value);
+  const onSearch = async (value) => {
+    console.log(value);
+    navigate(`/alltoys/${value}`);
   };
 
   const [cartCount, setCartCount] = useState(0);

@@ -1,13 +1,30 @@
 import { Card, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
 
 function GetAllToy() {
+  const { value } = useParams();
+  console.log(value);
   const [products, setProducts] = useState([]);
+  const [productsSearch, setProductsSearch] = useState([]);
   const [pageCurrent, setPagecurrent] = useState(0);
   let pageSize = 10;
+
+  const fetchProductSearch = async () => {
+    try {
+      const response = await api.get(`/toy/search`, {
+        params: { toyName: value },
+      });
+      setProductsSearch(response.data);
+      const toys = response.data;
+      console.log(toys);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
   const fetchProduct = async () => {
     try {
       const response = await api.get(
@@ -18,14 +35,14 @@ function GetAllToy() {
       );
       console.log(filteredProducts);
       setProducts(filteredProducts);
-      console.log(filteredProducts);
     } catch (e) {
       console.log("Error product: ", e);
     }
   };
   useEffect(() => {
     fetchProduct();
-  }, [pageCurrent]);
+    fetchProductSearch();
+  }, [pageCurrent, value]);
   const handlePage = async (page) => {
     console.log(page);
     setPagecurrent(page - 1);
@@ -46,9 +63,13 @@ function GetAllToy() {
   return (
     <div>
       <div style={{ margin: "100px auto" }} className="product-list">
-        {products.map((product) => (
-          <Product product={product} />
-        ))}
+        {(value?.trim() === "") | !value
+          ? products.map((product) => (
+              <Product key={product.id} product={product} />
+            ))
+          : productsSearch.map((product) => (
+              <Product key={product.id} product={product} />
+            ))}
       </div>
       <Pagination
         align="center"
