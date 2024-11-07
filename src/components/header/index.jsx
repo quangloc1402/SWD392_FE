@@ -23,14 +23,10 @@ import api from "../../config/axios";
 import LOGO from "../../assets/images/logo.jpg";
 import Category from "../category";
 
-
-
-
 const { Header } = Layout;
 const { Search } = Input;
 
 const Headers = () => {
-  
   const [visible, setVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState(null);
 
@@ -76,6 +72,14 @@ const Headers = () => {
         }}
       >
         Mua gói đăng
+      </Menu.Item>
+      <Menu.Item
+        key="4"
+        onClick={() => {
+          navigate("/alltoys");
+        }}
+      >
+        Tất cả đồ chơi
       </Menu.Item>
     </Menu>
   );
@@ -161,7 +165,6 @@ const Headers = () => {
                 <Menu.Item key="1">
                   <Button
                     type="primary"
-                   
                     onClick={() => {
                       navigate("/login");
                     }}
@@ -173,7 +176,6 @@ const Headers = () => {
                 <Menu.Item key="2">
                   <Button
                     type="primary"
-                    
                     onClick={() => {
                       navigate("/register");
                     }}
