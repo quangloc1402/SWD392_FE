@@ -1,9 +1,10 @@
 // ForgotPassword.js
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from "../../config/axios"; 
 import { Form, Input, Button, Typography, message as antMessage } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import "./index.scss";
+
 const { Title, Text } = Typography;
 
 function ForgotPassword() {
@@ -14,7 +15,8 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/forgot-password', { email });
+      // Ensure that the email is sent as expected in the POST request body
+      const response = await api.post('/forgot-password', { email });
       
       if (response.data.success) {
         antMessage.success('A password reset link has been sent to your email.');
@@ -22,6 +24,7 @@ function ForgotPassword() {
         antMessage.error('Failed to send reset link. Please try again later.');
       }
     } catch (error) {
+      // Enhanced error handling to show an appropriate message based on the response
       if (error.response && error.response.status === 404) {
         antMessage.error('Email not found. Please check and try again.');
       } else {
