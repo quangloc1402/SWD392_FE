@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
-import { Button, InputNumber, Rate, Modal } from "antd";
+import { Button, InputNumber, Rate, Modal, Avatar } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { Row, Col } from "antd";
@@ -187,6 +187,11 @@ const ProductDetail = () => {
           <ul>
             {feedback.map((item) => (
               <li key={item.id} className="feedback-item">
+                <p><Avatar
+                    style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
+                  >
+                    U
+                  </Avatar> {item?.fromUser}</p>
                 <strong>Rating:</strong>
                 <Rate disabled allowHalf value={item.rating} />
                 <p>{item?.content}</p>
