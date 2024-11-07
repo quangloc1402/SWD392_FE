@@ -21,7 +21,7 @@ function Login() {
       const { role, token } = response.data;
       localStorage.setItem("token", token);
 
-      if (role === "ADMIN") {
+      if (role === "ADMIN" || role === "STAFF") {
         navigate("/Dashboard");
       }
       if (role === "USER") {

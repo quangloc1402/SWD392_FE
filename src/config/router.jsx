@@ -24,10 +24,10 @@ import { toast } from "react-toastify";
 const ProtectRouteAuth = ({ children }) => {
   const user = useSelector((store) => store.user);
   console.log(user);
-  if (user && user?.role === "ADMIN") {
+  if (user && (user.role === "ADMIN" || user.role === "STAFF")) {
     return children;
   }
-  toast.error("Ai cho may vo ? Cút !! ");
+  toast.error("Bạn không có quyền truy cập vào trang quản lí ");
   return <Navigate to={"/"} />;
 };
 export const router = createBrowserRouter([
