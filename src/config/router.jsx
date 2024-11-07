@@ -23,6 +23,8 @@ import ResetPassword from "../components/resetpassword";
 import GetAllToy from "../components/getalltoy";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import requestPermissions from "./notification";
 
 const ProtectRouteAuth = ({ children }) => {
   const user = useSelector((store) => store.user);
@@ -33,6 +35,7 @@ const ProtectRouteAuth = ({ children }) => {
   toast.error("Bạn không có quyền truy cập vào trang quản lí ");
   return <Navigate to={"/"} />;
 };
+
 export const router = createBrowserRouter([
   {
     path: "",
@@ -98,7 +101,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/resetpassword",
-    element: <ResetPassword  />,
+    element: <ResetPassword />,
   },
 
   {
