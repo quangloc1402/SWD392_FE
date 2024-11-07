@@ -81,28 +81,7 @@
   }
 
   // Responsive Adjustments'
-  @media (max-width: 1426px) {
-    padding: 50px 260px;
-
-    .logo img {
-      height: 105px; // Slightly smaller logo for tablets
-    }
-
-    .search {
-      width: 60%; // Further reduce search bar width on tablet-sized screens
-      padding-left: 10px;
-      max-width: 1200px;
-    }
-
-    .shopee-menu {
-      margin-left: 5px;
-    }
-
-    .ant-btn {
-      font-size: 14px; // Reduce button font size for tablets
-    }
-  }
-  @media (max-width: 1224px) {
+  @media (max-width: 1569px) {
     padding: 50px 260px;
 
     .logo img {
@@ -123,7 +102,49 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
-  @media (max-width: 1160px) {
+  @media (max-width: 1463px) {
+    padding: 50px 260px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 50%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 1200px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1369px) {
+    padding: 50px 260px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 45%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 1200px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1291px) {
     padding: 50px 150px;
 
     .logo img {
@@ -131,9 +152,72 @@
     }
 
     .search {
-      width: 60%; // Further reduce search bar width on tablet-sized screens
+      width: 50%; // Further reduce search bar width on tablet-sized screens
       padding-left: 10px;
-      max-width: 400px;
+      max-width: 500px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1148px) {
+    padding: 50px 150px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 45%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 500px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1148px) {
+    padding: 50px 150px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 40%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 500px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1006px) {
+    padding: 50px 150px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 35%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 500px;
     }
 
     .shopee-menu {
@@ -152,7 +236,7 @@
     }
 
     .search {
-      width: 50%; // Further reduce search bar width on tablet-sized screens
+      width: 30%; // Further reduce search bar width on tablet-sized screens
       padding-left: 10px;
       max-width: 400px;
     }
@@ -166,17 +250,17 @@
     }
   }
   
-  @media (max-width: 862px) {
-    padding: 50px 100px;
+  @media (max-width: 906px) {
+    padding: 50px 50px;
 
     .logo img {
       height: 105px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 50%; // Further reduce search bar width on tablet-sized screens
+      width: 45%; // Further reduce search bar width on tablet-sized screens
       padding-left: 0px;
-      max-width: auto;
+      max-width: 500px;
     }
 
     .shopee-menu {
@@ -188,16 +272,59 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
-  
-  @media (max-width: 762px) {
-    padding: 50 30px;
+  @media (max-width: 870px) {
+    padding: 50px 50px;
 
     .logo img {
-      height: 65px; // Slightly smaller logo for tablets
+      height: 105px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 50%; // Further reduce search bar width on tablet-sized screens
+      width: 40%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
+      max-width: 500px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+      line-height: 50px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 806px) {
+    padding: 50px 50px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 35%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
+      max-width: 500px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+      line-height: 50px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 762px) {
+    padding: 50px 30px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 30%; // Further reduce search bar width on tablet-sized screens
       padding-left: 0px;
       max-width: auto;
     }
@@ -211,18 +338,39 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
-
-  @media (max-width: 550px) {
-    padding: 0 30px;
+  @media (max-width: 705px) {
+    padding: 50px 10px;
 
     .logo img {
-      height: 65px; // Slightly smaller logo for tablets
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 35%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 0px;
+      max-width: auto;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+      line-height: 50px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 550px) {
+    padding: 50px 0px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
     }
 
     .search {
       width: auto; // Further reduce search bar width on tablet-sized screens
       padding-left: 0px;
-      max-width: 140px;
+      max-width: 270px;
     }
 
     .shopee-menu {
