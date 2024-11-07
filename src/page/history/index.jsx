@@ -12,6 +12,7 @@ function History() {
   const fetchHistory = async () => {
     try {
       const response = await api.get("/orders/history");
+      console.log(response.data);
       setOrders(response.data);
     } catch (e) {
       console.error(e);
@@ -23,7 +24,8 @@ function History() {
   }, []);
 
   const handleFeedback = async (values) => {
-    values.postId = selectedOrder.orderId; // Assuming postId refers to orderId
+    console.log(selectedOrder);
+    values.postId = selectedOrder; // Assuming postId refers to orderId
 
     try {
       const response = await api.post("feedback", values);
@@ -38,35 +40,21 @@ function History() {
 
   const columns = [
     {
-      title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
+      title: "Order Detail ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: "Order Date",
-      dataIndex: "orderDate",
-      key: "orderDate",
-      render: (text) => new Date(text).toLocaleString(), // Format date
-    },
-    {
-      title: "Total Price",
-      dataIndex: "totalPrice",
-      key: "totalPrice",
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
       render: (text) => `${text.toLocaleString()} VND`, // Format price
     },
     {
       title: "Toys",
-      dataIndex: "toys",
-      key: "toys",
-      render: (toys) => (
-        <ul>
-          {toys.map((toy) => (
-            <li key={toy.id}>
-              {toy.toyName} - {toy.quantity}
-            </li>
-          ))}
-        </ul>
-      ),
+      dataIndex: "toy",
+      key: "toy",
+      render: (toy) => toy?.toyName,
     },
     {
       title: "Action",
