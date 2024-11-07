@@ -80,12 +80,12 @@
     }
   }
 
-  // Responsive Adjustments
-  @media (max-width: 1160px) {
-    padding: 0 50px;
+  // Responsive Adjustments'
+  @media (max-width: 1426px) {
+    padding: 50px 260px;
 
     .logo img {
-      height: 65px; // Slightly smaller logo for tablets
+      height: 105px; // Slightly smaller logo for tablets
     }
 
     .search {
@@ -102,12 +102,75 @@
       font-size: 14px; // Reduce button font size for tablets
     }
   }
-  
-  @media (max-width: 840px) {
-    padding: 0 30px;
+  @media (max-width: 1224px) {
+    padding: 50px 260px;
 
     .logo img {
-      height: 65px; // Slightly smaller logo for tablets
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 55%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 1200px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 1160px) {
+    padding: 50px 150px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 60%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 400px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  @media (max-width: 980px) {
+    padding: 50px 150px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
+    }
+
+    .search {
+      width: 50%; // Further reduce search bar width on tablet-sized screens
+      padding-left: 10px;
+      max-width: 400px;
+    }
+
+    .shopee-menu {
+      margin-left: 5px;
+    }
+
+    .ant-btn {
+      font-size: 14px; // Reduce button font size for tablets
+    }
+  }
+  
+  @media (max-width: 862px) {
+    padding: 50px 100px;
+
+    .logo img {
+      height: 105px; // Slightly smaller logo for tablets
     }
 
     .search {
@@ -126,15 +189,15 @@
     }
   }
   
-  @media (max-width: 750px) {
-    padding: 0 30px;
+  @media (max-width: 762px) {
+    padding: 50 30px;
 
     .logo img {
       height: 65px; // Slightly smaller logo for tablets
     }
 
     .search {
-      width: 40%; // Further reduce search bar width on tablet-sized screens
+      width: 50%; // Further reduce search bar width on tablet-sized screens
       padding-left: 0px;
       max-width: auto;
     }
@@ -174,79 +237,83 @@
 }
 
 .secondary-header {
-  background-color: #1677ff; // Set the background color for the header
-  color: #ffffff; // Set default text color to black
+  background-color: #1677ff; // Background color for the header
+  color: #ffffff; // Default text color
   margin-top: 100px; // Space below the fixed header
-  position: relative; // Set position to relative for the header
-
+  position: relative; // Relative positioning for easier alignment adjustments
 
   .ant-menu-horizontal {
-    border-bottom: none; // Remove the bottom border
-    padding: 0; // Remove padding for better alignment
-    background: none; // Remove the white background
-    line-height: 60px; // Ensure menu items are vertically centered within the header height
+    border-bottom: none;
+    padding: 0;
+    background: none;
+    line-height: 60px; // Vertical centering within header height
 
     .ant-menu-item {
-      background-color: transparent; // No background for each item
-      color: #ffffff; // Text color is black
-      flex: 1; // Make each item flexible to take equal space
-      text-align: center; // Center align text
-      font-weight: 600; // Make text bold
+      background-color: transparent;
+      color: #ffffff;
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
 
       &:hover {
-        color: black; // Light blue on hover
-        background-color: transparent; // No background on hover
+        color: black;
+        background-color: transparent;
       }
 
       &.ant-menu-item-selected {
-        color: #ffffff; // Ensure selected text remains black
-        background-color: transparent; // Keep background transparent
+        color: #ffffff;
+        background-color: transparent;
       }
     }
   }
 
   .menu-left {
-    display: flex; // Use flexbox for horizontal alignment
-    align-items: center; // Center vertically
-    height: 100%; // Ensure the menu items take the full height of the header
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; // Align menu items to the left
+    height: 100%;
 
     .categories-menu-item {
-      margin-right: 20px; // Add spacing on the right
-      padding: 0 20px; // Add padding for better clickable area
-      color: #ffffff; // Ensure the text is black
-      position: relative; // Set position to relative for the pseudo-element
+      margin-right: 20px; // Space between menu items
+      padding: 0 20px;
+      color: #ffffff;
+      position: relative;
 
-      // Add padding right for spacing
-      padding-right: 100px; // Add padding to the right of the item
       &::after {
-        content: ""; // Empty content for the pseudo-element
-        display: block; // Make it a block element
-        width: 1px; // Set the width of the line
-        height: 100%; // Set the height to 100% to fill the header
-        background-color: #ffffff; // Color of the line
-        position: absolute; // Position it absolutely
-        right: -10px; // Position it to the right of the item
-        top: 0; // Start from the top
+        content: "";
+        display: block;
+        width: 1px;
+        height: 100%;
+        background-color: #ffffff;
+        position: absolute;
+        right: -10px;
+        top: 0;
       }
-      // Remove the line for the last menu item
-      &:last-child {
-        &::after {
-          display: none; // Hide the line for the last item
-        }
+
+      &:last-child &::after {
+        display: none;
       }
 
       &:hover {
-        color: black; // Light blue on hover for categories
-        background-color: transparent; // No background on hover
+        color: black;
+        background-color: transparent;
       }
     }
   }
-  svg { // Style for the DownOutlined icon
-    margin-left: 8px; // Spacing on the left of the icon
-    margin-right: 8px; // Spacing on the right of the icon
-    font-size: 16px; // Adjust the size of the icon if needed
+
+  svg {
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+
+  // Responsive Adjustments
+  @media (max-width: 768px) {
+    margin-top: 100px;
+    padding: 0 10px; // Reduce horizontal padding
   }
 }
+
 
 
 
