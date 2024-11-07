@@ -11,6 +11,7 @@ import { Breadcrumb, Layout, Menu, theme, Button } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/features/counterSlice";
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -22,12 +23,6 @@ function getItem(label, key, icon, children) {
   };
 }
 
-const items = [
-  getItem("Manage Staff", "managestaff", <PieChartOutlined />),
-  getItem("Manage User", "manageuser", <PieChartOutlined />),
-  getItem("Manage Category", "managecategory", <PieChartOutlined />),
-];
-
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -36,6 +31,13 @@ const Dashboard = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  // Define menu items conditionally based on user role
+  const items = [
+    ...(user.role !== "STAFF" ? [getItem("Manage Staff", "managestaff", <PieChartOutlined />)] : []),
+    getItem("Manage User", "manageuser", <PieChartOutlined />),
+    getItem("Manage Category", "managecategory", <PieChartOutlined />),
+  ];
 
   // Logout function
   const handleLogout = () => {
@@ -55,13 +57,24 @@ const Dashboard = () => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
           <h1 style={{ marginLeft: '16px' }}>Dashboard</h1>
-         
-
-          <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout} style={{ marginRight: '16px' }}>
-            Logout
-          </Button>
+          <div style={{ display: 'flex', alignItems: 'center', marginRight: '16px' }}>
+            <span style={{ marginRight: '8px', fontWeight: 'bold' }}>
+              {user.username} {/* Display the username here */}
+            </span>
+            <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout}>
+              Logout
+            </Button>
+          </div>
         </Header>
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
