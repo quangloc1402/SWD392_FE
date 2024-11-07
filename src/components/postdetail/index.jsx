@@ -65,6 +65,12 @@ const ProductDetail = () => {
       return;
     }
 
+    // Check if quantity is greater than available stock
+    if (quantity > product?.quantity) {
+      toast.error(`Hiện tại cửa hàng chỉ còn ${product.quantity} sản phẩm.`);
+      return;
+    }
+
     // Check if price is zero
     if (product?.price === 0) {
       toast.error(
@@ -112,8 +118,6 @@ const ProductDetail = () => {
 
   if (loading) return <div className="loading">Loading...</div>;
 
-
-
   return (
     <div className="product-detail">
       <div className="product-detail__content">
@@ -133,25 +137,27 @@ const ProductDetail = () => {
 
               <Row gutter={16}>
                 <Col span={12}>
-                  <p><strong>User:</strong> {product?.fromUser}</p>
+                  <p>
+                    <strong>Người bán:  {product?.fromUser}</strong>
+                  </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Quantity:</strong> {product?.quantity}</p>
+                  <p><strong>Số lượng còn:</strong> {product?.quantity}</p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Price:</strong> đ{product?.price}</p>
+                  <p><strong>Giá:</strong> đ{product?.price}</p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Price by Day:</strong> đ{product?.priceByDay}</p>
+                  <p><strong>Thuê theo ngày:</strong> đ{product?.priceByDay}</p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Deposit Fee:</strong> đ{product?.depositFee}</p>
+                  <p><strong>Tiền đặt cọc:</strong> đ{product?.depositFee}</p>
                 </Col>
                 {product?.price !== 0 && (
                   <Col span={12}>
                     <div className="product-detail__amount">
-                      <label>Amount:</label>
-                      <InputNumber min={1} max={10} defaultValue={1} onChange={onChange} />
+                      <label>Số lượng mua:</label>
+                      <InputNumber min={1}  defaultValue={1} onChange={onChange} />
                     </div>
                   </Col>
                 )}
@@ -159,15 +165,15 @@ const ProductDetail = () => {
 
               <div className="product-detail__actions">
                 <Button type="primary" onClick={() => handleAddToCart(product?.id, quantity)}>
-                  Add to Cart
+                  Thêm vào Giỏ Hàng
                 </Button>
                 {product?.price === 0 && (
                   <Button type="default" onClick={showRentModal}>
-                    Rent Toy
+                    Thuê Đồ Chơi
                   </Button>
                 )}
                 <Button type="primary" icon={<ArrowLeftOutlined />} onClick={goBack} className="btn-back">
-                  Back
+                  Quay Lại
                 </Button>
               </div>
             </div>
@@ -176,7 +182,7 @@ const ProductDetail = () => {
       </div>
 
       <div className="product-detail__feedback">
-        <h2>Feedback</h2>
+        <h2>Đánh giá</h2>
         {feedback.length > 0 ? (
           <ul>
             {feedback.map((item) => (
@@ -188,7 +194,7 @@ const ProductDetail = () => {
             ))}
           </ul>
         ) : (
-          <p>No feedback available</p>
+          <p>Chưa có bài đánh giá nào!</p>
         )}
       </div>
 
@@ -204,8 +210,6 @@ const ProductDetail = () => {
         </label>
       </Modal>
     </div>
-
-
   );
 };
 
