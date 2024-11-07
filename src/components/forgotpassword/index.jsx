@@ -15,17 +15,17 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      // Ensure that the email is sent as expected in the POST request body
+      
       const response = await api.post('/forgot-password', { email });
       
-      if (response.data.success) {
+      if (response.status === 200) {
         antMessage.success('A password reset link has been sent to your email.');
       } else {
         antMessage.error('Failed to send reset link. Please try again later.');
       }
     } catch (error) {
-      // Enhanced error handling to show an appropriate message based on the response
-      if (error.response && error.response.status === 404) {
+    
+      if (error.response && error.response.data) {
         antMessage.error('Email not found. Please check and try again.');
       } else {
         antMessage.error('An error occurred. Please try again.');
@@ -71,7 +71,7 @@ function ForgotPassword() {
         </Form.Item>
       </Form>
       <Text type="secondary">
-        Enter your email address and we'll send you a link to reset your password.
+        Enter your email address and we'll send you an email have link to reset your password.
       </Text>
     </div>
   );
