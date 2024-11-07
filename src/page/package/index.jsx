@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios"; // Ensure axios instance has the correct baseURL
 import { Button, message } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 import "./index.scss"; // Import SCSS file
 
 function Package() {
@@ -39,10 +40,13 @@ function Package() {
     <div className="package-container">
       {packages.map((pkg) => (
         <div key={pkg.id} className="package-item">
-          <div><strong>Package Name:</strong> {pkg.packageName}</div>
-          <div><strong>Price:</strong> {pkg.packagePrice}</div>
-          <div><strong>Number of Posts:</strong> {pkg.numberPost}</div>
-          <div><strong>Description:</strong> {pkg.description}</div>
+          <h2>{pkg.packageName}</h2>
+          <div className="package-price">
+            <strong>Giá</strong> {pkg.packagePrice}đ
+          </div>
+          <div className="package-separator"></div> 
+          <div><CheckOutlined /><strong> Number of Posts:</strong> {pkg.numberPost}</div>
+          <div><CheckOutlined /><strong> Description:</strong> {pkg.description}</div>
           <Button
             type="primary"
             onClick={() => handleBuy(pkg.id)}
@@ -53,6 +57,7 @@ function Package() {
         </div>
       ))}
     </div>
+
   );
 }
 
