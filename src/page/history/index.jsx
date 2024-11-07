@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { Alert, Button, Form, Input, Modal, Rate, Table } from "antd";
-import { render } from "react-dom";
 import { useForm } from "antd/es/form/Form";
 import { toast } from "react-toastify";
+
 function History() {
-  const [Oders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [form] = useForm();
   const [selectedOrder, setSelectedOrder] = useState(null);
+
   const fetchHistory = async () => {
     try {
       const response = await api.get("/orders/history");
@@ -16,28 +17,30 @@ function History() {
       console.error(e);
     }
   };
+
   useEffect(() => {
     fetchHistory();
   }, []);
 
   const handleFeedback = async (values) => {
-    values.postId = selectedOrder.id;
+    values.postId = selectedOrder.orderId; // Assuming postId refers to orderId
 
     try {
       const response = await api.post("feedback", values);
       fetchHistory();
       setSelectedOrder(null);
       form.resetFields();
-      toast.success("Succesfully created feedback");
+      toast.success("Successfully created feedback");
     } catch (e) {
       console.log(e);
     }
   };
+
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "orderId",
+      key: "orderId",
     },
     {
       title: "Order Date",
@@ -46,25 +49,29 @@ function History() {
       render: (text) => new Date(text).toLocaleString(), // Format date
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: "Total Price",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
+      render: (text) => `${text.toLocaleString()} VND`, // Format price
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "FeedBack",
-      dataIndex: "feedback",
-      key: "feedback",
-      render: (feedback, record) => record,
+      title: "Toys",
+      dataIndex: "toys",
+      key: "toys",
+      render: (toys) => (
+        <ul>
+          {toys.map((toy) => (
+            <li key={toy.id}>
+              {toy.toyName} - {toy.quantity}
+            </li>
+          ))}
+        </ul>
+      ),
     },
     {
       title: "Action",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "orderId",
+      key: "action",
       render: (value, record) => {
         return (
           <Button
@@ -73,29 +80,29 @@ function History() {
               setSelectedOrder(record);
             }}
           >
-            Feedback
+            Give Feedback
           </Button>
         );
       },
     },
   ];
+
   return (
     <div className="history">
-      Lịch Sử Mua Hàng
-      <Table dataSource={Oders} columns={columns} />
+      <h2>Lịch Sử Mua Hàng</h2>
+      <Table dataSource={orders} columns={columns} rowKey="orderId" />
       <Modal
         title="Feedback"
-        open={selectedOrder}
+        open={!!selectedOrder} // Open modal if there is a selected order
         onOk={() => form.submit()}
         onCancel={() => {
           setSelectedOrder(null);
         }}
       >
         <Alert
-          message={`Feedback cho don hang ${selectedOrder?.id}`}
+          message={`Feedback for Order ID ${selectedOrder?.orderId}`}
           type="info"
         />
-
         <Form
           labelCol={{
             span: 25,
@@ -103,10 +110,18 @@ function History() {
           onFinish={handleFeedback}
           form={form}
         >
-          <Form.Item label="Rating" name="rating">
+          <Form.Item
+            label="Rating"
+            name="rating"
+            rules={[{ required: true, message: "Please select a rating!" }]}
+          >
             <Rate />
           </Form.Item>
-          <Form.Item label="Feedback" name="content">
+          <Form.Item
+            label="Feedback"
+            name="content"
+            rules={[{ required: true, message: "Please enter your feedback!" }]}
+          >
             <Input.TextArea />
           </Form.Item>
         </Form>
