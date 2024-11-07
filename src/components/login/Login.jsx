@@ -94,7 +94,15 @@ function Login() {
                 <Input />
               </Form.Item>
               <div className="login__form__wrap--Form--Pass">
-                <a href="">Forgot password?</a>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default link behavior
+                    navigate("/forgotpassword"); // Navigate to /forgotpassword
+                  }}
+                >
+                  Forgot password?
+                </a>
                 <Form.Item
                   labelCol={{
                     span: 24,
