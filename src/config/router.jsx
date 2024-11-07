@@ -21,6 +21,7 @@ import Package from "../page/package";
 import ForgotPassword from "../components/forgotpassword";
 import ResetPassword from "../components/resetpassword";
 import GetAllToy from "../components/getalltoy";
+import SuccessPackagePage from "../page/successpackage";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -107,6 +108,10 @@ export const router = createBrowserRouter([
   {
     path: "/success",
     element: <SuccessPage />,
+  },
+  {
+    path: "/successpackage",
+    element: <SuccessPackagePage />,
   },
 
   {
