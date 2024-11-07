@@ -8,12 +8,13 @@ const { Panel } = Collapse;
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]); // For filtered data
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [form] = Form.useForm();
+  const [searchTerm, setSearchTerm] = useState(""); // For search input
 
-  
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -21,9 +22,10 @@ const ManageCategory = () => {
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      const response = await api.get(`/category`); // Adjust the API endpoint as needed
+      const response = await api.get(`/category`);
       if (response.data) {
         setCategories(response.data);
+        setFilteredCategories(response.data); // Initialize filtered data
       } else {
         message.warning("No categories found.");
       }
@@ -35,17 +37,22 @@ const ManageCategory = () => {
     }
   };
 
-  
+  // Filter categories based on search term
+  useEffect(() => {
+    const filtered = categories.filter(category =>
+      category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCategories(filtered);
+  }, [searchTerm, categories]);
+
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
       setLoading(true);
       if (editingCategory) {
-       
         await api.put(`/category/${editingCategory.id}`, values);
         message.success("Category updated successfully.");
       } else {
-        
         await api.post(`/category`, values);
         message.success("Category created successfully.");
       }
@@ -61,7 +68,6 @@ const ManageCategory = () => {
     }
   };
 
-  
   const showModal = (category = null) => {
     setIsModalVisible(true);
     if (category) {
@@ -76,21 +82,12 @@ const ManageCategory = () => {
     form.resetFields();
   };
 
-  // Delete Category
   const deleteCategory = async (id) => {
     setLoading(true);
     try {
       await api.delete(`/category/${id}`);
       message.success("Category deleted successfully.");
-      
-      // // Update the state to remove the deleted category
-      // setCategories((prevCategories) => 
-      //   prevCategories.filter((category) => category.id !== id)
-      // );
-
-      // // Optionally refetch categories for data consistency
-      fetchCategories(); // Uncomment this line if you prefer refetching
-
+      fetchCategories();
     } catch (error) {
       console.error("Failed to delete category", error);
       message.error("Could not delete category.");
@@ -145,16 +142,24 @@ const ManageCategory = () => {
     <Content className="manage-category-content">
       <div className="manage-category-container">
         <h2>Quản Lý Danh Mục</h2>
-        <Button type="primary" onClick={() => showModal()}>Add Category</Button>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+          <Button type="primary" onClick={() => showModal()}>Add Category</Button>
+          <Input
+            placeholder="Search by Category Name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 200 }}
+          />
+        </div>
         <Table
-          dataSource={categories}
+          dataSource={filteredCategories}
           columns={categoryColumns}
           rowKey="id"
           pagination={false}
           style={{ marginTop: 16 }}
         />
         <Collapse defaultActiveKey={[]}>
-          {categories.map(category => (
+          {filteredCategories.map(category => (
             <Panel header={category.categoryName} key={category.id}>
               <Table
                 dataSource={category.posts}

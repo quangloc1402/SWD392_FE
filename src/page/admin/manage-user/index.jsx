@@ -1,12 +1,14 @@
-import { Button, Popconfirm, Table } from "antd";
+import { Button, Input, Popconfirm, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { toast } from "react-toastify";
 
 function ManageUser() {
   const [staffs, setStaffs] = useState([]);
+  const [filteredStaffs, setFilteredStaffs] = useState([]); // State for filtered results
   const [loading, setLoading] = useState(false);
   const [restoreLoading, setRestoreLoading] = useState(null); // Track which user is being restored
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   // Delete User
   const handleDelete = async (id) => {
@@ -20,6 +22,7 @@ function ManageUser() {
           staff.id === id ? { ...staff, isActive: false } : staff
         )
       );
+      fetchStaff();
     } catch (err) {
       console.error("Error in handleDelete:", err);
       const errorMessage = err.response?.data?.message || "An error occurred";
@@ -40,6 +43,7 @@ function ManageUser() {
           staff.id === id ? { ...staff, isActive: true } : staff
         )
       );
+      fetchStaff();
     } catch (err) {
       console.error("Error in handleRestore:", err);
       const errorMessage = err.response?.data?.message || "An error occurred";
@@ -54,10 +58,19 @@ function ManageUser() {
     try {
       const response = await api.get("/v1/account/user");
       setStaffs(response.data);
+      setFilteredStaffs(response.data); // Initialize filtered data
     } catch (err) {
       toast.error(err.response?.data || "An error occurred");
     }
   };
+
+  // Filter staff by search term
+  useEffect(() => {
+    const filtered = staffs.filter(staff =>
+      staff.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredStaffs(filtered);
+  }, [searchTerm, staffs]);
 
   useEffect(() => {
     fetchStaff();
@@ -80,19 +93,25 @@ function ManageUser() {
       key: "email",
     },
     {
+      title: "Is Active",
+      dataIndex: "active",
+      key: "active",
+      render: (e) => <Tag color={e ? "green" : "red"}>{e ? "True" : "False"}</Tag>
+    },
+    {
       title: "Action",
       dataIndex: "id",
       key: "action",
       render: (id, staff) => (
         <>
-          {staff.isActive ? (
+          {staff.active ? (
             <Popconfirm
               title="Delete"
-              description="Do you want to delete this user?"
+              description="Do you want to ban this user?"
               onConfirm={() => handleDelete(id)}
             >
               <Button type="primary" danger>
-                Delete
+                Ban
               </Button>
             </Popconfirm>
           ) : (
@@ -112,7 +131,15 @@ function ManageUser() {
   return (
     <div>
       <h1>User Management</h1>
-      <Table columns={columns} dataSource={staffs} rowKey="id" loading={loading} />
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <Input
+          placeholder="Search by Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: 200 }}
+        />
+      </div>
+      <Table columns={columns} dataSource={filteredStaffs} rowKey="id" loading={loading} />
     </div>
   );
 }

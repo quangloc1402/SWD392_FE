@@ -1,23 +1,34 @@
-import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import api from "../../../config/axios";
 import { toast } from "react-toastify";
 
 function ManageStaff() {
   const [staffs, setStaffs] = useState([]);
+  const [filteredStaffs, setFilteredStaffs] = useState([]); // State for filtered results
   const [openModal, setOpenModal] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   // Fetch Staff List
   const fetchStaff = async () => {
     try {
       const response = await api.get("/v1/account/staff");
-      setStaffs(response.data); // Update state with the latest data
+      setStaffs(response.data);
+      setFilteredStaffs(response.data); // Initialize filtered data
     } catch (err) {
       toast.error(err.response?.data?.message || "An error occurred");
     }
   };
+
+  // Filter staff by search term
+  useEffect(() => {
+    const filtered = staffs.filter(staff =>
+      staff.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredStaffs(filtered);
+  }, [searchTerm, staffs]);
 
   // Create or Update Staff
   const handleSubmit = async (values) => {
@@ -29,7 +40,7 @@ function ManageStaff() {
 
       if (values.id) {
         // Update staff
-        await api.put(`v1/account/${values.id}`, values);
+        await api.put(`/v1/account/${values.id}`, values);
         toast.success("Staff updated successfully!");
       } else {
         // Create new staff
@@ -50,7 +61,7 @@ function ManageStaff() {
   // Delete Staff
   const handleDelete = async (id) => {
     try {
-      await api.delete(`v1/account/${id}`);
+      await api.delete(`/v1/account/${id}`);
       toast.success("Staff deleted successfully!");
       fetchStaff(); // Refresh staff list
     } catch (err) {
@@ -61,7 +72,7 @@ function ManageStaff() {
   // Restore Staff
   const handleRestore = async (id) => {
     try {
-      await api.put(`v1/account/${id}/restore`);
+      await api.put(`/v1/account/${id}/restore`);
       toast.success("Staff restored successfully!");
       fetchStaff(); // Refresh staff list
     } catch (err) {
@@ -97,6 +108,12 @@ function ManageStaff() {
       key: "phone",
     },
     {
+      title: "Is Active",
+      dataIndex: "active",
+      key: "active",
+      render: (e) => <Tag color={e ? "green" : "red"}>{e ? "True" : "False"}</Tag>
+    },
+    {
       title: "Action",
       dataIndex: "id",
       key: "action",
@@ -111,20 +128,20 @@ function ManageStaff() {
           >
             Update
           </Button>
-          <Popconfirm
-            title="Delete"
-            description="Do you want to delete this staff?"
-            onConfirm={() => handleDelete(id)}
-          >
-            <Button type="primary" danger>
-              Delete
-            </Button>
-          </Popconfirm>
-          {!staff.is_active && ( // Show Restore button only if the user is deleted
+          {staff.active ? (
+            <Popconfirm
+              title="Delete"
+              description="Do you want to ban this staff?"
+              onConfirm={() => handleDelete(id)}
+            >
+              <Button type="primary" danger>
+                Ban
+              </Button>
+            </Popconfirm>
+          ) : (
             <Button
               type="default"
               onClick={() => handleRestore(id)}
-              style={{ marginLeft: 8 }}
             >
               Restore
             </Button>
@@ -149,20 +166,26 @@ function ManageStaff() {
   return (
     <div>
       <h1>Staff Management</h1>
-      <Button onClick={handleOpenModal}>Create New Staff</Button>
-      <Table columns={columns} dataSource={staffs} rowKey="id" />
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <Button type="primary" onClick={handleOpenModal}>
+          Create New Staff
+        </Button>
+        <Input
+          placeholder="Search by Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: 200 }}
+        />
+      </div>
+      <Table columns={columns} dataSource={filteredStaffs} rowKey="id" />
       <Modal
         title="Staff"
         open={openModal}
         onCancel={handleCloseModal}
         onOk={() => form.submit()}
-        confirmLoading={loading} // Show loading state on confirm button
+        confirmLoading={loading} 
       >
-        <Form
-          form={form}
-          labelCol={{ span: 24 }}
-          onFinish={handleSubmit}
-        >
+        <Form form={form} labelCol={{ span: 24 }} onFinish={handleSubmit}>
           <Form.Item name="id" hidden>
             <Input />
           </Form.Item>
