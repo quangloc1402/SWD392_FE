@@ -1,6 +1,6 @@
 // ResetPassword.js
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../config/axios';
 import { useParams } from 'react-router-dom';
 import { Form, Input, Button, Typography, message as antMessage } from 'antd';
 import './index.scss';
@@ -23,7 +23,7 @@ function ResetPassword() {
 
     try {
       // API endpoint for password reset
-      const response = await axios.post('/api/reset-password', { token, password });
+      const response = await api.post('/reset-password', { password });
       
       if (response.data.success) {
         antMessage.success('Password has been successfully reset.');
