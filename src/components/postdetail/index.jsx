@@ -17,7 +17,6 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
-  const swiperRef = useRef(null);
   const [quantity, setQuantity] = useState(1);
   const [daysToRent, setDaysToRent] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -46,11 +45,9 @@ const ProductDetail = () => {
     try {
       const response = await api.get(`feedback/${id}`);
       setFeedback(response.data);
-      setLoading(false);
     } catch (e) {
       console.error(e);
       toast.error("Could not fetch feedback");
-      setLoading(false);
     }
   };
 
@@ -59,19 +56,16 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleAddToCart = async (postId, quantity) => {
-    // Check if quantity is less than 1
     if (quantity < 1) {
       toast.error("Quantity must be at least 1.");
       return;
     }
 
-    // Check if quantity is greater than available stock
     if (quantity > product?.quantity) {
       toast.error(`Hiện tại cửa hàng chỉ còn ${product.quantity} sản phẩm.`);
       return;
     }
 
-    // Check if price is zero
     if (product?.price === 0) {
       toast.error(
         "Đồ chơi cho thuê không thể thêm vào giỏ hàng. Vui lòng chọn thuê đồ chơi"
@@ -85,8 +79,6 @@ const ProductDetail = () => {
       );
       console.log(response.data);
       toast.success("Item added to cart successfully");
-
-      // Refresh the page to show the updated cart
       window.location.reload();
     } catch (error) {
       console.error("Failed to add item to cart", error);
@@ -104,11 +96,11 @@ const ProductDetail = () => {
         `order-rent/create?toyId=${product?.id}&quantity=${quantity}&daysToRent=${daysToRent}`
       );
       window.open(response.data);
-      setIsModalVisible(false); // Close modal after renting
+      setIsModalVisible(false);
     } catch (error) {
       console.error("Failed to rent", error);
       toast.error("Failed to rent");
-      setIsModalVisible(false); // Close the modal if there's an error
+      setIsModalVisible(false);
     }
   };
 
@@ -133,46 +125,80 @@ const ProductDetail = () => {
           <Col span={product?.imageUrl ? 12 : 24}>
             <div className="product-detail__info">
               <h1 className="product-detail__title">{product?.toyName}</h1>
-              <p className="product-detail__description">{product?.description}</p>
+              <p className="product-detail__description">
+                {product?.description}
+              </p>
 
               <Row gutter={16}>
                 <Col span={12}>
                   <p>
-                    <strong>Người bán:  {product?.fromUser}</strong>
+                    <strong>Người bán: {product?.fromUser}</strong>
                   </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Số lượng còn:</strong> {product?.quantity}</p>
+                  <p>
+                    <strong>Số lượng còn:</strong> {product?.quantity}
+                  </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Giá:</strong> đ{product?.price}</p>
+                  <p>
+                    <strong>Giá:</strong> đ{product?.price}
+                  </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Thuê theo ngày:</strong> đ{product?.priceByDay}</p>
+                  <p>
+                    <strong>Thuê theo ngày:</strong> đ{product?.priceByDay}
+                  </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Tiền đặt cọc:</strong> đ{product?.depositFee}</p>
+                  <p>
+                    <strong>Tiền đặt cọc:</strong> đ{product?.depositFee}
+                  </p>
                 </Col>
                 {product?.price !== 0 && (
                   <Col span={12}>
                     <div className="product-detail__amount">
                       <label>Số lượng mua:</label>
-                      <InputNumber min={1}  defaultValue={1} onChange={onChange} />
+                      <InputNumber
+                        min={1}
+                        defaultValue={1}
+                        onChange={onChange}
+                      />
                     </div>
                   </Col>
                 )}
               </Row>
 
               <div className="product-detail__actions">
-                <Button type="primary" onClick={() => handleAddToCart(product?.id, quantity)}>
-                  Thêm vào Giỏ Hàng
-                </Button>
+                {product?.quantity === 0 ? (
+                  <Button
+                    disabled
+                    type="default"
+                    className="out-of-stock-button"
+                  >
+                    Hết hàng
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    onClick={() => handleAddToCart(product?.id, quantity)}
+                  >
+                    Thêm vào Giỏ Hàng
+                  </Button>
+                )}
+
                 {product?.price === 0 && (
                   <Button type="default" onClick={showRentModal}>
                     Thuê Đồ Chơi
                   </Button>
                 )}
-                <Button type="primary" icon={<ArrowLeftOutlined />} onClick={goBack} className="btn-back">
+
+                <Button
+                  type="primary"
+                  icon={<ArrowLeftOutlined />}
+                  onClick={goBack}
+                  className="btn-back"
+                >
                   Quay Lại
                 </Button>
               </div>
@@ -187,11 +213,14 @@ const ProductDetail = () => {
           <ul>
             {feedback.map((item) => (
               <li key={item.id} className="feedback-item">
-                <p><Avatar
+                <p>
+                  <Avatar
                     style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
                   >
                     U
-                  </Avatar> {item?.fromUser}</p>
+                  </Avatar>{" "}
+                  {item?.fromUser}
+                </p>
                 <strong>Rating:</strong>
                 <Rate disabled allowHalf value={item.rating} />
                 <p>{item?.content}</p>
@@ -203,10 +232,20 @@ const ProductDetail = () => {
         )}
       </div>
 
-      <Modal title="Rent Toy" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title="Rent Toy"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <label>
           Quantity:
-          <InputNumber min={1} max={10} defaultValue={1} onChange={setQuantity} />
+          <InputNumber
+            min={1}
+            max={10}
+            defaultValue={1}
+            onChange={setQuantity}
+          />
         </label>
         <br />
         <label>

@@ -1,9 +1,9 @@
-import { Button, Card, Pagination, Modal, Form, Input } from "antd"; // Import Form and Input from antd
+import { Button, Card, Pagination, Modal, Form, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../config/axios";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify"; // Import for toast notifications
+import { toast } from "react-toastify";
 
 function PostRent() {
   const [products, setProducts] = useState([]);
@@ -36,7 +36,7 @@ function PostRent() {
     <div>
       <div style={{ margin: "100px auto" }} className="product-list">
         {products.map((product) => (
-          <Product key={product.id} product={product} /> // Added key for mapped elements
+          <Product key={product.id} product={product} />
         ))}
       </div>
       <Pagination
@@ -44,7 +44,7 @@ function PostRent() {
         defaultCurrent={1}
         onChange={(page) => handlePage(page)}
         pageSize={pageSize}
-        total={20} // Make sure to replace with actual total if known
+        total={20} // Update this value based on actual total if known
       />
     </div>
   );
@@ -53,8 +53,8 @@ function PostRent() {
 const Product = ({ product }) => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [quantity, setQuantity] = useState(1); // Default quantity
-  const [daysToRent, setDaysToRent] = useState(3); // Default days to rent
+  const [quantity, setQuantity] = useState(1);
+  const [daysToRent, setDaysToRent] = useState(3);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -95,9 +95,15 @@ const Product = ({ product }) => {
       <p>Deposit Fee: đ{product.depositFee}</p>
 
       <center>
-        <Button className="buttonAdd" onClick={showModal}>
-          Thanh Toán
-        </Button>
+        {product.quantity === 0 ? (
+          <Button disabled type="default" className="out-of-stock-button">
+            Hết hàng
+          </Button>
+        ) : (
+          <Button className="buttonAdd" onClick={showModal}>
+            Thuê đồ chơi
+          </Button>
+        )}
         <br />
         <Link to={`/post/${product.id}`}>
           <button>Detail</button>
