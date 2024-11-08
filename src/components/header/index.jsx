@@ -118,7 +118,14 @@ const Headers = () => {
       >
         Lịch Sử Mua Hàng
       </p>
-      <p onClick={() => handleNavigation("/createpostBuy")}>Tạo Đơn Bán</p>
+      <p
+        style={{ marginBottom: "10px" }}
+        onClick={() => handleNavigation("/createpostBuy")}
+      >
+        Tạo Đơn Bán
+      </p>
+
+      <p onClick={() => handleNavigation("/createpostrent")}>Tạo Đơn Thuê</p>
     </div>
   );
 
